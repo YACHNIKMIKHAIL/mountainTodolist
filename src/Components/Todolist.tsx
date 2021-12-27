@@ -1,4 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
+import AddItemForm from "./AddItemForm";
 
 export type TasksStateType= { [key: string]: Array<TaskType> }
 export type TodolistsType={
@@ -22,46 +23,28 @@ type PropsType = {
     changeTaskStatus: (todolistId:string,id: string, isDone: boolean) => void
     filter:FilterType
     todolistId:string
+    removeTodolist:(todolistId:string)=>void
 }
 
 export function Todolist(props: PropsType) {
-    const [title, setTitle] = useState<string>('')
-    const [error, setError] = useState<boolean>(false)
 
-    const addTask = () => {
-        if (title.trim() !== '') {
-            props.addTask(props.todolistId,title.trim())
-            setError(false)
-            setTitle('')
-        } else {
-            setError(true)
-        }
 
-    }
-    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            addTask()
-        }
-    }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-        setError(false)
-    }
+
     const changeFilter = (filter: FilterType) => {
         props.changeFilter(props.todolistId,filter)
     }
+    const removeTodolist = () => {
+      props.removeTodolist(props.todolistId)
+    }
+    const addTask = (title:string) => {
+      props.addTask(props.todolistId,title)
+    }
 
     return <div>
-        <h3>{props.title}</h3>
-        <div>
-            <input value={title}
-                   onChange={onChangeHandler}
-                   onKeyPress={onKeyPressHandler}
-                   className={error ? 'error' : ''}
-            />
-            <button onClick={addTask}>+</button>
-            {error ? <div className={'error-message'}>Title is required !</div> : ''}
-        </div>
+        <h3>{props.title}
+        <button onClick={removeTodolist}>x</button>
+        </h3>
+        <AddItemForm callback={addTask}/>
         <ul>
             {props.tasks.map(m => {
                 const removeTask = () => {

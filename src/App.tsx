@@ -2,17 +2,18 @@ import React, {useState} from 'react';
 import './App.css';
 import {FilterType, TasksStateType, TaskType, Todolist, TodolistsType} from './Components/Todolist';
 import {v1} from "uuid";
+import AddItemForm from "./Components/AddItemForm";
 
 function App() {
-     const todolist1 = v1()
-     const todolist2 = v1()
-     const todolist3 = v1()
-     const todolist4 = v1()
-     const todolist5 = v1()
-     const todolist6 = v1()
-     const todolist7 = v1()
-     const todolist8 = v1()
-     const todolist9 = v1()
+    const todolist1 = v1()
+    const todolist2 = v1()
+    const todolist3 = v1()
+    const todolist4 = v1()
+    const todolist5 = v1()
+    const todolist6 = v1()
+    const todolist7 = v1()
+    const todolist8 = v1()
+    const todolist9 = v1()
 
 
     const [todolists, setTodolists] = useState<Array<TodolistsType>>([
@@ -66,10 +67,21 @@ function App() {
     const changeTaskStatus = (todolistId: string, id: string, isDone: boolean) => {
         setTasks({...tasks, [todolistId]: tasks[todolistId].map(m => m.id === id ? {...m, isDone} : m)})
     }
+    const removeTodolist = (todolistId: string) => {
+        setTodolists(todolists.filter(f => f.id !== todolistId))
+        delete tasks[todolistId]
+        setTasks({...tasks})
+    }
+    const addTodolist = (title: string) => {
+        const newId = v1()
+        setTodolists([{id: newId, title: title, filter: 'all'}, ...todolists])
+        setTasks({...tasks, [newId]: []})
+    }
 
 
     return (
         <div className="App">
+            <AddItemForm callback={addTodolist}/>
             {todolists.map(m => {
                 let tasksForTodo = tasks[m.id]
                 if (m.filter === 'active') {
@@ -91,6 +103,7 @@ function App() {
                                  addTask={addTask}
                                  changeTaskStatus={changeTaskStatus}
                                  filter={m.filter}
+                                 removeTodolist={removeTodolist}
                 />
             })}
         </div>

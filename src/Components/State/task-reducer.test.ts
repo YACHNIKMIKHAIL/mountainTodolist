@@ -1,17 +1,10 @@
 import {v1} from 'uuid';
 import {FilterType, TasksStateType, TodolistsType} from "../Todolist";
-import {todolistsReducer} from "./todolists-reducer";
-import {
-    todolist1, todolist2,
-    todolist3,
-    todolist4,
-    todolist5,
-    todolist6,
-    todolist7,
-    todolist8,
-    todolist9
-} from "./todolists-reducer.test";
+
 import {tasksReducer} from "./task-reducer";
+import {todolist1, todolist2, todolist3, todolist4} from "./todolists-reducer";
+
+
 
 export const task1 = v1()
 export const task2 = v1()
@@ -110,5 +103,28 @@ test('correct add new tasks', () => {
     const endState = tasksReducer(startState, {type: 'ADD_TASKS_ARR', todoId: todolist4})
 
     expect(endState[todolist4].length).toBe(0);
+
+});
+
+test('correct change task status', () => {
+
+
+    const startState: TasksStateType = {
+        [todolist1]: [{id: task1, title: "HTML&CSS", isDone: true},
+            {id: task2, title: "JS", isDone: true},
+            {id: task3, title: "ReactJS", isDone: false}],
+        [todolist2]: [{id: task4, title: "Book", isDone: false},
+            {id: task5, title: "Milk", isDone: false},
+            {id: task6, title: "Bread", isDone: false}],
+        [todolist3]: [{id: task7, title: "Helmet", isDone: true},
+            {id: task8, title: "Wheels", isDone: false},
+            {id: task9, title: "Crank", isDone: false}],
+
+    }
+
+    const endState = tasksReducer(startState, {type: 'CHANGE_TASKS_STATUS', todoId: todolist1, taskId:task3,isDone:true})
+
+    expect(endState[todolist1].length).toBe(3);
+    expect(endState[todolist1][2].isDone).toBe(true);
 
 });

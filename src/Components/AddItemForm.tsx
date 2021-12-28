@@ -41,7 +41,8 @@ const AddItemForm = (props: AddItemFormPropsType) => {
                        onKeyPress={onKeyPressHandler}
                        helperText={error}/>
             {/*<button onClick={addTask}>+</button>*/}
-            <Button variant="outlined" onClick={addTask}>Add</Button>
+            <Button variant="outlined" onClick={addTask}
+                    style={{height: '55px'}}>Add</Button>
             {error ? <div className={'error-message'}>Title is required !</div> : ''}
         </div>
     );

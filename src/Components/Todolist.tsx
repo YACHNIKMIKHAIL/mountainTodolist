@@ -56,7 +56,7 @@ export function Todolist(props: PropsType) {
             </IconButton>
         </h3>
         <AddItemForm callback={addTask}/>
-        <ul>
+        <div>
             {props.tasks.map(m => {
                 const removeTask = () => {
                     props.removeTask(props.todolistId, m.id)
@@ -67,7 +67,7 @@ export function Todolist(props: PropsType) {
                 const changeTaskTitle = (title: string) => {
                     props.changeTaskTitle(props.todolistId, m.id, title)
                 }
-                return (<li key={m.id} className={m.isDone ? 'is-done' : ''}>
+                return (<div key={m.id} className={m.isDone ? 'is-done' : ''}>
                     <Checkbox checked={m.isDone}
                               onChange={onChangeCheckboxHandler} defaultChecked color="secondary"/>
                     {/*<li key={m.id} className={m.isDone ? 'is-done' : ''}>*/}
@@ -79,9 +79,9 @@ export function Todolist(props: PropsType) {
                     <IconButton aria-label="delete" size="small" onClick={removeTask}>
                         <Delete fontSize="small"/>
                     </IconButton>
-                </li>)
+                </div>)
             })}
-        </ul>
+        </div>
         <div>
             {/*<button className={props.filter === 'all' ? 'active-filter' : ''}*/}
             {/*        onClick={() => changeFilter('all')}>All*/}

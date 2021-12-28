@@ -49,18 +49,21 @@ export const removeTodolistAC = (id: string) => {
         type: 'REMOVE-TODOLIST', id
     } as const
 }
+
 type addTodolistACType = ReturnType<typeof addTodolistAC>
 export const addTodolistAC = (title: string, id: string) => {
     return {
         type: 'ADD-TODOLIST', title, id
     } as const
 }
+
 type chandeTodolistFilterACType = ReturnType<typeof chandeTodolistFilterAC>
 export const chandeTodolistFilterAC = (id: string, filter: FilterType) => {
     return {
         type: 'CHANGE-TODOLIST-FILTER', id, filter
     } as const
 }
+
 type chandeTodolistTitleACType = ReturnType<typeof chandeTodolistTitleAC>
 export const chandeTodolistTitleAC = (id: string, title: string) => {
     return {

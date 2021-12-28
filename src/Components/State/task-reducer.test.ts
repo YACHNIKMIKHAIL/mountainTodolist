@@ -1,10 +1,7 @@
 import {v1} from 'uuid';
-import {FilterType, TasksStateType, TodolistsType} from "../Todolist";
-
+import {TasksStateType} from "../Todolist";
 import {tasksReducer} from "./task-reducer";
 import {todolist1, todolist2, todolist3, todolist4} from "./todolists-reducer";
-
-
 
 export const task1 = v1()
 export const task2 = v1()
@@ -17,21 +14,20 @@ export const task8 = v1()
 export const task9 = v1()
 test('correct todolist should be removed', () => {
 
-
     const startState: TasksStateType = {
         [todolist1]: [{id: task1, title: "HTML&CSS", isDone: true},
-        {id: task2, title: "JS", isDone: true},
-        {id: task3, title: "ReactJS", isDone: false}],
+            {id: task2, title: "JS", isDone: true},
+            {id: task3, title: "ReactJS", isDone: false}],
         [todolist2]: [{id: task4, title: "Book", isDone: false},
-        {id: task5, title: "Milk", isDone: false},
-        {id: task6, title: "Bread", isDone: false}],
+            {id: task5, title: "Milk", isDone: false},
+            {id: task6, title: "Bread", isDone: false}],
         [todolist3]: [{id: task7, title: "Helmet", isDone: true},
-        {id: task8, title: "Wheels", isDone: false},
-        {id: task9, title: "Crank", isDone: false}],
+            {id: task8, title: "Wheels", isDone: false},
+            {id: task9, title: "Crank", isDone: false}],
 
-}
+    }
 
-    const endState = tasksReducer(startState, {type: 'REMOVE_TASK', todoId: todolist1,taskId:task2})
+    const endState = tasksReducer(startState, {type: 'REMOVE_TASK', todoId: todolist1, taskId: task2})
 
     expect(endState[todolist1].length).toBe(2);
     expect(endState[todolist2].length).toBe(3);
@@ -54,7 +50,7 @@ test('correct todolist should be added', () => {
 
     }
 
-    const endState = tasksReducer(startState, {type: 'ADD_TASK', todoId: todolist2,title:"New list"})
+    const endState = tasksReducer(startState, {type: 'ADD_TASK', todoId: todolist2, title: "New list"})
 
     expect(endState[todolist1].length).toBe(3);
     expect(endState[todolist2].length).toBe(4);
@@ -77,7 +73,12 @@ test('correct title of task should be changed', () => {
 
     }
 
-    const endState = tasksReducer(startState, {type: 'CHANGE_TASK', todoId: todolist2,taskId:task4,title:"New title"})
+    const endState = tasksReducer(startState, {
+        type: 'CHANGE_TASK',
+        todoId: todolist2,
+        taskId: task4,
+        title: "New title"
+    })
 
     expect(endState[todolist1].length).toBe(3);
     expect(endState[todolist2].length).toBe(3);
@@ -122,7 +123,12 @@ test('correct change task status', () => {
 
     }
 
-    const endState = tasksReducer(startState, {type: 'CHANGE_TASKS_STATUS', todoId: todolist1, taskId:task3,isDone:true})
+    const endState = tasksReducer(startState, {
+        type: 'CHANGE_TASKS_STATUS',
+        todoId: todolist1,
+        taskId: task3,
+        isDone: true
+    })
 
     expect(endState[todolist1].length).toBe(3);
     expect(endState[todolist1][2].isDone).toBe(true);

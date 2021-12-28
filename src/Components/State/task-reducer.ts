@@ -1,5 +1,4 @@
 import {TasksStateType} from "../Todolist";
-import {task7} from "./task-reducer.test";
 import {v1} from "uuid";
 import {
     todolist1, todolist2,
@@ -94,22 +93,27 @@ type removeTaskACType = ReturnType<typeof removeTaskAC>
 export const removeTaskAC = (todoId: string, taskId: string) => ({
     type: 'REMOVE_TASK', todoId, taskId
 } as const)
+
 type addTaskACType = ReturnType<typeof addTaskAC>
 export const addTaskAC = (todoId: string, title: string) => ({
     type: 'ADD_TASK', todoId, title
 } as const)
+
 type chanheTaskACType = ReturnType<typeof chanheTaskAC>
 export const chanheTaskAC = (todoId: string, taskId: string, title: string) => ({
     type: 'CHANGE_TASK', todoId, taskId, title
 } as const)
+
 type addNewTasksACType = ReturnType<typeof addNewTasksAC>
 export const addNewTasksAC = (todoId: string) => ({
     type: 'ADD_TASKS_ARR', todoId
 } as const)
+
 type changeTaskSTATUSACType = ReturnType<typeof changeTaskSTATUSAC>
 export const changeTaskSTATUSAC = (todoId: string, taskId: string, isDone: boolean) => ({
     type: 'CHANGE_TASKS_STATUS', todoId, taskId, isDone
 } as const)
+
 type deleteAllTasksACType = ReturnType<typeof deleteAllTasksAC>
 export const deleteAllTasksAC = (todoId: string) => ({
     type: 'DELETE_TASKS_ALL', todoId

@@ -3,7 +3,6 @@ import {FilterType, TodolistsType} from "../Todolist";
 import {chandeTodolistTitleAC, todolist1, todolist2, todolistsReducer} from "./todolists-reducer";
 
 
-
 test('correct todolist should be removed', () => {
 
 

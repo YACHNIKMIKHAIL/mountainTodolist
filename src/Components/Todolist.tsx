@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import AddItemForm from "./AddItemForm";
 import EditSpan from "./EditSpan";
 import {Delete} from "@material-ui/icons";
@@ -48,15 +48,20 @@ export function Todolist(props: PropsType) {
     }
 
     return <div>
-        <h3>
+        <h3 style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: 'rgb(161,6,159)',
+            height:'2vh'
+        }}>
             <EditSpan title={props.title} callback={changeTodolistTitle}/>
-            {/*<button onClick={removeTodolist}>x</button>*/}
             <IconButton aria-label="delete" onClick={removeTodolist}>
                 <Delete/>
             </IconButton>
         </h3>
         <AddItemForm callback={addTask}/>
-        <div>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'space-between'}}>
             {props.tasks.map(m => {
                 const removeTask = () => {
                     props.removeTask(props.todolistId, m.id)
@@ -67,15 +72,24 @@ export function Todolist(props: PropsType) {
                 const changeTaskTitle = (title: string) => {
                     props.changeTaskTitle(props.todolistId, m.id, title)
                 }
-                return (<div key={m.id} className={m.isDone ? 'is-done' : ''}>
+                return (<div key={m.id} style={m.isDone
+                    ? {
+                        opacity: '0.5',
+                        color: 'white',
+                        display: "flex",
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                    }
+                    : {
+                        opacity: '1',
+                        color: 'black',
+                        display: "flex",
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                    }}>
                     <Checkbox checked={m.isDone}
                               onChange={onChangeCheckboxHandler} defaultChecked color="secondary"/>
-                    {/*<li key={m.id} className={m.isDone ? 'is-done' : ''}>*/}
-                    {/*    <input type="checkbox" checked={m.isDone}*/}
-                    {/*          onChange={onChangeCheckboxHandler}/>*/}
-
                     <EditSpan title={m.title} callback={changeTaskTitle}/>
-                    {/*<button onClick={removeTask}>x</button>*/}
                     <IconButton aria-label="delete" size="small" onClick={removeTask}>
                         <Delete fontSize="small"/>
                     </IconButton>
@@ -83,15 +97,6 @@ export function Todolist(props: PropsType) {
             })}
         </div>
         <div>
-            {/*<button className={props.filter === 'all' ? 'active-filter' : ''}*/}
-            {/*        onClick={() => changeFilter('all')}>All*/}
-            {/*</button>*/}
-            {/*<button className={props.filter === 'active' ? 'active-filter' : ''}*/}
-            {/*        onClick={() => changeFilter('active')}>Active*/}
-            {/*</button>*/}
-            {/*<button className={props.filter === 'complited' ? 'active-filter' : ''}*/}
-            {/*        onClick={() => changeFilter('complited')}>Completed*/}
-            {/*</button>*/}
             <Button variant={props.filter === 'all' ? 'contained' : 'outlined'}
                     size={props.filter === 'all' ? 'medium' : 'small'}
                     onClick={() => changeFilter('all')}>

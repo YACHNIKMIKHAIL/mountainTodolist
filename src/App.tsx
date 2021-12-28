@@ -93,7 +93,7 @@ function App() {
 
 
     return (
-        <div style={{background: `url(${img1})no-repeat center/cover`, height:'100vh'}}>
+        <div style={{background: `url(${img1})no-repeat center/cover`, height: '100vh'}}>
 
             <Box sx={{flexGrow: 1}}>
                 <AppBar position="static">
@@ -115,11 +115,11 @@ function App() {
                 </AppBar>
             </Box>
 
-            <Container fixed >
+            <Container fixed>
                 <Grid container style={{padding: '10px'}}>
                     <AddItemForm callback={addTodolist}/>
                 </Grid>
-                <Grid container spacing={3} style={{height:'78vh',overflow:'auto'}}>
+                <Grid container spacing={1} style={{height: '78vh', overflow: 'auto'}}>
                     {todolists.map(m => {
                         let tasksForTodo = tasks[m.id]
                         if (m.filter === 'active') {

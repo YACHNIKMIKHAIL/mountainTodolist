@@ -2,30 +2,38 @@ import {v1} from 'uuid';
 import {FilterType, TodolistsType} from "../Todolist";
 import {todolistsReducer} from "./todolists-reducer";
 
+
+export const todolist1 = v1()
+export const todolist2 = v1()
+export const todolist3 = v1()
+export const todolist4 = v1()
+export const todolist5 = v1()
+export const todolist6 = v1()
+export const todolist7 = v1()
+export const todolist8 = v1()
+export const todolist9 = v1()
 test('correct todolist should be removed', () => {
-    let todolistId1 = v1();
-    let todolistId2 = v1();
+
 
     const startState: Array<TodolistsType> = [
-        {id: todolistId1, title: "What to learn", filter: "all"},
-        {id: todolistId2, title: "What to buy", filter: "all"}
+        {id: todolist1, title: "What to learn", filter: "all"},
+        {id: todolist2, title: "What to buy", filter: "all"}
     ]
 
-    const endState = todolistsReducer(startState, {type: 'REMOVE-TODOLIST', id: todolistId1})
+    const endState = todolistsReducer(startState, {type: 'REMOVE-TODOLIST', id: todolist1})
 
     expect(endState.length).toBe(1);
-    expect(endState[0].id).toBe(todolistId2);
+    expect(endState[0].id).toBe(todolist2);
 });
 
 test('correct todolist should be added', () => {
-    let todolistId1 = v1();
-    let todolistId2 = v1();
+
 
     let newTodolistTitle = "New Todolist";
 
     const startState: Array<TodolistsType> = [
-        {id: todolistId1, title: "What to learn", filter: "all"},
-        {id: todolistId2, title: "What to buy", filter: "all"}
+        {id: todolist1, title: "What to learn", filter: "all"},
+        {id: todolist2, title: "What to buy", filter: "all"}
     ]
 
     const endState = todolistsReducer(startState, {type: 'ADD-TODOLIST', title: newTodolistTitle})
@@ -35,25 +43,24 @@ test('correct todolist should be added', () => {
 });
 
 test('correct filter of todolist should be changed', () => {
-    let todolistId1 = v1();
-    let todolistId2 = v1();
+
 
     let newFilter: FilterType = "complited";
 
     const startState: Array<TodolistsType> = [
-        {id: todolistId1, title: "What to learn", filter: "all"},
-        {id: todolistId2, title: "What to buy", filter: "all"}
+        {id: todolist1, title: "What to learn", filter: "all"},
+        {id: todolist2, title: "What to buy", filter: "all"}
     ]
 
     const action = {
         type: 'CHANGE-TODOLIST-FILTER',
-        id: todolistId2,
+        id: v1(),
         newFilter
     };
 
     const endState = todolistsReducer(startState, {
         type: 'CHANGE-TODOLIST-FILTER',
-        id: todolistId2,
+        id: todolist2,
         filter: newFilter
     });
 

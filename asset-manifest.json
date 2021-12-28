@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/mountainTodolist/static/css/main.bd601db1.css",
+    "main.js": "/mountainTodolist/static/js/main.175e911f.js",
+    "static/js/787.d429a6ca.chunk.js": "/mountainTodolist/static/js/787.d429a6ca.chunk.js",
+    "static/media/wallpaperflare.com_wallpaper.jpg": "/mountainTodolist/static/media/wallpaperflare.com_wallpaper.bc4620fdbf9c8482b469.jpg",
+    "index.html": "/mountainTodolist/index.html",
+    "main.bd601db1.css.map": "/mountainTodolist/static/css/main.bd601db1.css.map",
+    "main.175e911f.js.map": "/mountainTodolist/static/js/main.175e911f.js.map",
+    "787.d429a6ca.chunk.js.map": "/mountainTodolist/static/js/787.d429a6ca.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.bd601db1.css",
+    "static/js/main.175e911f.js"
+  ]
+}

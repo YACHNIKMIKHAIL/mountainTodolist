@@ -22,7 +22,7 @@ const initialState: Array<TodolistsType> = [
     {id: todolist8, title: 'Что позырить?', filter: 'all'},
     {id: todolist9, title: 'Что подарить?', filter: 'all'}
 ]
-export const todolistsReducer = (state = initialState, action: ActionType): Array<TodolistsType> => {
+export const todolistsReducer = (state = initialState, action: TodolistsActionType): Array<TodolistsType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST': {
             return state.filter(f => f.id !== action.todoId)
@@ -41,32 +41,36 @@ export const todolistsReducer = (state = initialState, action: ActionType): Arra
     }
 }
 
-type ActionType = removeTodolistACType | addTodolistACType | chandeTodolistFilterACType | chandeTodolistTitleACType
+export type TodolistsActionType = removeTodolistACType | addTodolistACType | chandeTodolistFilterACType | chandeTodolistTitleACType
 
 export type removeTodolistACType = ReturnType<typeof removeTodolistAC>
+const REMOVE_TODOLIST='REMOVE-TODOLIST'
 export const removeTodolistAC = (todoId: string) => {
     return {
-        type: 'REMOVE-TODOLIST', todoId
+        type: REMOVE_TODOLIST, todoId
     } as const
 }
 
 export type addTodolistACType = ReturnType<typeof addTodolistAC>
+const ADD_TODOLIST='ADD-TODOLIST'
 export const addTodolistAC = (title: string) => {
     return {
-        type: 'ADD-TODOLIST', title, todoId:v1()
+        type: ADD_TODOLIST, title, todoId:v1()
     } as const
 }
 
 type chandeTodolistFilterACType = ReturnType<typeof chandeTodolistFilterAC>
+const CHANGE_TODOLIST_FILTER='CHANGE-TODOLIST-FILTER'
 export const chandeTodolistFilterAC = (id: string, filter: FilterType) => {
     return {
-        type: 'CHANGE-TODOLIST-FILTER', id, filter
+        type: CHANGE_TODOLIST_FILTER, id, filter
     } as const
 }
 
 type chandeTodolistTitleACType = ReturnType<typeof chandeTodolistTitleAC>
+const CHANGE_TODOLIST_TITLE='CHANGE-TODOLIST-TITLE'
 export const chandeTodolistTitleAC = (id: string, title: string) => {
     return {
-        type: 'CHANGE-TODOLIST-TITLE', id, title
+        type: CHANGE_TODOLIST_TITLE, id, title
     } as const
 }

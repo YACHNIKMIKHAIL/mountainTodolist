@@ -42,7 +42,7 @@ const initialTasks: TasksStateType = {
         {id: v1(), title: "Цветы)", isDone: true}]
 }
 
-export const tasksReducer = (state = initialTasks, action: ActionType): TasksStateType => {
+export const tasksReducer = (state = initialTasks, action: TasksActionType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE_TASK': {
             return {...state, [action.todoId]: state[action.todoId].filter(f => f.id !== action.taskId)}
@@ -83,29 +83,34 @@ export const tasksReducer = (state = initialTasks, action: ActionType): TasksSta
             return state
     }
 }
-type ActionType =
+export type TasksActionType =
     removeTaskACType
     | addTaskACType
     | chanheTaskACType
     | addTodolistACType
     | changeTaskSTATUSACType
     | removeTodolistACType
+
 type removeTaskACType = ReturnType<typeof removeTaskAC>
+const REMOVE_TASK='REMOVE_TASK'
 export const removeTaskAC = (todoId: string, taskId: string) => ({
-    type: 'REMOVE_TASK', todoId, taskId
+    type: REMOVE_TASK, todoId, taskId
 } as const)
 
 type addTaskACType = ReturnType<typeof addTaskAC>
+const ADD_TASK='ADD_TASK'
 export const addTaskAC = (todoId: string, title: string) => ({
-    type: 'ADD_TASK', todoId, title
+    type: ADD_TASK, todoId, title
 } as const)
 
 type chanheTaskACType = ReturnType<typeof chanheTaskAC>
+const CHANGE_TASK='CHANGE_TASK'
 export const chanheTaskAC = (todoId: string, taskId: string, title: string) => ({
-    type: 'CHANGE_TASK', todoId, taskId, title
+    type: CHANGE_TASK, todoId, taskId, title
 } as const)
 
 type changeTaskSTATUSACType = ReturnType<typeof changeTaskSTATUSAC>
+const CHANGE_TASKS_STATUS='CHANGE_TASKS_STATUS'
 export const changeTaskSTATUSAC = (todoId: string, taskId: string, isDone: boolean) => ({
-    type: 'CHANGE_TASKS_STATUS', todoId, taskId, isDone
+    type: CHANGE_TASKS_STATUS, todoId, taskId, isDone
 } as const)

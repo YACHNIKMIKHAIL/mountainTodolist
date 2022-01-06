@@ -27,7 +27,7 @@ type PropsType = {
     todolistId: string
 }
 
-function TodolistMemo({title, tasks, filter, todolistId}: PropsType) {
+const TodolistMemo = ({title, tasks, filter, todolistId}: PropsType) => {
     const dispatch = useDispatch()
     const changeFilter = useCallback((filter: FilterType) => {
         dispatch(chandeTodolistFilterAC(todolistId, filter))
@@ -57,7 +57,7 @@ function TodolistMemo({title, tasks, filter, todolistId}: PropsType) {
         </h3>
         <AddItemForm callback={addTask}/>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'space-between'}}>
-            {tasks.map(m => {
+            {tasks.map((m, i) => {
                 const removeTask = () => {
                     dispatch(removeTaskAC(todolistId, m.id))
                 }
@@ -68,7 +68,7 @@ function TodolistMemo({title, tasks, filter, todolistId}: PropsType) {
                 const changeTaskTitle = (title: string) => {
                     dispatch(chanheTaskAC(todolistId, m.id, title))
                 }
-                return (<div key={m.id} style={m.isDone
+                return (<div key={i} style={m.isDone
                     ? {
                         opacity: '0.5',
                         color: 'white',
@@ -96,14 +96,20 @@ function TodolistMemo({title, tasks, filter, todolistId}: PropsType) {
             <Button
                 variant={filter === 'all' ? 'contained' : 'outlined'}
                 size={filter === 'all' ? 'medium' : 'small'}
-
+                style={{
+                    backgroundColor: filter === 'all' ? 'rgba(109,4,234,0.37)' : '',
+                    color: filter === 'all' ? 'white' : 'rgba(109,4,234,0.93)'
+                }}
                 onClick={() => changeFilter('all')}>
                 All
             </Button>
             <Button
                 variant={filter === 'active' ? 'contained' : 'outlined'}
                 size={filter === 'active' ? 'medium' : 'small'}
-
+                style={{
+                    backgroundColor: filter === 'active' ? 'rgba(109,4,234,0.37)' : '',
+                    color: filter === 'active' ? 'white' : 'rgba(109,4,234,0.93)'
+                }}
                 onClick={() => changeFilter('active')}>
                 Active
             </Button>
@@ -111,7 +117,10 @@ function TodolistMemo({title, tasks, filter, todolistId}: PropsType) {
             <Button
                 variant={filter === 'complited' ? 'contained' : 'outlined'}
                 size={filter === 'complited' ? 'medium' : 'small'}
-
+                style={{
+                    backgroundColor: filter === 'complited' ? 'rgba(109,4,234,0.37)' : '',
+                    color: filter === 'complited' ? 'white' : 'rgba(109,4,234,0.93)'
+                }}
                 onClick={() => changeFilter('complited')}>
                 Completed
             </Button>

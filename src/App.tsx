@@ -47,7 +47,7 @@ const AppMemo = () => {
                     <AddItemForm callback={addTodolist}/>
                 </Grid>
                 <Grid container spacing={1} style={{height: '78vh', overflow: 'auto'}}>
-                    {todolists.map(m => {
+                    {todolists.map((m, i) => {
                         let tasksForTodo = tasks[m.id]
                         if (m.filter === 'active') {
                             tasksForTodo = tasks[m.id].filter(f => !f.isDone)
@@ -62,7 +62,7 @@ const AppMemo = () => {
                                 borderRadius: '10px',
                                 backgroundColor: 'rgba(139,228,250,0.8)'
                             }}>
-                                <Todolist key={m.id}
+                                <Todolist key={i}
                                           todolistId={m.id}
                                           title={m.title}
                                           tasks={tasksForTodo}

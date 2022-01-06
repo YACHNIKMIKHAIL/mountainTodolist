@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import {Button, TextField} from "@material-ui/core";
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 type AddItemFormPropsType = {
     callback: (title: string) => void
@@ -35,8 +36,10 @@ const AddItemFormMemo = (props: AddItemFormPropsType) => {
                        onChange={onChangeHandler}
                        onKeyPress={onKeyPressHandler}
                        helperText={error}/>
-            <Button variant="outlined" onClick={addTask}
-                    style={{height: '55px'}}>Add</Button>
+            <Button variant="contained" onClick={addTask}
+                    style={{height: '55px',backgroundColor:'rgba(109,4,234,0.37)',color:'white'}}>
+               <AttachFileIcon/>
+            </Button>
             {error ? <div className={'error-message'}>Title is required !</div> : ''}
         </div>
     );

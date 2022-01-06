@@ -3,20 +3,20 @@ import {TextField} from "@material-ui/core";
 
 type EditSpanPropsType = {
     title: string
-    callback:(title:string)=>void
+    callback: (title: string) => void
 }
-const EditSpan = (props: EditSpanPropsType) => {
+const EditSpanMemo = (props: EditSpanPropsType) => {
     const [edit, setEdit] = useState<boolean>(false)
     const [title, setTitle] = useState<string>('')
-    const activate=()=>{
+    const activate = () => {
         setEdit(true)
         setTitle(props.title)
     }
-    const desactivate=()=>{
+    const desactivate = () => {
         setEdit(false)
         props.callback(title)
     }
-    const onChangeHandler = (e:ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
 
@@ -28,4 +28,4 @@ const EditSpan = (props: EditSpanPropsType) => {
 
 };
 
-export default EditSpan;
+export const EditSpan = React.memo(EditSpanMemo);

@@ -1,11 +1,11 @@
-import React, {ChangeEvent} from 'react';
-import AddItemForm from "./AddItemForm";
-import EditSpan from "./EditSpan";
+import React, {ChangeEvent, useCallback} from 'react';
 import {Delete} from "@material-ui/icons";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {useDispatch} from "react-redux";
 import {chandeTodolistFilterAC, chandeTodolistTitleAC, removeTodolistAC} from "./State/todolists-reducer";
 import {addTaskAC, changeTaskSTATUSAC, chanheTaskAC, removeTaskAC} from "./State/task-reducer";
+import {EditSpan} from "./EditSpan";
+import {AddItemForm} from "./AddItemForm";
 
 export type TasksStateType = { [key: string]: Array<TaskType> }
 export type TodolistsType = {
@@ -27,20 +27,20 @@ type PropsType = {
     todolistId: string
 }
 
-export function Todolist({title,tasks,filter,todolistId}: PropsType) {
+function TodolistMemo({title, tasks, filter, todolistId}: PropsType) {
     const dispatch = useDispatch()
-    const changeFilter = ( filter: FilterType) => {
+    const changeFilter = useCallback((filter: FilterType) => {
         dispatch(chandeTodolistFilterAC(todolistId, filter))
-    }
-    const addTask = ( title: string) => {
+    }, [dispatch, todolistId, filter])
+    const addTask = useCallback((title: string) => {
         dispatch(addTaskAC(todolistId, title))
-    }
-    const removeTodolist = () => {
+    }, [dispatch, title, todolistId])
+    const removeTodolist = useCallback(() => {
         dispatch(removeTodolistAC(todolistId))
-    }
-    const changeTodolistTitle = ( title: string) => {
+    }, [dispatch, todolistId])
+    const changeTodolistTitle = useCallback((title: string) => {
         dispatch(chandeTodolistTitleAC(todolistId, title))
-    }
+    }, [dispatch, title, todolistId])
 
     return <div>
         <h3 style={{
@@ -65,7 +65,7 @@ export function Todolist({title,tasks,filter,todolistId}: PropsType) {
                     dispatch(changeTaskSTATUSAC(todolistId, m.id, e.currentTarget.checked))
                 }
 
-                const changeTaskTitle = ( title: string) => {
+                const changeTaskTitle = (title: string) => {
                     dispatch(chanheTaskAC(todolistId, m.id, title))
                 }
                 return (<div key={m.id} style={m.isDone
@@ -118,3 +118,5 @@ export function Todolist({title,tasks,filter,todolistId}: PropsType) {
         </div>
     </div>
 }
+
+export const Todolist = React.memo(TodolistMemo)

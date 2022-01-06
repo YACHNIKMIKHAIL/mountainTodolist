@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {TasksStateType, Todolist, TodolistsType} from './Components/Todolist';
-import AddItemForm from "./Components/AddItemForm";
 import {AppBar, Box, Button, Toolbar, Typography} from "@material-ui/core";
 import AirportShuttleSharpIcon from '@mui/icons-material/AirportShuttleSharp';
 import {Container, Grid, IconButton} from "@mui/material";
@@ -9,14 +8,16 @@ import img1 from './Components/Image/wallpaperflare.com_wallpaper.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import {addTodolistAC} from "./Components/State/todolists-reducer";
 import {rootReducerType} from "./Components/State/store";
+import {AddItemForm} from "./Components/AddItemForm";
 
-function App() {
+const AppMemo = () => {
     const dispatch = useDispatch()
     const tasks = useSelector<rootReducerType, TasksStateType>(state => state.tasks)
     const todolists = useSelector<rootReducerType, Array<TodolistsType>>(state => state.todolists)
-    const addTodolist = (title: string) => {
+
+    const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistAC(title))
-    }
+    }, [dispatch, todolists])
     return (
         <div style={{background: `url(${img1})no-repeat center/cover`, height: '100vh'}}>
 
@@ -76,4 +77,4 @@ function App() {
     );
 }
 
-export default App;
+export const App = React.memo(AppMemo);

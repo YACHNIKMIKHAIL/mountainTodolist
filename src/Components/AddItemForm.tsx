@@ -4,7 +4,7 @@ import {Button, TextField} from "@material-ui/core";
 type AddItemFormPropsType = {
     callback: (title: string) => void
 }
-const AddItemForm = (props: AddItemFormPropsType) => {
+const AddItemFormMemo = (props: AddItemFormPropsType) => {
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
 
@@ -42,4 +42,4 @@ const AddItemForm = (props: AddItemFormPropsType) => {
     );
 };
 
-export default AddItemForm;
+export const AddItemForm = React.memo(AddItemFormMemo);

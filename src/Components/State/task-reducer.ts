@@ -1,7 +1,7 @@
 import {TasksStateType} from "../Todolist";
 import {v1} from "uuid";
 import {
-    addTodolistACType,
+    addTodolistACType, removeTodolistACType,
     todolist1, todolist2,
     todolist3,
     todolist4,
@@ -74,7 +74,7 @@ export const tasksReducer = (state = initialTasks, action: ActionType): TasksSta
                 } : m)
             }
         }
-        case 'DELETE_TASKS_ALL': {
+        case 'REMOVE-TODOLIST': {
             let stateCopy = {...state}
             delete stateCopy[action.todoId]
             return stateCopy
@@ -89,7 +89,7 @@ type ActionType =
     | chanheTaskACType
     | addTodolistACType
     | changeTaskSTATUSACType
-    | deleteAllTasksACType
+    | removeTodolistACType
 type removeTaskACType = ReturnType<typeof removeTaskAC>
 export const removeTaskAC = (todoId: string, taskId: string) => ({
     type: 'REMOVE_TASK', todoId, taskId
@@ -108,9 +108,4 @@ export const chanheTaskAC = (todoId: string, taskId: string, title: string) => (
 type changeTaskSTATUSACType = ReturnType<typeof changeTaskSTATUSAC>
 export const changeTaskSTATUSAC = (todoId: string, taskId: string, isDone: boolean) => ({
     type: 'CHANGE_TASKS_STATUS', todoId, taskId, isDone
-} as const)
-
-type deleteAllTasksACType = ReturnType<typeof deleteAllTasksAC>
-export const deleteAllTasksAC = (todoId: string) => ({
-    type: 'DELETE_TASKS_ALL', todoId
 } as const)

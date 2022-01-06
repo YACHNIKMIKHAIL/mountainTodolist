@@ -3,8 +3,9 @@ import AddItemForm from "./AddItemForm";
 import EditSpan from "./EditSpan";
 import {Delete} from "@material-ui/icons";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
-import {useSelector} from "react-redux";
-import {rootReducerType} from "./State/store";
+import {useDispatch} from "react-redux";
+import {chandeTodolistFilterAC, chandeTodolistTitleAC, removeTodolistAC} from "./State/todolists-reducer";
+import {addTaskAC, changeTaskSTATUSAC, chanheTaskAC, removeTaskAC} from "./State/task-reducer";
 
 export type TasksStateType = { [key: string]: Array<TaskType> }
 export type TodolistsType = {
@@ -22,33 +23,24 @@ export type TaskType = {
 type PropsType = {
     title: string
     tasks: Array<TaskType>
-    removeTask: (todolistId: string, id: string) => void
-    changeFilter: (todolistId: string, filter: FilterType) => void
-    addTask: (todolistId: string, title: string) => void
-    changeTaskStatus: (todolistId: string, id: string, isDone: boolean) => void
     filter: FilterType
     todolistId: string
-    removeTodolist: (todolistId: string) => void
-    changeTaskTitle: (todolistId: string, id: string, title: string) => void
-    changeTodolistTitle: (todolistId: string, title: string) => void
 }
 
-export function Todolist(props: PropsType) {
-
-    const changeFilter = (filter: FilterType) => {
-        props.changeFilter(props.todolistId, filter)
+export function Todolist({title,tasks,filter,todolistId}: PropsType) {
+    const dispatch = useDispatch()
+    const changeFilter = ( filter: FilterType) => {
+        dispatch(chandeTodolistFilterAC(todolistId, filter))
+    }
+    const addTask = ( title: string) => {
+        dispatch(addTaskAC(todolistId, title))
     }
     const removeTodolist = () => {
-        props.removeTodolist(props.todolistId)
+        dispatch(removeTodolistAC(todolistId))
     }
-    const addTask = (title: string) => {
-        props.addTask(props.todolistId, title)
+    const changeTodolistTitle = ( title: string) => {
+        dispatch(chandeTodolistTitleAC(todolistId, title))
     }
-    const changeTodolistTitle = (title: string) => {
-        props.changeTodolistTitle(props.todolistId, title)
-    }
-
-    const tasksII = useSelector<rootReducerType, TasksStateType>(state => state.tasks)
 
     return <div>
         <h3 style={{
@@ -58,22 +50,23 @@ export function Todolist(props: PropsType) {
             color: 'rgb(161,6,159)',
             height: '2vh'
         }}>
-            <EditSpan title={props.title} callback={changeTodolistTitle}/>
+            <EditSpan title={title} callback={changeTodolistTitle}/>
             <IconButton aria-label="delete" onClick={removeTodolist}>
                 <Delete/>
             </IconButton>
         </h3>
         <AddItemForm callback={addTask}/>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'space-between'}}>
-            {props.tasks.map(m => {
+            {tasks.map(m => {
                 const removeTask = () => {
-                    props.removeTask(props.todolistId, m.id)
+                    dispatch(removeTaskAC(todolistId, m.id))
                 }
-                const onChangeCheckboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                    props.changeTaskStatus(props.todolistId, m.id, e.currentTarget.checked)
+                const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
+                    dispatch(changeTaskSTATUSAC(todolistId, m.id, e.currentTarget.checked))
                 }
-                const changeTaskTitle = (title: string) => {
-                    props.changeTaskTitle(props.todolistId, m.id, title)
+
+                const changeTaskTitle = ( title: string) => {
+                    dispatch(chanheTaskAC(todolistId, m.id, title))
                 }
                 return (<div key={m.id} style={m.isDone
                     ? {
@@ -91,7 +84,7 @@ export function Todolist(props: PropsType) {
                         alignItems: 'center'
                     }}>
                     <Checkbox checked={m.isDone}
-                              onChange={onChangeCheckboxHandler} defaultChecked color="secondary"/>
+                              onChange={changeTaskStatus} defaultChecked color="secondary"/>
                     <EditSpan title={m.title} callback={changeTaskTitle}/>
                     <IconButton aria-label="delete" size="small" onClick={removeTask}>
                         <Delete fontSize="small"/>
@@ -101,23 +94,23 @@ export function Todolist(props: PropsType) {
         </div>
         <div>
             <Button
-                variant={props.filter === 'all' ? 'contained' : 'outlined'}
-                size={props.filter === 'all' ? 'medium' : 'small'}
+                variant={filter === 'all' ? 'contained' : 'outlined'}
+                size={filter === 'all' ? 'medium' : 'small'}
 
                 onClick={() => changeFilter('all')}>
                 All
             </Button>
             <Button
-                variant={props.filter === 'active' ? 'contained' : 'outlined'}
-                size={props.filter === 'active' ? 'medium' : 'small'}
+                variant={filter === 'active' ? 'contained' : 'outlined'}
+                size={filter === 'active' ? 'medium' : 'small'}
 
                 onClick={() => changeFilter('active')}>
                 Active
             </Button>
 
             <Button
-                variant={props.filter === 'complited' ? 'contained' : 'outlined'}
-                size={props.filter === 'complited' ? 'medium' : 'small'}
+                variant={filter === 'complited' ? 'contained' : 'outlined'}
+                size={filter === 'complited' ? 'medium' : 'small'}
 
                 onClick={() => changeFilter('complited')}>
                 Completed

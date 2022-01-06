@@ -101,7 +101,7 @@ test('correct add new tasks', () => {
 
     }
 
-    const endState = tasksReducer(startState, {type: 'ADD_TASKS_ARR', todoId: todolist4})
+    const endState = tasksReducer(startState, {type: 'REMOVE-TODOLIST', todoId: todolist4})
 
     expect(endState[todolist4].length).toBe(0);
 

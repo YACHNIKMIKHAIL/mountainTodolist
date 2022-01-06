@@ -3,6 +3,8 @@ import AddItemForm from "./AddItemForm";
 import EditSpan from "./EditSpan";
 import {Delete} from "@material-ui/icons";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
+import {useSelector} from "react-redux";
+import {rootReducerType} from "./State/store";
 
 export type TasksStateType = { [key: string]: Array<TaskType> }
 export type TodolistsType = {
@@ -33,7 +35,6 @@ type PropsType = {
 
 export function Todolist(props: PropsType) {
 
-
     const changeFilter = (filter: FilterType) => {
         props.changeFilter(props.todolistId, filter)
     }
@@ -47,13 +48,15 @@ export function Todolist(props: PropsType) {
         props.changeTodolistTitle(props.todolistId, title)
     }
 
+    const tasksII = useSelector<rootReducerType, TasksStateType>(state => state.tasks)
+
     return <div>
         <h3 style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             color: 'rgb(161,6,159)',
-            height:'2vh'
+            height: '2vh'
         }}>
             <EditSpan title={props.title} callback={changeTodolistTitle}/>
             <IconButton aria-label="delete" onClick={removeTodolist}>
@@ -97,20 +100,26 @@ export function Todolist(props: PropsType) {
             })}
         </div>
         <div>
-            <Button variant={props.filter === 'all' ? 'contained' : 'outlined'}
-                    size={props.filter === 'all' ? 'medium' : 'small'}
-                    onClick={() => changeFilter('all')}>
+            <Button
+                variant={props.filter === 'all' ? 'contained' : 'outlined'}
+                size={props.filter === 'all' ? 'medium' : 'small'}
+
+                onClick={() => changeFilter('all')}>
                 All
             </Button>
-            <Button variant={props.filter === 'active' ? 'contained' : 'outlined'}
-                    size={props.filter === 'active' ? 'medium' : 'small'}
-                    onClick={() => changeFilter('active')}>
+            <Button
+                variant={props.filter === 'active' ? 'contained' : 'outlined'}
+                size={props.filter === 'active' ? 'medium' : 'small'}
+
+                onClick={() => changeFilter('active')}>
                 Active
             </Button>
 
-            <Button variant={props.filter === 'complited' ? 'contained' : 'outlined'}
-                    size={props.filter === 'complited' ? 'medium' : 'small'}
-                    onClick={() => changeFilter('complited')}>
+            <Button
+                variant={props.filter === 'complited' ? 'contained' : 'outlined'}
+                size={props.filter === 'complited' ? 'medium' : 'small'}
+
+                onClick={() => changeFilter('complited')}>
                 Completed
             </Button>
         </div>

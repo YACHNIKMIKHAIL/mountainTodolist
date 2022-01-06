@@ -1,17 +1,16 @@
 import React from 'react';
 import './App.css';
-import {FilterType, TasksStateType, TaskType, Todolist, TodolistsType} from './Components/Todolist';
-import {v1} from "uuid";
+import {FilterType, TasksStateType, Todolist, TodolistsType} from './Components/Todolist';
 import AddItemForm from "./Components/AddItemForm";
 import {AppBar, Box, Button, Toolbar, Typography} from "@material-ui/core";
 import AirportShuttleSharpIcon from '@mui/icons-material/AirportShuttleSharp';
-import {Container, Grid, IconButton, Paper} from "@mui/material";
+import {Container, Grid, IconButton} from "@mui/material";
 import img1 from './Components/Image/wallpaperflare.com_wallpaper.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import {
-    addNewTasksAC,
     addTaskAC,
-    changeTaskSTATUSAC, chanheTaskAC,
+    changeTaskSTATUSAC,
+    chanheTaskAC,
     deleteAllTasksAC,
     removeTaskAC
 } from "./Components/State/task-reducer";
@@ -43,9 +42,7 @@ function App() {
         dispatch(deleteAllTasksAC(todolistId))
     }
     const addTodolist = (title: string) => {
-        const newId = v1()
-        dispatch(addTodolistAC(title, newId))
-        dispatch(addNewTasksAC(newId))
+        dispatch(addTodolistAC(title))
     }
     const changeTaskTitle = (todolistId: string, id: string, title: string) => {
         dispatch(chanheTaskAC(todolistId, id, title))
@@ -59,8 +56,8 @@ function App() {
 
             <Box sx={{flexGrow: 1}}>
                 <AppBar position="static"
-                        style={{backgroundColor:'rgba(130,33,149,0.4)'}}>
-                    <Toolbar>
+                        style={{backgroundColor: 'rgba(130,33,149,0.1)'}}>
+                    <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
                         <IconButton
                             size="medium"
                             edge="start"
@@ -96,7 +93,11 @@ function App() {
                         }
 
                         return <Grid item>
-                            <div style={{padding: '10px',borderRadius:'10px',backgroundColor:'rgba(139,228,250,0.8)'}}>
+                            <div style={{
+                                padding: '10px',
+                                borderRadius: '10px',
+                                backgroundColor: 'rgba(139,228,250,0.8)'
+                            }}>
                                 <Todolist key={m.id}
                                           todolistId={m.id}
                                           title={m.title}

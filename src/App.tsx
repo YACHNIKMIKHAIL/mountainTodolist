@@ -1,12 +1,12 @@
 import React, {useCallback} from 'react';
 import './App.css';
-import {TasksStateType, Todolist, TodolistsType} from './Components/Todolist';
+import {Todolist, TodolistsType} from './Components/Todolist';
 import {AppBar, Box, Button, Toolbar, Typography} from "@material-ui/core";
 import AirportShuttleSharpIcon from '@mui/icons-material/AirportShuttleSharp';
 import {Container, Grid, IconButton} from "@mui/material";
 import img1 from './Components/Image/wallpaperflare.com_wallpaper.jpg'
 import {useDispatch, useSelector} from "react-redux";
-import { TodolistsActionType} from "./Components/State/todolists-reducer";
+import {TodolistsActionType} from "./Components/State/todolists-reducer";
 import {rootReducerType} from "./Components/State/store";
 import {AddItemForm} from "./Components/AddItemForm";
 import {Dispatch} from "redux";
@@ -15,12 +15,11 @@ import {addTodolistAC} from "./Components/State/actionsTodolists";
 
 const AppMemo = () => {
     const dispatch = useDispatch<Dispatch<TasksActionType | TodolistsActionType>>()
-    const tasks = useSelector<rootReducerType, TasksStateType>(state => state.tasks)
     const todolists = useSelector<rootReducerType, Array<TodolistsType>>(state => state.todolists)
 
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistAC(title))
-    }, [dispatch, todolists])
+    }, [dispatch])
     return (
         <div style={{background: `url(${img1})no-repeat center/cover`, height: '100vh'}}>
 
@@ -51,14 +50,6 @@ const AppMemo = () => {
                 </Grid>
                 <Grid container spacing={1} style={{height: '78vh', overflow: 'auto'}}>
                     {todolists.map((m, i) => {
-                        let tasksForTodo = tasks[m.id]
-                        if (m.filter === 'active') {
-                            tasksForTodo = tasks[m.id].filter(f => !f.isDone)
-                        }
-                        if (m.filter === 'complited') {
-                            tasksForTodo = tasks[m.id].filter(f => f.isDone)
-                        }
-
                         return <Grid item>
                             <div style={{
                                 padding: '10px',
@@ -68,7 +59,6 @@ const AppMemo = () => {
                                 <Todolist key={i}
                                           todolistId={m.id}
                                           title={m.title}
-                                          tasks={tasksForTodo}
                                           filter={m.filter}
                                 />
                             </div>

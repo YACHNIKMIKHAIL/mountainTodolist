@@ -1,11 +1,12 @@
 import React, {ChangeEvent, useCallback} from 'react';
 import {Delete} from "@material-ui/icons";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {EditSpan} from "./EditSpan";
 import {AddItemForm} from "./AddItemForm";
 import {addTaskAC, changeTaskSTATUSAC, chanheTaskAC, removeTaskAC} from "./State/actionsTasks";
 import {chandeTodolistFilterAC, chandeTodolistTitleAC, removeTodolistAC} from "./State/actionsTodolists";
+import {rootReducerType} from "./State/store";
 
 export type TasksStateType = { [key: string]: Array<TaskType> }
 export type TodolistsType = {
@@ -22,25 +23,35 @@ export type TaskType = {
 
 type PropsType = {
     title: string
-    tasks: Array<TaskType>
     filter: FilterType
     todolistId: string
 }
 
-const TodolistMemo = ({title, tasks, filter, todolistId}: PropsType) => {
+const TodolistMemo = ({title, filter, todolistId}: PropsType) => {
+    const tasks=useSelector<rootReducerType,Array<TaskType>>(state=>state.tasks[todolistId])
+
     const dispatch = useDispatch()
     const changeFilter = useCallback((filter: FilterType) => {
         dispatch(chandeTodolistFilterAC(todolistId, filter))
-    }, [dispatch, todolistId, filter])
+    }, [dispatch, todolistId])
     const addTask = useCallback((title: string) => {
         dispatch(addTaskAC(todolistId, title))
-    }, [dispatch, title, todolistId])
+    }, [dispatch, todolistId])
     const removeTodolist = useCallback(() => {
         dispatch(removeTodolistAC(todolistId))
     }, [dispatch, todolistId])
     const changeTodolistTitle = useCallback((title: string) => {
         dispatch(chandeTodolistTitleAC(todolistId, title))
-    }, [dispatch, title, todolistId])
+    }, [dispatch, todolistId])
+
+    let tasksForTodo = tasks
+    if (filter === 'active') {
+        tasksForTodo = tasks.filter(f => !f.isDone)
+    }
+    if (filter === 'complited') {
+        tasksForTodo = tasks.filter(f => f.isDone)
+    }
+
 
     return <div>
         <h3 style={{
@@ -57,7 +68,7 @@ const TodolistMemo = ({title, tasks, filter, todolistId}: PropsType) => {
         </h3>
         <AddItemForm callback={addTask}/>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'space-between'}}>
-            {tasks.map((m, i) => {
+            {tasksForTodo.map((m, i) => {
                 const removeTask = () => {
                     dispatch(removeTaskAC(todolistId, m.id))
                 }

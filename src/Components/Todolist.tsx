@@ -29,7 +29,7 @@ type PropsType = {
 
 const TodolistMemo = ({title, filter, todolistId}: PropsType) => {
     const tasks=useSelector<rootReducerType,Array<TaskType>>(state=>state.tasks[todolistId])
-
+    console.log(todolistId)
     const dispatch = useDispatch()
     const changeFilter = useCallback((filter: FilterType) => {
         dispatch(chandeTodolistFilterAC(todolistId, filter))
@@ -53,7 +53,7 @@ const TodolistMemo = ({title, filter, todolistId}: PropsType) => {
     }
 
 
-    return <div>
+    return <div key={todolistId}>
         <h3 style={{
             display: 'flex',
             justifyContent: 'center',
@@ -68,7 +68,7 @@ const TodolistMemo = ({title, filter, todolistId}: PropsType) => {
         </h3>
         <AddItemForm callback={addTask}/>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'space-between'}}>
-            {tasksForTodo.map((m, i) => {
+            {tasksForTodo.map((m) => {
                 const removeTask = () => {
                     dispatch(removeTaskAC(todolistId, m.id))
                 }
@@ -79,7 +79,7 @@ const TodolistMemo = ({title, filter, todolistId}: PropsType) => {
                 const changeTaskTitle = (title: string) => {
                     dispatch(chanheTaskAC(todolistId, m.id, title))
                 }
-                return (<div key={i} style={m.isDone
+                return (<div key={m.id} style={m.isDone
                     ? {
                         opacity: '0.5',
                         color: 'white',

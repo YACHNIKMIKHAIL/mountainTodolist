@@ -6,6 +6,7 @@ type EditSpanPropsType = {
     callback: (title: string) => void
 }
 const EditSpanMemo = (props: EditSpanPropsType) => {
+    console.log('edit span')
     const [edit, setEdit] = useState<boolean>(false)
     const [title, setTitle] = useState<string>('')
     const activate = () => {
@@ -23,7 +24,6 @@ const EditSpanMemo = (props: EditSpanPropsType) => {
     return edit
         ? <TextField id="standard-basic" label={title} variant="standard"
                      onChange={onChangeHandler} autoFocus onBlur={desactivate}/>
-        // <input value={title} onChange={onChangeHandler} autoFocus onBlur={desactivate}/>
         : <span onDoubleClick={activate}>{props.title}</span>
 
 };

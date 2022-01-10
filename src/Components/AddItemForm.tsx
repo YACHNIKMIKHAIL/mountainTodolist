@@ -8,7 +8,7 @@ type AddItemFormPropsType = {
 const AddItemFormMemo = (props: AddItemFormPropsType) => {
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
-
+    console.log('add item')
     const addTask = () => {
         if (title.trim() !== '') {
             props.callback(title.trim())

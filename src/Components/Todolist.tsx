@@ -95,7 +95,7 @@ const TodolistMemo = ({title, filter, todolistId}: PropsType) => {
                         alignItems: 'center'
                     }}>
                     <Checkbox checked={m.isDone}
-                              onChange={changeTaskStatus} defaultChecked color="secondary"/>
+                              onChange={changeTaskStatus}  color="secondary"/>
                     <EditSpan title={m.title} callback={changeTaskTitle}/>
                     <IconButton aria-label="delete" size="small" onClick={removeTask}>
                         <Delete fontSize="small"/>

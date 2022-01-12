@@ -51,14 +51,13 @@ const AppMemo = () => {
                 <Grid container spacing={1} style={{height: '78vh', overflow: 'auto'}}>
                     {todolists.map((m) => {
 
-                        return <Grid item>
+                        return <Grid item key={m.id}>
                             <div style={{
                                 padding: '10px',
                                 borderRadius: '10px',
                                 backgroundColor: 'rgba(139,228,250,0.8)'
                             }}>
-                                <Todolist key={m.id}
-                                          todolistId={m.id}
+                                <Todolist todolistId={m.id}
                                           title={m.title}
                                           filter={m.filter}
                                 />

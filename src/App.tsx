@@ -58,8 +58,8 @@ const AppMemo = () => {
                                 backgroundColor: 'rgba(139,228,250,0.8)'
                             }}>
                                 <Todolist todolistId={m.id}
-                                          title={m.title}
-                                          filter={m.filter}
+                                          // title={m.title}
+                                          // filter={m.filter}
                                 />
                             </div>
                         </Grid>

@@ -22,14 +22,18 @@ export type TaskType = {
 }
 
 type PropsType = {
-    title: string
-    filter: FilterType
+    // title: string
+    // filter: FilterType
     todolistId: string
 }
 
-const TodolistMemo = ({title, filter, todolistId}: PropsType) => {
+const TodolistMemo = ({ todolistId}: PropsType) => {
     const tasks=useSelector<rootReducerType,Array<TaskType>>(state=>state.tasks[todolistId])
+    const todolist=useSelector<rootReducerType,TodolistsType>(state=>state.todolists.filter(f=>f.id===todolistId)[0])
+    const actualFilter=todolist.filter
+
     console.log(todolistId)
+    console.log(actualFilter)
     const dispatch = useDispatch()
     const changeFilter = useCallback((filter: FilterType) => {
         dispatch(chandeTodolistFilterAC(todolistId, filter))
@@ -45,10 +49,10 @@ const TodolistMemo = ({title, filter, todolistId}: PropsType) => {
     }, [dispatch, todolistId])
 
     let tasksForTodo = tasks
-    if (filter === 'active') {
+    if (actualFilter === 'active') {
         tasksForTodo = tasks.filter(f => !f.isDone)
     }
-    if (filter === 'complited') {
+    if (actualFilter === 'complited') {
         tasksForTodo = tasks.filter(f => f.isDone)
     }
 
@@ -61,7 +65,7 @@ const TodolistMemo = ({title, filter, todolistId}: PropsType) => {
             color: 'rgb(161,6,159)',
             height: '2vh'
         }}>
-            <EditSpan title={title} callback={changeTodolistTitle}/>
+            <EditSpan title={todolist.title} callback={changeTodolistTitle}/>
             <IconButton aria-label="delete" onClick={removeTodolist}>
                 <Delete/>
             </IconButton>
@@ -105,32 +109,32 @@ const TodolistMemo = ({title, filter, todolistId}: PropsType) => {
         </div>
         <div>
             <Button
-                variant={filter === 'all' ? 'contained' : 'outlined'}
-                size={filter === 'all' ? 'medium' : 'small'}
+                variant={actualFilter === 'all' ? 'contained' : 'outlined'}
+                size={actualFilter === 'all' ? 'medium' : 'small'}
                 style={{
-                    backgroundColor: filter === 'all' ? 'rgba(109,4,234,0.37)' : '',
-                    color: filter === 'all' ? 'white' : 'rgba(109,4,234,0.93)'
+                    backgroundColor: actualFilter === 'all' ? 'rgba(109,4,234,0.37)' : '',
+                    color: actualFilter === 'all' ? 'white' : 'rgba(109,4,234,0.93)'
                 }}
                 onClick={() => changeFilter('all')}>
                 All
             </Button>
             <Button
-                variant={filter === 'active' ? 'contained' : 'outlined'}
-                size={filter === 'active' ? 'medium' : 'small'}
+                variant={actualFilter === 'active' ? 'contained' : 'outlined'}
+                size={actualFilter === 'active' ? 'medium' : 'small'}
                 style={{
-                    backgroundColor: filter === 'active' ? 'rgba(109,4,234,0.37)' : '',
-                    color: filter === 'active' ? 'white' : 'rgba(109,4,234,0.93)'
+                    backgroundColor: actualFilter === 'active' ? 'rgba(109,4,234,0.37)' : '',
+                    color: actualFilter === 'active' ? 'white' : 'rgba(109,4,234,0.93)'
                 }}
                 onClick={() => changeFilter('active')}>
                 Active
             </Button>
 
             <Button
-                variant={filter === 'complited' ? 'contained' : 'outlined'}
-                size={filter === 'complited' ? 'medium' : 'small'}
+                variant={actualFilter === 'complited' ? 'contained' : 'outlined'}
+                size={actualFilter === 'complited' ? 'medium' : 'small'}
                 style={{
-                    backgroundColor: filter === 'complited' ? 'rgba(109,4,234,0.37)' : '',
-                    color: filter === 'complited' ? 'white' : 'rgba(109,4,234,0.93)'
+                    backgroundColor: actualFilter === 'complited' ? 'rgba(109,4,234,0.37)' : '',
+                    color: actualFilter === 'complited' ? 'white' : 'rgba(109,4,234,0.93)'
                 }}
                 onClick={() => changeFilter('complited')}>
                 Completed

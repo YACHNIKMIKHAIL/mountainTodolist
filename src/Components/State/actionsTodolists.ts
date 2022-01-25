@@ -23,10 +23,10 @@ export const removeTodolistAC = (todoId: string) => {
 }
 
 export type addTodolistACType = ReturnType<typeof addTodolistAC>
-export const addTodolistAC = (title: string) => {
+export const addTodolistAC = (todolist:TodolistsType) => {
     return {
         type: Actions_Todolists_Types.ADD_TODOLIST,
-        payload: {title: title, todoId: v1()}
+        payload: {todolist}
     } as const
 }
 
@@ -47,7 +47,7 @@ export const chandeTodolistTitleAC = (id: string, title: string) => {
 }
 
 export type setTodolistsACType = ReturnType<typeof setTodolistsAC>
-export const setTodolistsAC = (data: Array<TodolistsType> ) => {
+export const setTodolistsAC = (data: Array<TodolistsType>) => {
     return {
         type: Actions_Todolists_Types.SET_TODOLISTS,
         payload: {data}
@@ -59,6 +59,16 @@ export const setTodolistsThunk = () => {
         todolistApi.getTodolists()
             .then(data => {
                     dispatch(setTodolistsAC(data))
+                }
+            )
+    }
+}
+
+export const addTodolistsThunk = (title: string) => {
+    return (dispatch: Dispatch) => {
+        todolistApi.postTodolist(title)
+            .then(data => {
+                    dispatch(addTodolistAC(data))
                 }
             )
     }

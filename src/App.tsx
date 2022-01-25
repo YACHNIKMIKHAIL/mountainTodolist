@@ -11,7 +11,7 @@ import {rootReducerType} from "./Components/State/store";
 import {AddItemForm} from "./Components/AddItemForm";
 import {Dispatch} from "redux";
 import {TasksActionType} from "./Components/State/task-reducer";
-import {addTodolistAC, setTodolistsThunk} from "./Components/State/actionsTodolists";
+import {addTodolistAC, addTodolistsThunk, setTodolistsThunk} from "./Components/State/actionsTodolists";
 import {todolistApi} from "./Components/State/api";
 
 const AppMemo = () => {
@@ -19,14 +19,15 @@ const AppMemo = () => {
     const todolists = useSelector<rootReducerType, Array<TodolistsType>>(state => state.todolists)
 
     const addTodolist = useCallback((title: string) => {
-        dispatch(addTodolistAC(title))
-        todolistApi.postTodolist(title)
+        debugger
+        dispatch(addTodolistsThunk(title))
+        // todolistApi.postTodolist(title)
     }, [dispatch])
 
-    useEffect(()=>{
+    useEffect(() => {
         debugger
         dispatch(setTodolistsThunk())
-    },[])
+    }, )
     return (
         <div style={{background: `url(${img1})no-repeat center/cover`, height: '100vh'}}>
 

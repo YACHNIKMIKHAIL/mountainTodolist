@@ -7,7 +7,7 @@ import {AddItemForm} from "./AddItemForm";
 import {addTaskAC, changeTaskSTATUSAC, chanheTaskAC, removeTaskAC} from "./State/actionsTasks";
 import {
     chandeTodolistFilterAC,
-    chandeTodolistTitleAC,
+    chandeTodolistTitleAC, changeTodolistsThunk,
     deleteTodolistsThunk,
     removeTodolistAC
 } from "./State/actionsTodolists";
@@ -48,7 +48,7 @@ const TodolistMemo = ({ todolistId}: PropsType) => {
         dispatch(deleteTodolistsThunk(todolistId))
     }, [dispatch, todolistId])
     const changeTodolistTitle = useCallback((title: string) => {
-        dispatch(chandeTodolistTitleAC(todolistId, title))
+        dispatch(changeTodolistsThunk(todolistId, title))
     }, [dispatch, todolistId])
 
     let tasksForTodo = tasks

@@ -83,3 +83,13 @@ export const deleteTodolistsThunk = (todoId: string) => {
             )
     }
 }
+
+export const changeTodolistsThunk = (todoId:string,title:string) => {
+    return (dispatch: Dispatch) => {
+        todolistApi.changeTodolist(todoId,title)
+            .then(data => {
+                    dispatch(chandeTodolistTitleAC(data.id,data.title))
+                }
+            )
+    }
+}

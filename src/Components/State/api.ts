@@ -7,24 +7,29 @@ const instance = axios.create({
         {"API-KEY": "b0713123-338a-4997-b226-9d38b65d5ff4"}
 })
 
-export const todolistApi={
-    getTodolists(){
+export const todolistApi = {
+    getTodolists() {
         debugger
         return instance.get(`/todo-lists`)
-            .then(res=> {
+            .then(res => {
                 console.log(res.data)
                 return res.data
             })
     },
-    postTodolist(title:string){
+    postTodolist(title: string) {
         debugger
-        return instance.post(`/todo-lists`,{title})
-            .then(res=> res.data)
+        return instance.post(`/todo-lists`, {title})
+            .then(res => res.data)
     },
-    deleteTodolist(todoId:string){
+    deleteTodolist(todoId: string) {
         debugger
         return instance.delete(`/todo-lists/${todoId}`)
-            .then(res=> res.data)
+            .then(res => res.data)
+    },
+    changeTodolist(todoId: string, title: string) {
+        debugger
+        return instance.put(`/todo-lists/${todoId}`, {title})
+            .then(res => res.data)
     }
 }
 

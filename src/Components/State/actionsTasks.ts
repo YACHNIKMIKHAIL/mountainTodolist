@@ -5,7 +5,7 @@ export enum Actions_Tasks_Types {
     REMOVE_TASK='REMOVE_TASK',
     ADD_TASK='ADD_TASK',
     CHANGE_TASK='CHANGE_TASK',
-    CHANGE_TASKS_STATUS='CHANGE_TASKS_STATUS'
+    CHANGE_TASKS_STATUS='CHANGE_TASKS_STATUS',
 }
 export type removeTaskACType = ReturnType<typeof removeTaskAC>
 export const removeTaskAC = (todoId: string, taskId: string) => ({

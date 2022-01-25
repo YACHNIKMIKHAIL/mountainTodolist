@@ -5,7 +5,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {EditSpan} from "./EditSpan";
 import {AddItemForm} from "./AddItemForm";
 import {addTaskAC, changeTaskSTATUSAC, chanheTaskAC, removeTaskAC} from "./State/actionsTasks";
-import {chandeTodolistFilterAC, chandeTodolistTitleAC, removeTodolistAC} from "./State/actionsTodolists";
+import {
+    chandeTodolistFilterAC,
+    chandeTodolistTitleAC,
+    deleteTodolistsThunk,
+    removeTodolistAC
+} from "./State/actionsTodolists";
 import {rootReducerType} from "./State/store";
 
 export type TasksStateType = { [key: string]: Array<TaskType> }
@@ -40,7 +45,7 @@ const TodolistMemo = ({ todolistId}: PropsType) => {
         dispatch(addTaskAC(todolistId, title))
     }, [dispatch, todolistId])
     const removeTodolist = useCallback(() => {
-        dispatch(removeTodolistAC(todolistId))
+        dispatch(deleteTodolistsThunk(todolistId))
     }, [dispatch, todolistId])
     const changeTodolistTitle = useCallback((title: string) => {
         dispatch(chandeTodolistTitleAC(todolistId, title))

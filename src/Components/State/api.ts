@@ -18,7 +18,14 @@ export const todolistApi={
     },
     postTodolist(title:string){
         debugger
-        return instance.post(`/todo-lists`,{title:title})
+        return instance.post(`/todo-lists`,{title})
+            .then(res=> res.data)
+    },
+    deleteTodolist(todoId:string){
+        debugger
+        return instance.delete(`/todo-lists/${todoId}`)
             .then(res=> res.data)
     }
 }
+
+

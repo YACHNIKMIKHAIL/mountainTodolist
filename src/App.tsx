@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist, TodolistsType} from './Components/Todolist';
 import {AppBar, Box, Button, Toolbar, Typography} from "@material-ui/core";
@@ -11,15 +11,22 @@ import {rootReducerType} from "./Components/State/store";
 import {AddItemForm} from "./Components/AddItemForm";
 import {Dispatch} from "redux";
 import {TasksActionType} from "./Components/State/task-reducer";
-import {addTodolistAC} from "./Components/State/actionsTodolists";
+import {addTodolistAC, setTodolistsThunk} from "./Components/State/actionsTodolists";
+import {todolistApi} from "./Components/State/api";
 
 const AppMemo = () => {
-    const dispatch = useDispatch<Dispatch<TasksActionType | TodolistsActionType>>()
+    const dispatch = useDispatch()
     const todolists = useSelector<rootReducerType, Array<TodolistsType>>(state => state.todolists)
 
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistAC(title))
+        todolistApi.postTodolist(title)
     }, [dispatch])
+
+    useEffect(()=>{
+        debugger
+        dispatch(setTodolistsThunk())
+    },[])
     return (
         <div style={{background: `url(${img1})no-repeat center/cover`, height: '100vh'}}>
 
@@ -57,10 +64,7 @@ const AppMemo = () => {
                                 borderRadius: '10px',
                                 backgroundColor: 'rgba(139,228,250,0.8)'
                             }}>
-                                <Todolist todolistId={m.id}
-                                          // title={m.title}
-                                          // filter={m.filter}
-                                />
+                                <Todolist todolistId={m.id}/>
                             </div>
                         </Grid>
                     })}

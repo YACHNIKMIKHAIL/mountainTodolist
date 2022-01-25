@@ -22,8 +22,6 @@ export type TaskType = {
 }
 
 type PropsType = {
-    // title: string
-    // filter: FilterType
     todolistId: string
 }
 

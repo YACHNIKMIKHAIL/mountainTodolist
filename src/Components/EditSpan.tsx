@@ -1,31 +1,32 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useCallback, useState} from 'react';
 import {TextField} from "@material-ui/core";
 
 type EditSpanPropsType = {
     title: string
     callback: (title: string) => void
 }
-const EditSpanMemo = (props: EditSpanPropsType) => {
-    console.log('edit span')
-    const [edit, setEdit] = useState<boolean>(false)
-    const [title, setTitle] = useState<string>('')
-    const activate = () => {
-        setEdit(true)
-        setTitle(props.title)
-    }
-    const desactivate = () => {
-        setEdit(false)
-        props.callback(title)
-    }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
+const EditSpan = React.memo(({title, callback}: EditSpanPropsType) => {
 
-    return edit
-        ? <TextField id="standard-basic" label={title} variant="standard"
-                     onChange={onChangeHandler} autoFocus onBlur={desactivate}/>
-        : <span onDoubleClick={activate}>{props.title}</span>
+        const [edit, setEdit] = useState<boolean>(false)
+        const [stateTitle, setStateTitle] = useState<string>('')
+        const activate = useCallback(() => {
+            setEdit(true)
+            setStateTitle(title)
+        }, [title, setStateTitle])
+        const desactivate = useCallback(() => {
+            setEdit(false)
+            callback(stateTitle)
+        }, [callback, stateTitle])
+        const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+            setStateTitle(e.currentTarget.value)
+        }, [])
 
-};
+        return edit
+            ? <TextField id="standard-basic" label={stateTitle} variant="standard"
+                         onChange={onChangeHandler} autoFocus onBlur={desactivate}/>
+            : <span onDoubleClick={activate}>{title}</span>
 
-export const EditSpan = React.memo(EditSpanMemo);
+    }
+)
+
+export default EditSpan

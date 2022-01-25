@@ -33,4 +33,24 @@ export const todolistApi = {
     }
 }
 
+export const tasksApi = {
+    getTasks(todoId:string) {
+        debugger
+        return instance.get(`/${todoId}/tasks`)
+            .then(res => {
+                console.log(res.data)
+                return res.data
+            })
+    },
+    addTasks(todoId:string,title:string) {
+        debugger
+        return instance.post(`/${todoId}/tasks`,{title})
+            .then(res => {
+                console.log(res.data)
+                return res.data
+            })
+    },
+
+}
+
 

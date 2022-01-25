@@ -2,7 +2,7 @@ import {v1} from 'uuid';
 import {TasksStateType} from "../Todolist";
 import {tasksReducer} from "./task-reducer";
 import {todolist1, todolist2, todolist3} from "./todolists-reducer";
-import {addTaskAC, changeTaskSTATUSAC, chanheTaskAC, removeTaskAC} from "./actionsTasks";
+import {addTaskAC, changeTaskSTATUSAC, changeTaskAC, removeTaskAC} from "./actionsTasks";
 
 export const task1 = v1()
 export const task2 = v1()
@@ -74,7 +74,7 @@ test('correct title of task should be changed', () => {
 
     }
 
-    const endState = tasksReducer(startState, chanheTaskAC(todolist2,task4,"New title"))
+    const endState = tasksReducer(startState, changeTaskAC(todolist2,task4,"New title"))
 
     expect(endState[todolist1].length).toBe(3);
     expect(endState[todolist2].length).toBe(3);

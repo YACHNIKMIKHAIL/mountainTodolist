@@ -1,5 +1,5 @@
-import {v1} from "uuid";
-import {FilterType} from "../Todolist";
+import {Dispatch} from "redux";
+import {tasksApi} from "./api";
 
 export enum Actions_Tasks_Types {
     REMOVE_TASK='REMOVE_TASK',
@@ -17,8 +17,8 @@ export const addTaskAC = (todoId: string, title: string) => ({
     type: Actions_Tasks_Types.ADD_TASK, todoId, title
 } as const)
 
-export type chanheTaskACType = ReturnType<typeof chanheTaskAC>
-export const chanheTaskAC = (todoId: string, taskId: string, title: string) => ({
+export type changeTaskACType = ReturnType<typeof changeTaskAC>
+export const changeTaskAC = (todoId: string, taskId: string, title: string) => ({
     type: Actions_Tasks_Types.CHANGE_TASK, todoId, taskId, title
 } as const)
 
@@ -26,3 +26,13 @@ export type changeTaskSTATUSACType = ReturnType<typeof changeTaskSTATUSAC>
 export const changeTaskSTATUSAC = (todoId: string, taskId: string, isDone: boolean) => ({
     type: Actions_Tasks_Types.CHANGE_TASKS_STATUS, todoId, taskId, isDone
 } as const)
+
+export const addTaskThunk = (todoId:string,title:string) => {
+    return (dispatch: Dispatch) => {
+        tasksApi.addTasks(todoId,title)
+            .then(data => {
+                    dispatch(addTaskAC(data.id,data.title))
+                }
+            )
+    }
+}

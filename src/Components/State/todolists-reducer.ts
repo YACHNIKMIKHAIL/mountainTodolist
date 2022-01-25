@@ -1,11 +1,12 @@
-import {FilterType, TodolistsType} from "../Todolist";
+import {TodolistsType} from "../Todolist";
 import {v1} from "uuid";
 import {
     Actions_Todolists_Types,
     addTodolistACType,
     chandeTodolistFilterACType,
     chandeTodolistTitleACType,
-    removeTodolistACType, setTodolistsACType
+    removeTodolistACType,
+    setTodolistsACType
 } from "./actionsTodolists";
 
 export const todolist1 = v1()
@@ -19,8 +20,8 @@ export const todolist8 = v1()
 export const todolist9 = v1()
 
 const initialState: Array<TodolistsType> = [
-    // {id: todolist1, title: 'What to learn?', filter: 'all'},
-    // {id: todolist2, title: 'What to buy?', filter: 'all'},
+    {id: todolist1, title: 'What to learn?', filter: 'all'},
+    {id: todolist2, title: 'What to buy?', filter: 'all'},
     // {id: todolist3, title: 'What to fixie?', filter: 'all'},
     // {id: todolist4, title: 'C чего начать?', filter: 'all'},
     // {id: todolist5, title: 'Куда сходить?', filter: 'all'},

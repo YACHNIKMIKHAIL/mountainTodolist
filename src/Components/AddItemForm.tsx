@@ -1,33 +1,35 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useCallback, useState} from 'react';
 import {Button, TextField} from "@material-ui/core";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 type AddItemFormPropsType = {
     callback: (title: string) => void
 }
-const AddItemFormMemo = (props: AddItemFormPropsType) => {
+const AddItemFormMemo = ({callback}: AddItemFormPropsType) => {
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
-    console.log('add item')
-    const addTask = () => {
+
+    console.log('addItem rendered')
+
+    const addTask = useCallback(() => {
         if (title.trim() !== '') {
-            props.callback(title.trim())
+            callback(title.trim())
             setError(false)
             setTitle('')
         } else {
             setError(true)
         }
+    },[callback,title])
 
-    }
-    const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const onKeyPressHandler =useCallback ((e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             addTask()
         }
-    }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    },[addTask])
+    const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
         setError(false)
-    }
+    },[])
 
     return (
         <div>

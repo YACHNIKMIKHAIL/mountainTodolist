@@ -6,7 +6,7 @@ type EditSpanPropsType = {
     callback: (title: string) => void
 }
 const EditSpan = React.memo(({title, callback}: EditSpanPropsType) => {
-
+    console.log(`EditSpan ${title} rendered`)
         const [edit, setEdit] = useState<boolean>(false)
         const [stateTitle, setStateTitle] = useState<string>('')
         const activate = useCallback(() => {

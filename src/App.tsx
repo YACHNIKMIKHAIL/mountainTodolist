@@ -6,13 +6,9 @@ import AirportShuttleSharpIcon from '@mui/icons-material/AirportShuttleSharp';
 import {Container, Grid, IconButton} from "@mui/material";
 import img1 from './Components/Image/wallpaperflare.com_wallpaper.jpg'
 import {useDispatch, useSelector} from "react-redux";
-import {TodolistsActionType} from "./Components/State/todolists-reducer";
 import {rootReducerType} from "./Components/State/store";
 import {AddItemForm} from "./Components/AddItemForm";
-import {Dispatch} from "redux";
-import {TasksActionType} from "./Components/State/task-reducer";
-import {addTodolistAC, addTodolistsThunk, setTodolistsThunk} from "./Components/State/actionsTodolists";
-import {todolistApi} from "./Components/State/api";
+import {addTodolistsThunk, setTodolistsThunk} from "./Components/State/actionsTodolists";
 
 const AppMemo = () => {
     const dispatch = useDispatch()
@@ -21,7 +17,6 @@ const AppMemo = () => {
     const addTodolist = useCallback((title: string) => {
         debugger
         dispatch(addTodolistsThunk(title))
-        // todolistApi.postTodolist(title)
     }, [dispatch])
 
     useEffect(() => {

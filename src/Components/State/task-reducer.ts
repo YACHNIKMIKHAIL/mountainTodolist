@@ -52,9 +52,10 @@ export const tasksReducer = (state = initialTasks, action: TasksActionType): Tas
             }
         }
         case Actions_Tasks_Types.CHANGE_TASK: {
+            debugger
             return {
                 ...state,
-                [action.todoId]: state[action.todoId].map(m => m.id === action.taskId ? {...m, title: action.title} : m)
+                [action.todoId]: state[action.todoId].map(m => m.id === action.item.id ? {...action.item} : m)
             }
         }
         case Actions_Todolists_Types.ADD_TODOLIST: {

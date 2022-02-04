@@ -20,8 +20,8 @@ export const addTaskAC = (todoId: string, item: MountainTaskType) => ({
 } as const)
 
 export type changeTaskACType = ReturnType<typeof changeTaskAC>
-export const changeTaskAC = (todoId: string, taskId: string, title: string) => ({
-    type: Actions_Tasks_Types.CHANGE_TASK, todoId, taskId, title
+export const changeTaskAC = (todoId: string, item: MountainTaskType) => ({
+    type: Actions_Tasks_Types.CHANGE_TASK, todoId, item
 } as const)
 
 export type changeTaskSTATUSACType = ReturnType<typeof changeTaskSTATUSAC>
@@ -60,6 +60,16 @@ export const deleteTaskThunk = (todoId:string,taskId: string) => {
             .then((res) => {
                     debugger
                     dispatch(removeTaskAC(todoId,taskId))
+                }
+            )
+    }
+}
+export const updateTaskThunk = (todoId:string,taskId: string,body:MountainTaskType) => {
+    return (dispatch: Dispatch) => {
+        tasksApi.updateTasks(todoId,taskId,body)
+            .then((res) => {
+                    debugger
+                    dispatch(changeTaskAC(todoId,body))
                 }
             )
     }

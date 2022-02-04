@@ -23,10 +23,7 @@ const App = React.memo(() => {
             dispatch(addTodolistsThunk(title))
             // dispatch(addTodolistAC({id: v1(), title: title, filter: 'all'}))
         }, [dispatch])
-        const getTasks = (todolistId: string) => {
-            debugger
-            dispatch(setTaskThunk(todolistId))
-        }
+
 
         useEffect(() => {
             debugger
@@ -70,7 +67,6 @@ const App = React.memo(() => {
                                     backgroundColor: 'rgba(139,228,250,0.8)',
                                     border: '3px white solid'
                                 }}
-                                     onClick={() => getTasks(m.id)}
                                 >
                                     <Todolist todolistId={m.id}
                                               todolist={m}

@@ -62,7 +62,7 @@ export type MountainApiTaskType = {
     totalCount: number
     error: string | null
 }
-export type AddTaskType = {
+export type AddUpdateTaskType = {
     data: {
         item: MountainTaskType
         totalCount: number
@@ -83,15 +83,19 @@ export const tasksApi = {
     },
     addTasks(todoId: string, title: string) {
         debugger
-        return instance.post<AddTaskType>(`/todo-lists/${todoId}/tasks`, {title})
+        return instance.post<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks`, {title})
             .then(res =>  res)
     },
     deleteTasks(todoId: string, taskId: string) {
         debugger
-        return instance.delete<AddTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`)
+        return instance.delete<DeleteTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`)
             .then(res =>  res)
     },
-
+    updateTasks(todoId: string, taskId: string,body:MountainTaskType) {
+        debugger
+        return instance.put<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`,{body})
+            .then(res =>  res)
+    },
 }
 
 

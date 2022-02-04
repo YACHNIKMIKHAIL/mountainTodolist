@@ -10,7 +10,7 @@ import {
     changeTaskAC,
     changeTaskSTATUSAC,
     deleteTaskThunk,
-    removeTaskAC
+    removeTaskAC, setTaskThunk, updateTaskThunk
 } from "./State/actionsTasks";
 import {chandeTodolistFilterAC, changeTodolistsThunk, deleteTodolistsThunk} from "./State/actionsTodolists";
 import {rootReducerType} from "./State/store";
@@ -54,6 +54,11 @@ const Todolist = React.memo(({todolistId, todolist}: PropsType) => {
             // dispatch(chandeTodolistTitleAC(todolistId, title))
         }, [dispatch, todolistId])
 
+    const getTasks = (todolistId: string) => {
+        debugger
+        dispatch(setTaskThunk(todolistId))
+    }
+
         let tasksForTodo = tasks
         if (actualFilter === 'active') {
             tasksForTodo = tasks.filter(f => f.status === 0)
@@ -71,6 +76,7 @@ const Todolist = React.memo(({todolistId, todolist}: PropsType) => {
                 color: 'rgb(161,6,159)',
                 height: '2vh',
             }}>
+                <button onClick={()=>getTasks(todolistId)}>Tasks</button>
                 <EditSpan title={todolist.title} callback={changeTodolistTitle}/>
                 <IconButton aria-label="delete" onClick={removeTodolist}>
                     <Delete/>
@@ -87,7 +93,7 @@ const Todolist = React.memo(({todolistId, todolist}: PropsType) => {
                     }
 
                     const changeTaskTitle = (title: string) => {
-                        dispatch(changeTaskAC(todolistId, m.id, title))
+                        dispatch(updateTaskThunk(todolistId, m.id, {...m,title}))
                     }
                     return (<div key={m.id} style={m.status !== 0
                         ? {

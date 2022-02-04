@@ -8,11 +8,19 @@ const instance = axios.create({
         {"API-KEY": "3054dc60-1df1-480c-a08f-6e543a8dcaf0"}
 })
 
-export type MountainTodolistType= {
+export type MountainTodolistType = {
     id: string,
     title: string,
     addedDate: string,
     order: number
+}
+type AddTodolist = {
+    data: {
+        item: MountainTodolistType
+    },
+    messages: string[],
+    fieldsErrors: string[],
+    resultCode: 0
 }
 export const todolistApi = {
     getTodolists() {
@@ -21,10 +29,10 @@ export const todolistApi = {
                 return res
             })
     },
-    postTodolist(title: string) {
+    addTodolist(title: string) {
         debugger
-        return instance.post(`/todo-lists`, {title})
-            .then(res => res.data)
+        return instance.post<AddTodolist>(`/todo-lists`, {title})
+            .then(res => res)
     },
     deleteTodolist(todoId: string) {
         debugger
@@ -39,7 +47,7 @@ export const todolistApi = {
 }
 
 export const tasksApi = {
-    getTasks(todoId:string) {
+    getTasks(todoId: string) {
         debugger
         return instance.get(`/${todoId}/tasks`)
             .then(res => {
@@ -47,9 +55,9 @@ export const tasksApi = {
                 return res.data
             })
     },
-    addTasks(todoId:string,title:string) {
+    addTasks(todoId: string, title: string) {
         debugger
-        return instance.post(`/${todoId}/tasks`,{title})
+        return instance.post(`/${todoId}/tasks`, {title})
             .then(res => {
                 console.log(res.data)
                 return res.data

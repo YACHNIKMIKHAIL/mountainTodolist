@@ -8,7 +8,7 @@ import img1 from './Components/Image/wallpaperflare.com_wallpaper.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./Components/State/store";
 import {AddItemForm} from "./Components/AddItemForm";
-import {addTodolistAC, setTodolistsThunk} from "./Components/State/actionsTodolists";
+import {addTodolistAC, addTodolistsThunk, setTodolistsThunk} from "./Components/State/actionsTodolists";
 import {v1} from "uuid";
 
 const App = React.memo(() => {
@@ -18,7 +18,7 @@ const App = React.memo(() => {
 
         const addTodolist = useCallback((title: string) => {
             debugger
-            // dispatch(addTodolistsThunk(title))
+            dispatch(addTodolistsThunk(title))
             // dispatch(addTodolistAC({id: v1(), title: title, filter: 'all'}))
         }, [dispatch])
 

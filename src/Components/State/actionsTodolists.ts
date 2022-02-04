@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {FilterType, TodolistsType} from "../Todolist";
 import {AnyAction, Dispatch} from "redux";
-import {todolistApi} from "./api";
+import {MountainTodolistType, todolistApi} from "./api";
 import {rootReducerType} from "./store";
 import {TodolistsActionType} from "./todolists-reducer";
 
@@ -23,7 +23,7 @@ export const removeTodolistAC = (todoId: string) => {
 }
 
 export type addTodolistACType = ReturnType<typeof addTodolistAC>
-export const addTodolistAC = (todolist:TodolistsType) => {
+export const addTodolistAC = (todolist:MountainTodolistType) => {
     return {
         type: Actions_Todolists_Types.ADD_TODOLIST,
         payload: {todolist}
@@ -66,9 +66,10 @@ export const setTodolistsThunk = () => {
 
 export const addTodolistsThunk = (title: string) => {
     return (dispatch: Dispatch) => {
-        todolistApi.postTodolist(title)
+        todolistApi.addTodolist(title)
             .then(data => {
-                    dispatch(addTodolistAC(data))
+                debugger
+                    dispatch(addTodolistAC(data.data.data.item))
                 }
             )
     }

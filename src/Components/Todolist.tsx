@@ -25,15 +25,16 @@ const Todolist = React.memo(({todolist}: PropsType) => {
         const actualFilter = todolist.filter
         const dispatch = useDispatch()
 
-    const [showTasks, setShowTasks] = useState<boolean>(false)
-    const getTasks = useCallback((todolistId: string) => {
-        dispatch(setTaskThunk(todolistId))
-        setShowTasks(!showTasks)
-    },[dispatch,showTasks])
+        const [showTasks, setShowTasks] = useState<boolean>(false)
+        const getTasks = useCallback((todolistId: string, show: boolean) => {
+            dispatch(setTaskThunk(todolistId))
+            setShowTasks(show)
+        }, [dispatch, showTasks])
         const changeFilter = useCallback((filter: FilterType) => {
             dispatch(chandeTodolistFilterAC(todolist.id, filter))
-            getTasks(todolist.id)
-        }, [dispatch, todolist.id,getTasks])
+            getTasks(todolist.id, true)
+
+        }, [dispatch, todolist.id, getTasks])
         const addTask = useCallback((title: string) => {
             dispatch(addTaskThunk(todolist.id, title))
         }, [dispatch, todolist.id])
@@ -41,10 +42,8 @@ const Todolist = React.memo(({todolist}: PropsType) => {
             dispatch(deleteTodolistsThunk(todolist.id))
         }, [dispatch, todolist.id])
         const changeTodolistTitle = useCallback((title: string) => {
-            debugger
             dispatch(changeTodolistsThunk(todolist.id, title))
         }, [dispatch, todolist.id])
-
 
 
         let tasksForTodo = tasks
@@ -64,7 +63,7 @@ const Todolist = React.memo(({todolist}: PropsType) => {
                 color: 'rgb(161,6,159)',
                 height: '2vh',
             }}>
-                <IconButton onClick={() => getTasks(todolist.id)}>
+                <IconButton onClick={() => getTasks(todolist.id, !showTasks)}>
                     <CollectionsIcon/>
                 </IconButton>
                 <EditSpan title={todolist.title} callback={changeTodolistTitle}/>
@@ -81,14 +80,19 @@ const Todolist = React.memo(({todolist}: PropsType) => {
                             dispatch(deleteTaskThunk(todolist.id, m.id))
                         }
                         const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                            dispatch(updateTaskThunk(todolist.id, m.id, e.currentTarget.checked ? {...m, status: 2} : {
-                                ...m,
-                                status: 0
+                            debugger
+                            dispatch(updateTaskThunk(todolist.id, m.id, e.currentTarget.checked ? {
+                                status: 2,
+                                title: m.title
+                            } : {
+                                status: 0,
+                                title: m.title
                             }))
                         }
 
                         const changeTaskTitle = (title: string) => {
-                            dispatch(updateTaskThunk(todolist.id, m.id, {...m, title}))
+                            debugger
+                            dispatch(updateTaskThunk(todolist.id, m.id, {title}))
                         }
                         return (<div key={m.id} style={m.status !== 0
                             ? {
@@ -117,7 +121,6 @@ const Todolist = React.memo(({todolist}: PropsType) => {
             </div>
             <div>
                 <Button
-                    defaultChecked={actualFilter === 'all'}
                     variant={actualFilter === 'all' ? 'contained' : 'outlined'}
                     size={actualFilter === 'all' ? 'medium' : 'small'}
                     style={{

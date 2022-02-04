@@ -47,7 +47,6 @@ export const todolistsReducer = (state=initialState, action: TodolistsActionType
             return state.map(m => m.id === action.payload.id ? {...m, title: action.payload.title} : m)
         }
         case Actions_Todolists_Types.SET_TODOLISTS: {
-            debugger
             return [...action.payload.data]
         }
         default:

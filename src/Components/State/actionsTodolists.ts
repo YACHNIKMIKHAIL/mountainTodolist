@@ -65,7 +65,6 @@ export const addTodolistsThunk = (title: string) => {
     return (dispatch: Dispatch) => {
         todolistApi.addTodolist(title)
             .then(data => {
-                debugger
                     dispatch(addTodolistAC(data.data.data.item))
                 }
             )
@@ -76,7 +75,6 @@ export const deleteTodolistsThunk = (todoId: string) => {
     return (dispatch: Dispatch) => {
         todolistApi.deleteTodolist(todoId)
             .then(() => {
-                debugger
                     dispatch(removeTodolistAC(todoId))
                 }
             )
@@ -85,7 +83,6 @@ export const deleteTodolistsThunk = (todoId: string) => {
 
 export const changeTodolistsThunk = (todoId:string,title:string) => {
     return (dispatch: Dispatch) => {
-        debugger
         todolistApi.changeTodolist(todoId,title)
             .then(() => {
                     dispatch(changeTodolistTitleAC(todoId,title))

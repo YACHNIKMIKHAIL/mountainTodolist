@@ -15,13 +15,11 @@ const App = React.memo(() => {
         const todolists = useSelector<rootReducerType, Array<TodolistsType>>(state => state.todolists)
 
         const addTodolist = useCallback((title: string) => {
-            debugger
             dispatch(addTodolistsThunk(title))
         }, [dispatch])
 
 
         useEffect(() => {
-            debugger
             dispatch(setTodolistsThunk())
         }, [dispatch])
         return (

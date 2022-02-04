@@ -4,7 +4,6 @@ import {
     Actions_Tasks_Types,
     addTaskACType,
     changeTaskACType,
-    changeTaskSTATUSACType,
     removeTaskACType,
     setTaskACType
 } from "./actionsTasks";
@@ -45,7 +44,6 @@ export const tasksReducer = (state = initialTasks, action: TasksActionType): Tas
             return {...state, [action.todoId]: state[action.todoId].filter(f => f.id !== action.taskId)}
         }
         case Actions_Tasks_Types.ADD_TASK: {
-            debugger
             return {
                 ...state,
                 [action.todoId]: [action.item, ...state[action.todoId]]
@@ -77,7 +75,6 @@ export const tasksReducer = (state = initialTasks, action: TasksActionType): Tas
             return copyState
         }
         case Actions_Tasks_Types.SET_TASKS: {
-            debugger
             return {...state, [action.todoId]: [...action.items]}
         }
         default:
@@ -89,7 +86,6 @@ export type TasksActionType =
     | addTaskACType
     | changeTaskACType
     | addTodolistACType
-    | changeTaskSTATUSACType
     | removeTodolistACType
     | setTodolistsACType
     | setTaskACType

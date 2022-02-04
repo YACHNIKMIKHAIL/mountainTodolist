@@ -28,7 +28,6 @@ export const todolistApi = {
     //             return res
     //         })
     // },
-
     async getTodolists() {
         return await instance.get<TodolistsType[]>(`/todo-lists`)
     },
@@ -86,22 +85,18 @@ export type DeleteTaskType = {
     resultCode: number
 }
 export const tasksApi = {
-    getTasks(todoId: string) {
-        return instance.get<MountainApiTaskType>(`/todo-lists/${todoId}/tasks`)
-            .then(res => res)
+    async getTasks(todoId: string) {
+        return await instance.get<MountainApiTaskType>(`/todo-lists/${todoId}/tasks`)
     },
-    addTasks(todoId: string, title: string) {
-        return instance.post<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks`, {title})
-            .then(res => res)
+    async addTasks(todoId: string, title: string) {
+        return await instance.post<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks`, {title})
     },
-    deleteTasks(todoId: string, taskId: string) {
-        return instance.delete<DeleteTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`)
-            .then(res => res)
+    async deleteTasks(todoId: string, taskId: string) {
+        return await instance.delete<DeleteTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`)
     },
-    updateTasks(todoId: string, taskId: string, body: { title: string, status?: number }) {
-        return instance.put<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`, body)
-            .then(res => res)
-    },
+    async updateTasks(todoId: string, taskId: string, body: { title: string, status?: number }) {
+        return await instance.put<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`, body)
+    }
 }
 
 

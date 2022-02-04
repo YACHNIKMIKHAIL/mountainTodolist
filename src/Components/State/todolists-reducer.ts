@@ -4,7 +4,7 @@ import {
     Actions_Todolists_Types,
     addTodolistACType,
     chandeTodolistFilterACType,
-    chandeTodolistTitleACType,
+    changeTodolistTitleACType,
     removeTodolistACType,
     setTodolistsACType
 } from "./actionsTodolists";
@@ -59,5 +59,5 @@ export type TodolistsActionType =
     removeTodolistACType
     | addTodolistACType
     | chandeTodolistFilterACType
-    | chandeTodolistTitleACType
+    | changeTodolistTitleACType
     | setTodolistsACType

@@ -1,9 +1,6 @@
-import {v1} from "uuid";
 import {FilterType, TodolistsType} from "../Todolist";
-import {AnyAction, Dispatch} from "redux";
+import {Dispatch} from "redux";
 import {MountainTodolistType, todolistApi} from "./api";
-import {rootReducerType} from "./store";
-import {TodolistsActionType} from "./todolists-reducer";
 
 export enum Actions_Todolists_Types {
     REMOVE_TODOLIST = 'REMOVE-TODOLIST',
@@ -38,8 +35,8 @@ export const chandeTodolistFilterAC = (id: string, filter: FilterType) => {
     } as const
 }
 
-export type chandeTodolistTitleACType = ReturnType<typeof chandeTodolistTitleAC>
-export const chandeTodolistTitleAC = (id: string, title: string) => {
+export type changeTodolistTitleACType = ReturnType<typeof changeTodolistTitleAC>
+export const changeTodolistTitleAC = (id: string, title: string) => {
     return {
         type: Actions_Todolists_Types.CHANGE_TODOLIST_TITLE,
         payload: {id: id, title: title}
@@ -91,7 +88,7 @@ export const changeTodolistsThunk = (todoId:string,title:string) => {
         debugger
         todolistApi.changeTodolist(todoId,title)
             .then(() => {
-                    dispatch(chandeTodolistTitleAC(todoId,title))
+                    dispatch(changeTodolistTitleAC(todoId,title))
                 }
             )
     }

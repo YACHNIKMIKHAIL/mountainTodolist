@@ -64,15 +64,6 @@ export const tasksReducer = (state = initialTasks, action: TasksActionType): Tas
                 [action.payload.todolist.id]: []
             }
         }
-        case Actions_Tasks_Types.CHANGE_TASKS_STATUS: {
-            return {
-                ...state,
-                [action.todoId]: state[action.todoId].map(m => m.id === action.taskId ? {
-                    ...m,
-                    isDone: action.isDone
-                } : m)
-            }
-        }
         case Actions_Todolists_Types.REMOVE_TODOLIST: {
             let stateCopy = {...state}
             delete stateCopy[action.payload.todoId]
@@ -87,7 +78,7 @@ export const tasksReducer = (state = initialTasks, action: TasksActionType): Tas
         }
         case Actions_Tasks_Types.SET_TASKS: {
             debugger
-            return {...state,[action.todoId]:[...action.items]}
+            return {...state, [action.todoId]: [...action.items]}
         }
         default:
             return state

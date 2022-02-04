@@ -8,27 +8,22 @@ import img1 from './Components/Image/wallpaperflare.com_wallpaper.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./Components/State/store";
 import {AddItemForm} from "./Components/AddItemForm";
-import {addTodolistAC, addTodolistsThunk, setTodolistsThunk} from "./Components/State/actionsTodolists";
-import {v1} from "uuid";
-import {tasksApi} from "./Components/State/api";
-import {setTaskThunk} from "./Components/State/actionsTasks";
+import {addTodolistsThunk, setTodolistsThunk} from "./Components/State/actionsTodolists";
 
 const App = React.memo(() => {
-
         const dispatch = useDispatch()
         const todolists = useSelector<rootReducerType, Array<TodolistsType>>(state => state.todolists)
 
         const addTodolist = useCallback((title: string) => {
             debugger
             dispatch(addTodolistsThunk(title))
-            // dispatch(addTodolistAC({id: v1(), title: title, filter: 'all'}))
         }, [dispatch])
 
 
         useEffect(() => {
             debugger
             dispatch(setTodolistsThunk())
-        }, [])
+        }, [dispatch])
         return (
             <div style={{background: `url(${img1})no-repeat center/cover`, height: '100vh'}}>
 
@@ -68,8 +63,7 @@ const App = React.memo(() => {
                                     border: '3px white solid'
                                 }}
                                 >
-                                    <Todolist todolistId={m.id}
-                                              todolist={m}
+                                    <Todolist todolist={m}
                                               key={i}/>
                                 </div>
                             </Grid>

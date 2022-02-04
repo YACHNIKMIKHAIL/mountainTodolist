@@ -45,16 +45,16 @@ export const todolistApi = {
     }
 }
 
-export type MountainTaskType= {
-    id: string ,
-    title: string ,
-    description: string |null,
-    todoListId: string ,
+export type MountainTaskType = {
+    id: string,
+    title: string,
+    description: string | null,
+    todoListId: string,
     order: number,
     status: number,
     priority: number,
-    startDate:string  |null,
-    deadline: string |null,
+    startDate: string | null,
+    deadline: string | null,
     addedDate: string
 }
 export type MountainApiTaskType = {
@@ -69,9 +69,9 @@ export type AddUpdateTaskType = {
         error: string | null
     }
 }
-export type DeleteTaskType={
+export type DeleteTaskType = {
     data: {},
-    messages:string [],
+    messages: string [],
     fieldsErrors: string[],
     resultCode: number
 }
@@ -84,17 +84,17 @@ export const tasksApi = {
     addTasks(todoId: string, title: string) {
         debugger
         return instance.post<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks`, {title})
-            .then(res =>  res)
+            .then(res => res)
     },
     deleteTasks(todoId: string, taskId: string) {
         debugger
         return instance.delete<DeleteTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`)
-            .then(res =>  res)
+            .then(res => res)
     },
-    updateTasks(todoId: string, taskId: string,body:MountainTaskType) {
+    updateTasks(todoId: string, taskId: string, body: MountainTaskType) {
         debugger
-        return instance.put<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`,{body})
-            .then(res =>  res)
+        return instance.put<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`, {body})
+            .then(res => res)
     },
 }
 

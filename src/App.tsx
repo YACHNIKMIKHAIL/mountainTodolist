@@ -13,7 +13,6 @@ import {v1} from "uuid";
 
 const App = React.memo(() => {
 
-    console.log('App rendered')
         const dispatch = useDispatch()
         const todolists = useSelector<rootReducerType, Array<TodolistsType>>(state => state.todolists)
 

@@ -29,7 +29,6 @@ const Todolist = React.memo(({todolistId}: PropsType) => {
         const tasks = useSelector<rootReducerType, Array<TaskType>>(state => state.tasks[todolistId])
         const todolist = useSelector<rootReducerType, TodolistsType>(state => state.todolists.filter(f => f.id === todolistId)[0])
         const actualFilter = todolist.filter
-        console.log(`todolist ${todolistId} rendered`)
 
         const dispatch = useDispatch()
 

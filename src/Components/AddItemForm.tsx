@@ -9,8 +9,6 @@ const AddItemFormMemo = ({callback}: AddItemFormPropsType) => {
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
 
-    console.log('addItem rendered')
-
     const addTask = useCallback(() => {
         if (title.trim() !== '') {
             callback(title.trim())

@@ -54,3 +54,13 @@ export const addTaskThunk = (todoId:string,title: string) => {
             )
     }
 }
+export const deleteTaskThunk = (todoId:string,taskId: string) => {
+    return (dispatch: Dispatch) => {
+        tasksApi.deleteTasks(todoId,taskId)
+            .then((res) => {
+                    debugger
+                    dispatch(removeTaskAC(todoId,taskId))
+                }
+            )
+    }
+}

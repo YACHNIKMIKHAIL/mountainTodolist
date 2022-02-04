@@ -69,7 +69,12 @@ export type AddTaskType = {
         error: string | null
     }
 }
-
+export type DeleteTaskType={
+    data: {},
+    messages:string [],
+    fieldsErrors: string[],
+    resultCode: number
+}
 export const tasksApi = {
     getTasks(todoId: string) {
         debugger
@@ -79,6 +84,11 @@ export const tasksApi = {
     addTasks(todoId: string, title: string) {
         debugger
         return instance.post<AddTaskType>(`/todo-lists/${todoId}/tasks`, {title})
+            .then(res =>  res)
+    },
+    deleteTasks(todoId: string, taskId: string) {
+        debugger
+        return instance.delete<AddTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`)
             .then(res =>  res)
     },
 

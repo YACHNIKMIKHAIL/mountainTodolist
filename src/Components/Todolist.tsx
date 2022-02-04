@@ -4,7 +4,14 @@ import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import EditSpan from "./EditSpan";
 import {AddItemForm} from "./AddItemForm";
-import {addTaskAC, addTaskThunk, changeTaskAC, changeTaskSTATUSAC, removeTaskAC} from "./State/actionsTasks";
+import {
+    addTaskAC,
+    addTaskThunk,
+    changeTaskAC,
+    changeTaskSTATUSAC,
+    deleteTaskThunk,
+    removeTaskAC
+} from "./State/actionsTasks";
 import {chandeTodolistFilterAC, changeTodolistsThunk, deleteTodolistsThunk} from "./State/actionsTodolists";
 import {rootReducerType} from "./State/store";
 import {MountainTaskType, MountainTodolistType} from "./State/api";
@@ -73,7 +80,7 @@ const Todolist = React.memo(({todolistId, todolist}: PropsType) => {
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'space-between'}}>
                 {tasksForTodo.map((m) => {
                     const removeTask = () => {
-                        dispatch(removeTaskAC(todolistId, m.id))
+                        dispatch(deleteTaskThunk(todolistId, m.id))
                     }
                     const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
                         dispatch(changeTaskSTATUSAC(todolistId, m.id, e.currentTarget.checked))

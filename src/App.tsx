@@ -8,7 +8,7 @@ import img1 from './Components/Image/wallpaperflare.com_wallpaper.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./Components/State/store";
 import {AddItemForm} from "./Components/AddItemForm";
-import {addTodolistsThunk, setTodolistsThunk} from "./Components/State/actionsTodolists";
+import {addTodolistsThunk, getTodolistsThunk} from "./Components/State/actionsTodolists";
 
 const App = React.memo(() => {
         const dispatch = useDispatch()
@@ -20,7 +20,7 @@ const App = React.memo(() => {
 
 
         useEffect(() => {
-            dispatch(setTodolistsThunk())
+            dispatch(getTodolistsThunk())
         }, [dispatch])
         return (
             <div style={{background: `url(${img1})no-repeat center/cover`, height: '100vh'}}>
@@ -58,7 +58,7 @@ const App = React.memo(() => {
                                     padding: '10px',
                                     borderRadius: '10px',
                                     backgroundColor: 'rgba(139,228,250,0.8)',
-                                    border: '3px white solid'
+                                    border: '3px whitesmoke solid'
                                 }}
                                 >
                                     <Todolist todolist={m}

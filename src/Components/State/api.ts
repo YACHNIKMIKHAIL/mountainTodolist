@@ -22,23 +22,36 @@ type RespType<T = {}> = {
 }
 
 export const todolistApi = {
-    getTodolists() {
-        return instance.get<TodolistsType[]>(`/todo-lists`)
-            .then(res => {
-                return res
-            })
+    //  getTodolists() {
+    //     return instance.get<TodolistsType[]>(`/todo-lists`)
+    //         .then(res => {
+    //             return res
+    //         })
+    // },
+
+    async getTodolists() {
+        return await instance.get<TodolistsType[]>(`/todo-lists`)
     },
-    addTodolist(title: string) {
-        return instance.post<RespType<{ item: MountainTodolistType }>, AxiosResponse<RespType<{ item: MountainTodolistType }>>, { title: string }>(`/todo-lists`, {title})
-            .then(res => res)
+    // addTodolist(title: string) {
+    //     return instance.post<RespType<{ item: MountainTodolistType }>, AxiosResponse<RespType<{ item: MountainTodolistType }>>, { title: string }>(`/todo-lists`, {title})
+    //         .then(res => res)
+    // },
+    async addTodolist(title: string) {
+        return await instance.post<RespType<{ item: MountainTodolistType }>, AxiosResponse<RespType<{ item: MountainTodolistType }>>, { title: string }>(`/todo-lists`, {title})
     },
-    deleteTodolist(todoId: string) {
-        return instance.delete<RespType>(`/todo-lists/${todoId}`)
-            .then(res => res)
+    // deleteTodolist(todoId: string) {
+    //     return instance.delete<RespType>(`/todo-lists/${todoId}`)
+    //         .then(res => res)
+    // },
+    async deleteTodolist(todoId: string) {
+        return await instance.delete<RespType>(`/todo-lists/${todoId}`)
     },
-    changeTodolist(todoId: string, title: string) {
-        return instance.put<RespType<{ item: MountainTodolistType }>, AxiosResponse<RespType<{ item: MountainTodolistType }>>, { title: string }>(`/todo-lists/${todoId}`, {title})
-            .then(res => res)
+    // changeTodolist(todoId: string, title: string) {
+    //     return instance.put<RespType<{ item: MountainTodolistType }>, AxiosResponse<RespType<{ item: MountainTodolistType }>>, { title: string }>(`/todo-lists/${todoId}`, {title})
+    //         .then(res => res)
+    // }
+    async changeTodolist(todoId: string, title: string) {
+        return await instance.put<RespType<{ item: MountainTodolistType }>, AxiosResponse<RespType<{ item: MountainTodolistType }>>, { title: string }>(`/todo-lists/${todoId}`, {title})
     }
 }
 
@@ -85,7 +98,7 @@ export const tasksApi = {
         return instance.delete<DeleteTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`)
             .then(res => res)
     },
-    updateTasks(todoId: string, taskId: string, body: { title:string,status?:number }) {
+    updateTasks(todoId: string, taskId: string, body: { title: string, status?: number }) {
         return instance.put<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`, body)
             .then(res => res)
     },

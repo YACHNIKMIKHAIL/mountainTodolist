@@ -62,6 +62,13 @@ export type MountainApiTaskType = {
     totalCount: number
     error: string | null
 }
+export type AddTaskType = {
+    data: {
+        item: MountainTaskType
+        totalCount: number
+        error: string | null
+    }
+}
 
 export const tasksApi = {
     getTasks(todoId: string) {
@@ -71,8 +78,8 @@ export const tasksApi = {
     },
     addTasks(todoId: string, title: string) {
         debugger
-        return instance.post(`/todo-lists/${todoId}/tasks`, {title})
-            .then(res =>  res.data)
+        return instance.post<AddTaskType>(`/todo-lists/${todoId}/tasks`, {title})
+            .then(res =>  res)
     },
 
 }

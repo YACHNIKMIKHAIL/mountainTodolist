@@ -1,14 +1,13 @@
 import {TasksStateType} from "../Todolist";
-import {v1} from "uuid";
 import {Actions_Todolists_Types, addTodolistACType, removeTodolistACType, setTodolistsACType} from "./actionsTodolists";
 import {
     Actions_Tasks_Types,
     addTaskACType,
     changeTaskACType,
     changeTaskSTATUSACType,
-    removeTaskACType, setTaskACType
+    removeTaskACType,
+    setTaskACType
 } from "./actionsTasks";
-import {MountainTaskType} from "./api";
 
 const initialTasks: TasksStateType = {
     // [todolist1]: [{id: v1(), title: "HTML&CSS", isDone: true},
@@ -46,9 +45,10 @@ export const tasksReducer = (state = initialTasks, action: TasksActionType): Tas
             return {...state, [action.todoId]: state[action.todoId].filter(f => f.id !== action.taskId)}
         }
         case Actions_Tasks_Types.ADD_TASK: {
+            debugger
             return {
                 ...state,
-                // [action.todoId]: [{id: v1(), title: action.title, isDone: false}, ...state[action.todoId]]
+                [action.todoId]: [action.item, ...state[action.todoId]]
             }
         }
         case Actions_Tasks_Types.CHANGE_TASK: {

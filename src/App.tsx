@@ -10,6 +10,8 @@ import {rootReducerType} from "./Components/State/store";
 import {AddItemForm} from "./Components/AddItemForm";
 import {addTodolistAC, addTodolistsThunk, setTodolistsThunk} from "./Components/State/actionsTodolists";
 import {v1} from "uuid";
+import {tasksApi} from "./Components/State/api";
+import {setTaskThunk} from "./Components/State/actionsTasks";
 
 const App = React.memo(() => {
 
@@ -21,6 +23,10 @@ const App = React.memo(() => {
             dispatch(addTodolistsThunk(title))
             // dispatch(addTodolistAC({id: v1(), title: title, filter: 'all'}))
         }, [dispatch])
+        const getTasks = (todolistId: string) => {
+            debugger
+            dispatch(setTaskThunk(todolistId))
+        }
 
         useEffect(() => {
             debugger
@@ -61,8 +67,11 @@ const App = React.memo(() => {
                                 <div style={{
                                     padding: '10px',
                                     borderRadius: '10px',
-                                    backgroundColor: 'rgba(139,228,250,0.8)'
-                                }}>
+                                    backgroundColor: 'rgba(139,228,250,0.8)',
+                                    border: '3px white solid'
+                                }}
+                                     onClick={() => getTasks(m.id)}
+                                >
                                     <Todolist todolistId={m.id}
                                               todolist={m}
                                               key={i}/>

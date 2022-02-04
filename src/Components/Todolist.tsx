@@ -5,16 +5,11 @@ import {useDispatch, useSelector} from "react-redux";
 import EditSpan from "./EditSpan";
 import {AddItemForm} from "./AddItemForm";
 import {addTaskAC, changeTaskAC, changeTaskSTATUSAC, removeTaskAC} from "./State/actionsTasks";
-import {
-    chandeTodolistFilterAC,
-    chandeTodolistTitleAC, changeTodolistsThunk,
-    deleteTodolistsThunk,
-    removeTodolistAC
-} from "./State/actionsTodolists";
+import {chandeTodolistFilterAC, changeTodolistsThunk, deleteTodolistsThunk} from "./State/actionsTodolists";
 import {rootReducerType} from "./State/store";
-import {MountainTodolistType, tasksApi} from "./State/api";
+import {MountainTaskType, MountainTodolistType} from "./State/api";
 
-export type TasksStateType = { [key: string]: Array<TaskType> }
+export type TasksStateType = { [key: string]: Array<MountainTaskType> }
 export type TodolistsType = MountainTodolistType & {
     filter: FilterType
 }
@@ -29,11 +24,10 @@ type PropsType = {
     todolist: TodolistsType
 }
 
-const Todolist = React.memo(({todolistId,todolist}: PropsType) => {
-        const tasks = useSelector<rootReducerType, Array<TaskType>>(state => state.tasks[todolistId])
+const Todolist = React.memo(({todolistId, todolist}: PropsType) => {
+        const tasks = useSelector<rootReducerType, Array<MountainTaskType>>(state => state.tasks[todolistId])
         // const todolist = useSelector<rootReducerType, TodolistsType>(state => state.todolists.filter(f => f.id === todolistId)[0])
         const actualFilter = todolist.filter
-
         const dispatch = useDispatch()
 
         const changeFilter = useCallback((filter: FilterType) => {
@@ -55,22 +49,20 @@ const Todolist = React.memo(({todolistId,todolist}: PropsType) => {
 
         let tasksForTodo = tasks
         if (actualFilter === 'active') {
-            tasksForTodo = tasks.filter(f => !f.isDone)
+            tasksForTodo = tasks.filter(f => f.status === 0)
         }
         if (actualFilter === 'complited') {
-            tasksForTodo = tasks.filter(f => f.isDone)
+            tasksForTodo = tasks.filter(f => f.status !== 0)
         }
 
 
-        return <div key={todolistId}
-                    onDoubleClick={() => tasksApi.getTasks(todolistId).then(res => console.log(res))}
-        >
+        return <div key={todolistId}>
             <h3 style={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 color: 'rgb(161,6,159)',
-                height: '2vh'
+                height: '2vh',
             }}>
                 <EditSpan title={todolist.title} callback={changeTodolistTitle}/>
                 <IconButton aria-label="delete" onClick={removeTodolist}>
@@ -90,7 +82,7 @@ const Todolist = React.memo(({todolistId,todolist}: PropsType) => {
                     const changeTaskTitle = (title: string) => {
                         dispatch(changeTaskAC(todolistId, m.id, title))
                     }
-                    return (<div key={m.id} style={m.isDone
+                    return (<div key={m.id} style={m.status !== 0
                         ? {
                             opacity: '0.5',
                             color: 'white',
@@ -105,7 +97,7 @@ const Todolist = React.memo(({todolistId,todolist}: PropsType) => {
                             justifyContent: 'space-between',
                             alignItems: 'center'
                         }}>
-                        <Checkbox checked={m.isDone}
+                        <Checkbox checked={m.status !== 0}
                                   onChange={changeTaskStatus} color="secondary"/>
                         <EditSpan title={m.title} callback={changeTaskTitle}/>
                         <IconButton aria-label="delete" size="small" onClick={removeTask}>

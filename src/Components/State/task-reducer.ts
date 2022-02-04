@@ -6,8 +6,9 @@ import {
     addTaskACType,
     changeTaskACType,
     changeTaskSTATUSACType,
-    removeTaskACType
+    removeTaskACType, setTaskACType
 } from "./actionsTasks";
+import {MountainTaskType} from "./api";
 
 const initialTasks: TasksStateType = {
     // [todolist1]: [{id: v1(), title: "HTML&CSS", isDone: true},
@@ -47,7 +48,7 @@ export const tasksReducer = (state = initialTasks, action: TasksActionType): Tas
         case Actions_Tasks_Types.ADD_TASK: {
             return {
                 ...state,
-                [action.todoId]: [{id: v1(), title: action.title, isDone: false}, ...state[action.todoId]]
+                // [action.todoId]: [{id: v1(), title: action.title, isDone: false}, ...state[action.todoId]]
             }
         }
         case Actions_Tasks_Types.CHANGE_TASK: {
@@ -83,6 +84,10 @@ export const tasksReducer = (state = initialTasks, action: TasksActionType): Tas
             })
             return copyState
         }
+        case Actions_Tasks_Types.SET_TASKS: {
+            debugger
+            return {...state,[action.todoId]:[...action.items]}
+        }
         default:
             return state
     }
@@ -95,3 +100,4 @@ export type TasksActionType =
     | changeTaskSTATUSACType
     | removeTodolistACType
     | setTodolistsACType
+    | setTaskACType

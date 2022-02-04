@@ -45,23 +45,34 @@ export const todolistApi = {
     }
 }
 
+export type MountainTaskType= {
+    id: string ,
+    title: string ,
+    description: string |null,
+    todoListId: string ,
+    order: number,
+    status: number,
+    priority: number,
+    startDate:string  |null,
+    deadline: string |null,
+    addedDate: string
+}
+export type MountainApiTaskType = {
+    items: Array<MountainTaskType>
+    totalCount: number
+    error: string | null
+}
 
 export const tasksApi = {
     getTasks(todoId: string) {
         debugger
-        return instance.get(`/${todoId}/tasks`)
-            .then(res => {
-                console.log(res.data)
-                return res.data
-            })
+        return instance.get<MountainApiTaskType>(`/todo-lists/${todoId}/tasks`)
+            .then(res => res)
     },
     addTasks(todoId: string, title: string) {
         debugger
-        return instance.post(`/${todoId}/tasks`, {title})
-            .then(res => {
-                console.log(res.data)
-                return res.data
-            })
+        return instance.post(`/todo-lists/${todoId}/tasks`, {title})
+            .then(res =>  res.data)
     },
 
 }

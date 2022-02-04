@@ -22,6 +22,12 @@ type AddTodolist = {
     fieldsErrors: string[],
     resultCode: 0
 }
+type RespType={
+    data: {},
+    messages: string[],
+    fieldsErrors: string[],
+    resultCode: number
+}
 export const todolistApi = {
     getTodolists() {
         return instance.get<TodolistsType[]>(`/todo-lists`)
@@ -36,8 +42,8 @@ export const todolistApi = {
     },
     deleteTodolist(todoId: string) {
         debugger
-        return instance.delete(`/todo-lists/${todoId}`)
-            .then(res => res.data)
+        return instance.delete<RespType>(`/todo-lists/${todoId}`)
+            .then(res => res)
     },
     changeTodolist(todoId: string, title: string) {
         debugger

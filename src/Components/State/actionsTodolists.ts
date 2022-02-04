@@ -78,8 +78,9 @@ export const addTodolistsThunk = (title: string) => {
 export const deleteTodolistsThunk = (todoId: string) => {
     return (dispatch: Dispatch) => {
         todolistApi.deleteTodolist(todoId)
-            .then(data => {
-                    dispatch(removeTodolistAC(data.id))
+            .then(() => {
+                debugger
+                    dispatch(removeTodolistAC(todoId))
                 }
             )
     }

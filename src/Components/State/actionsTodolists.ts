@@ -88,9 +88,10 @@ export const deleteTodolistsThunk = (todoId: string) => {
 
 export const changeTodolistsThunk = (todoId:string,title:string) => {
     return (dispatch: Dispatch) => {
+        debugger
         todolistApi.changeTodolist(todoId,title)
-            .then(data => {
-                    dispatch(chandeTodolistTitleAC(data.id,data.title))
+            .then(() => {
+                    dispatch(chandeTodolistTitleAC(todoId,title))
                 }
             )
     }

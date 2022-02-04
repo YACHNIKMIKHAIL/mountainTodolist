@@ -89,7 +89,7 @@ const Todolist = React.memo(({todolistId, todolist}: PropsType) => {
                         dispatch(deleteTaskThunk(todolistId, m.id))
                     }
                     const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                        dispatch(changeTaskSTATUSAC(todolistId, m.id, e.currentTarget.checked))
+                        dispatch(updateTaskThunk(todolistId, m.id, e.currentTarget.checked?{...m,status:2}:{...m,status:0}))
                     }
 
                     const changeTaskTitle = (title: string) => {

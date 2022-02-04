@@ -86,7 +86,6 @@ export const tasksApi = {
             .then(res => res)
     },
     updateTasks(todoId: string, taskId: string, body: { title:string,status?:number }) {
-        debugger
         return instance.put<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`, body)
             .then(res => res)
     },

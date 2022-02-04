@@ -29,15 +29,15 @@ const Todolist = React.memo(({todolist}: PropsType) => {
         const getTasks = useCallback((todolistId: string, show: boolean) => {
             dispatch(setTaskThunk(todolistId))
             setShowTasks(show)
-        }, [dispatch, showTasks])
+        }, [dispatch])
         const changeFilter = useCallback((filter: FilterType) => {
             dispatch(chandeTodolistFilterAC(todolist.id, filter))
             getTasks(todolist.id, true)
-
         }, [dispatch, todolist.id, getTasks])
         const addTask = useCallback((title: string) => {
             dispatch(addTaskThunk(todolist.id, title))
-        }, [dispatch, todolist.id])
+            getTasks(todolist.id, true)
+        }, [dispatch, todolist.id, getTasks])
         const removeTodolist = useCallback(() => {
             dispatch(deleteTodolistsThunk(todolist.id))
         }, [dispatch, todolist.id])
@@ -80,7 +80,6 @@ const Todolist = React.memo(({todolist}: PropsType) => {
                             dispatch(deleteTaskThunk(todolist.id, m.id))
                         }
                         const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                            debugger
                             dispatch(updateTaskThunk(todolist.id, m.id, e.currentTarget.checked ? {
                                 status: 2,
                                 title: m.title
@@ -91,7 +90,6 @@ const Todolist = React.memo(({todolist}: PropsType) => {
                         }
 
                         const changeTaskTitle = (title: string) => {
-                            debugger
                             dispatch(updateTaskThunk(todolist.id, m.id, {title}))
                         }
                         return (<div key={m.id} style={m.status !== 0

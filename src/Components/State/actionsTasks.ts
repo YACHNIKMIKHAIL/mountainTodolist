@@ -57,10 +57,8 @@ export const deleteTaskThunk = (todoId: string, taskId: string) => {
 }
 export const updateTaskThunk = (todoId: string, taskId: string, body: { title:string,status?:number }) => {
     return (dispatch: Dispatch) => {
-        debugger
         tasksApi.updateTasks(todoId, taskId, body)
             .then(() => {
-                debugger
                     dispatch(changeTaskAC(todoId,taskId, body))
                 }
             )

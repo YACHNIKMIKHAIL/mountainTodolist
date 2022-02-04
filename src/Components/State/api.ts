@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {TodolistsType} from "../Todolist";
 
 const instance = axios.create({
@@ -14,20 +14,13 @@ export type MountainTodolistType = {
     addedDate: string,
     order: number
 }
-type AddTodolist = {
-    data: {
-        item: MountainTodolistType
-    },
-    messages: string[],
-    fieldsErrors: string[],
-    resultCode: 0
-}
-type RespType={
-    data: {},
+type RespType<T = {}> = {
+    data: T,
     messages: string[],
     fieldsErrors: string[],
     resultCode: number
 }
+
 export const todolistApi = {
     getTodolists() {
         return instance.get<TodolistsType[]>(`/todo-lists`)
@@ -37,7 +30,7 @@ export const todolistApi = {
     },
     addTodolist(title: string) {
         debugger
-        return instance.post<AddTodolist>(`/todo-lists`, {title})
+        return instance.post<RespType<{ item: MountainTodolistType }>, AxiosResponse<RespType<{ item: MountainTodolistType }>>, { title: string }>(`/todo-lists`, {title})
             .then(res => res)
     },
     deleteTodolist(todoId: string) {
@@ -47,10 +40,11 @@ export const todolistApi = {
     },
     changeTodolist(todoId: string, title: string) {
         debugger
-        return instance.put<RespType>(`/todo-lists/${todoId}`, {title})
+        return instance.put<RespType<{ item: MountainTodolistType }>, AxiosResponse<RespType<{ item: MountainTodolistType }>>, { title: string }>(`/todo-lists/${todoId}`, {title})
             .then(res => res)
     }
 }
+
 
 export const tasksApi = {
     getTasks(todoId: string) {

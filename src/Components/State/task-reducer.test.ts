@@ -2,7 +2,7 @@ import {v1} from 'uuid';
 import {TasksStateType} from "../Todolist";
 import {tasksReducer} from "./task-reducer";
 import {todolist1, todolist2, todolist3} from "./todolists-reducer";
-import {addTaskAC, changeTaskSTATUSAC, changeTaskAC, removeTaskAC} from "./actionsTasks";
+import {addTaskAC, changeTaskAC, changeTaskSTATUSAC, removeTaskAC} from "./actionsTasks";
 
 export const task1 = v1()
 export const task2 = v1()

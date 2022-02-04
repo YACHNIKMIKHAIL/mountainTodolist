@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import Todolist, {TodolistsType} from './Components/Todolist';
 import {AppBar, Box, Button, Toolbar, Typography} from "@material-ui/core";
@@ -8,7 +8,7 @@ import img1 from './Components/Image/wallpaperflare.com_wallpaper.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./Components/State/store";
 import {AddItemForm} from "./Components/AddItemForm";
-import {addTodolistAC} from "./Components/State/actionsTodolists";
+import {addTodolistAC, setTodolistsThunk} from "./Components/State/actionsTodolists";
 import {v1} from "uuid";
 
 const App = React.memo(() => {
@@ -19,13 +19,13 @@ const App = React.memo(() => {
         const addTodolist = useCallback((title: string) => {
             debugger
             // dispatch(addTodolistsThunk(title))
-            dispatch(addTodolistAC({id: v1(), title: title, filter: 'all'}))
+            // dispatch(addTodolistAC({id: v1(), title: title, filter: 'all'}))
         }, [dispatch])
 
-        // useEffect(() => {
-        //     debugger
-        //     dispatch(setTodolistsThunk())
-        // }, )
+        useEffect(() => {
+            debugger
+            dispatch(setTodolistsThunk())
+        }, [])
         return (
             <div style={{background: `url(${img1})no-repeat center/cover`, height: '100vh'}}>
 
@@ -55,7 +55,7 @@ const App = React.memo(() => {
                         <AddItemForm callback={addTodolist}/>
                     </Grid>
                     <Grid container spacing={1} style={{height: '78vh', overflow: 'auto'}}>
-                        {todolists.map((m) => {
+                        {todolists.map((m, i) => {
 
                             return <Grid item key={m.id}>
                                 <div style={{
@@ -63,7 +63,9 @@ const App = React.memo(() => {
                                     borderRadius: '10px',
                                     backgroundColor: 'rgba(139,228,250,0.8)'
                                 }}>
-                                    <Todolist todolistId={m.id}/>
+                                    <Todolist todolistId={m.id}
+                                              todolist={m}
+                                              key={i}/>
                                 </div>
                             </Grid>
                         })}

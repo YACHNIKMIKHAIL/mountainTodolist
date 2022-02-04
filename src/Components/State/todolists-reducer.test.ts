@@ -7,8 +7,8 @@ test('correct todolist should be removed', () => {
 
 
     const startState: Array<TodolistsType> = [
-        {id: todolist1, title: "What to learn", filter: "all"},
-        {id: todolist2, title: "What to buy", filter: "all"}
+        // {id: todolist1, title: "What to learn", filter: "all"},
+        // {id: todolist2, title: "What to buy", filter: "all"}
     ]
 
     const endState = todolistsReducer(startState, removeTodolistAC( todolist1))
@@ -23,8 +23,8 @@ test('correct todolist should be added', () => {
     let newTodolistTitle = "New Todolist";
 
     const startState: Array<TodolistsType> = [
-        {id: todolist1, title: "What to learn", filter: "all"},
-        {id: todolist2, title: "What to buy", filter: "all"}
+        // {id: todolist1, title: "What to learn", filter: "all"},
+        // {id: todolist2, title: "What to buy", filter: "all"}
     ]
 
     const endState = todolistsReducer(startState, chandeTodolistTitleAC(todolist2, "New Todolist"))

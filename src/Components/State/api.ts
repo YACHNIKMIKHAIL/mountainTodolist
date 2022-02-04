@@ -1,19 +1,24 @@
 import axios from "axios";
+import {TodolistsType} from "../Todolist";
 
 const instance = axios.create({
     withCredentials: true,
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     headers:
-        {"API-KEY": "b0713123-338a-4997-b226-9d38b65d5ff4"}
+        {"API-KEY": "3054dc60-1df1-480c-a08f-6e543a8dcaf0"}
 })
 
+export type MountainTodolistType= {
+    id: string,
+    title: string,
+    addedDate: string,
+    order: number
+}
 export const todolistApi = {
     getTodolists() {
-        debugger
-        return instance.get(`/todo-lists`)
+        return instance.get<TodolistsType[]>(`/todo-lists`)
             .then(res => {
-                console.log(res.data)
-                return res.data
+                return res
             })
     },
     postTodolist(title: string) {

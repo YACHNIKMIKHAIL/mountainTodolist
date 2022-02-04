@@ -7,12 +7,10 @@ import {AddItemForm} from "./AddItemForm";
 import {addTaskAC, changeTaskAC, changeTaskSTATUSAC, removeTaskAC} from "./State/actionsTasks";
 import {chandeTodolistFilterAC, chandeTodolistTitleAC, removeTodolistAC} from "./State/actionsTodolists";
 import {rootReducerType} from "./State/store";
-import {tasksApi} from "./State/api";
+import {MountainTodolistType, tasksApi} from "./State/api";
 
 export type TasksStateType = { [key: string]: Array<TaskType> }
-export type TodolistsType = {
-    id: string
-    title: string
+export type TodolistsType = MountainTodolistType & {
     filter: FilterType
 }
 export type FilterType = 'all' | 'complited' | 'active'
@@ -23,11 +21,12 @@ export type TaskType = {
 }
 type PropsType = {
     todolistId: string
+    todolist: TodolistsType
 }
 
-const Todolist = React.memo(({todolistId}: PropsType) => {
+const Todolist = React.memo(({todolistId,todolist}: PropsType) => {
         const tasks = useSelector<rootReducerType, Array<TaskType>>(state => state.tasks[todolistId])
-        const todolist = useSelector<rootReducerType, TodolistsType>(state => state.todolists.filter(f => f.id === todolistId)[0])
+        // const todolist = useSelector<rootReducerType, TodolistsType>(state => state.todolists.filter(f => f.id === todolistId)[0])
         const actualFilter = todolist.filter
 
         const dispatch = useDispatch()

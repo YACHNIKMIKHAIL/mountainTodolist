@@ -27,12 +27,3 @@ export const changeTaskSTATUSAC = (todoId: string, taskId: string, isDone: boole
     type: Actions_Tasks_Types.CHANGE_TASKS_STATUS, todoId, taskId, isDone
 } as const)
 
-export const addTaskThunk = (todoId:string,title:string) => {
-    return (dispatch: Dispatch) => {
-        tasksApi.addTasks(todoId,title)
-            .then(data => {
-                    dispatch(addTaskAC(data.id,data.title))
-                }
-            )
-    }
-}

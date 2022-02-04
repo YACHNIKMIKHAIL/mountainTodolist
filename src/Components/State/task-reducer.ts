@@ -4,19 +4,18 @@ import {Actions_Todolists_Types, addTodolistACType, removeTodolistACType, setTod
 import {
     Actions_Tasks_Types,
     addTaskACType,
-    changeTaskSTATUSACType,
     changeTaskACType,
+    changeTaskSTATUSACType,
     removeTaskACType
 } from "./actionsTasks";
-import {todolist1, todolist2} from "./todolists-reducer";
 
 const initialTasks: TasksStateType = {
-    [todolist1]: [{id: v1(), title: "HTML&CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "ReactJS", isDone: false}],
-    [todolist2]: [{id: v1(), title: "Book", isDone: false},
-        {id: v1(), title: "Milk", isDone: false},
-        {id: v1(), title: "Bread", isDone: false}],
+    // [todolist1]: [{id: v1(), title: "HTML&CSS", isDone: true},
+    //     {id: v1(), title: "JS", isDone: true},
+    //     {id: v1(), title: "ReactJS", isDone: false}],
+    // [todolist2]: [{id: v1(), title: "Book", isDone: false},
+    //     {id: v1(), title: "Milk", isDone: false},
+    //     {id: v1(), title: "Bread", isDone: false}],
     // [todolist3]: [{id: v1(), title: "Helmet", isDone: true},
     //     {id: v1(), title: "Wheels", isDone: false},
     //     {id: v1(), title: "Crank", isDone: false}],

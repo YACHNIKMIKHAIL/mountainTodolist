@@ -1,13 +1,6 @@
 import {TasksStateType} from "../Todolist";
 import {Actions_Todolists_Types, addTodolistACType, removeTodolistACType, setTodolistsACType} from "./actionsTodolists";
-import {
-    Actions_Tasks_Types,
-    addTaskACType,
-    changeTaskACType,
-    removeTaskACType,
-    setTaskACType
-} from "./actionsTasks";
-import {MountainActionsType} from "./store";
+import {Actions_Tasks_Types, addTaskACType, changeTaskACType, removeTaskACType, setTaskACType} from "./actionsTasks";
 
 const initialTasks: TasksStateType = {
     // [todolist1]: [{id: v1(), title: "HTML&CSS", isDone: true},
@@ -39,7 +32,7 @@ const initialTasks: TasksStateType = {
     //     {id: v1(), title: "Цветы)", isDone: true}]
 }
 
-export const tasksReducer = (state = initialTasks, action: MountainActionsType): TasksStateType => {
+export const tasksReducer = (state = initialTasks, action: TasksActionType): TasksStateType => {
     switch (action.type) {
         case Actions_Tasks_Types.REMOVE_TASK: {
             return {...state, [action.todoId]: state[action.todoId].filter(f => f.id !== action.taskId)}

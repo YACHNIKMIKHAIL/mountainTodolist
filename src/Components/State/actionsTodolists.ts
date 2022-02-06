@@ -1,6 +1,6 @@
 import {FilterType, TodolistsType} from "../Todolist";
-import {Dispatch} from "redux";
 import {MountainTodolistType, todolistApi} from "./api";
+import {MountainThunk} from "./store";
 
 export enum Actions_Todolists_Types {
     REMOVE_TODOLIST = 'REMOVE-TODOLIST',
@@ -60,7 +60,7 @@ export const setTodolistsAC = (data: Array<TodolistsType>) => {
 //             )
 //     }
 // }
-export const getTodolistsThunk = () => async (dispatch: Dispatch) => {
+export const getTodolistsThunk = (): MountainThunk => async (dispatch) => {
     try {
         let res = await todolistApi.getTodolists()
         dispatch(setTodolistsAC(res.data))
@@ -78,7 +78,7 @@ export const getTodolistsThunk = () => async (dispatch: Dispatch) => {
 //             )
 //     }
 // }
-export const addTodolistsThunk = (title: string) => async (dispatch: Dispatch) => {
+export const addTodolistsThunk = (title: string): MountainThunk => async (dispatch) => {
     try {
         let res = await todolistApi.addTodolist(title)
         dispatch(addTodolistAC(res.data.data.item))
@@ -95,7 +95,7 @@ export const addTodolistsThunk = (title: string) => async (dispatch: Dispatch) =
 //             )
 //     }
 // }
-export const deleteTodolistsThunk = (todoId: string) => async (dispatch: Dispatch) => {
+export const deleteTodolistsThunk = (todoId: string): MountainThunk => async (dispatch) => {
     try {
         await todolistApi.deleteTodolist(todoId)
         dispatch(removeTodolistAC(todoId))
@@ -113,7 +113,7 @@ export const deleteTodolistsThunk = (todoId: string) => async (dispatch: Dispatc
 //             )
 //     }
 // }
-export const changeTodolistsThunk = (todoId: string, title: string) => async (dispatch: Dispatch) => {
+export const changeTodolistsThunk = (todoId: string, title: string): MountainThunk => async (dispatch) => {
     try {
         await todolistApi.changeTodolist(todoId, title)
         dispatch(changeTodolistTitleAC(todoId, title))

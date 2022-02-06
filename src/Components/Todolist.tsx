@@ -14,7 +14,7 @@ export type TasksStateType = { [key: string]: Array<MountainTaskType> }
 export type TodolistsType = MountainTodolistType & {
     filter: FilterType
 }
-export type FilterType = 'all' | 'complited' | 'active' | 'disabled'
+export type FilterType = 'all' | 'complited' | 'active'
 
 type PropsType = {
     todolist: TodolistsType

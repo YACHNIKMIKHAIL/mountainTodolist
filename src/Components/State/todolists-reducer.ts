@@ -8,6 +8,7 @@ import {
     removeTodolistACType,
     setTodolistsACType
 } from "./actionsTodolists";
+import {MountainActionsType} from "./store";
 
 export const todolist1 = v1()
 export const todolist2 = v1()
@@ -32,7 +33,7 @@ const initialState: Array<TodolistsType> = [
     // {id: todolist9, title: 'Что подарить?', filter: 'all'}
 ]
 
-export const todolistsReducer = (state=initialState, action: TodolistsActionType): Array<TodolistsType> => {
+export const todolistsReducer = (state=initialState, action: MountainActionsType): Array<TodolistsType> => {
     switch (action.type) {
         case Actions_Todolists_Types.REMOVE_TODOLIST: {
             return state.filter(f => f.id !== action.payload.todoId)

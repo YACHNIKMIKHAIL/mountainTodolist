@@ -1,5 +1,5 @@
-import {Dispatch} from "redux";
 import {MountainTaskType, tasksApi} from "./api";
+import {MountainThunk} from "./store";
 
 export enum Actions_Tasks_Types {
     REMOVE_TASK = 'REMOVE_TASK',
@@ -29,7 +29,7 @@ export const setTaskAC = (todoId: string, items: Array<MountainTaskType>,) => ({
 } as const)
 
 
-export const setTaskThunk = (todoId: string) => async (dispatch: Dispatch) => {
+export const setTaskThunk = (todoId: string): MountainThunk => async (dispatch) => {
     try {
         let res = await tasksApi.getTasks(todoId)
         dispatch(setTaskAC(todoId, res.data.items))
@@ -37,7 +37,7 @@ export const setTaskThunk = (todoId: string) => async (dispatch: Dispatch) => {
         alert(e)
     }
 }
-export const addTaskThunk = (todoId: string, title: string) => async (dispatch: Dispatch) => {
+export const addTaskThunk = (todoId: string, title: string): MountainThunk => async (dispatch) => {
     try {
         let res = await tasksApi.addTasks(todoId, title)
         dispatch(addTaskAC(todoId, res.data.data.item))
@@ -45,7 +45,7 @@ export const addTaskThunk = (todoId: string, title: string) => async (dispatch: 
         alert(e)
     }
 }
-export const deleteTaskThunk = (todoId: string, taskId: string) => async (dispatch: Dispatch) => {
+export const deleteTaskThunk = (todoId: string, taskId: string): MountainThunk => async (dispatch) => {
     try {
         await tasksApi.deleteTasks(todoId, taskId)
         dispatch(removeTaskAC(todoId, taskId))
@@ -53,7 +53,7 @@ export const deleteTaskThunk = (todoId: string, taskId: string) => async (dispat
         alert(e)
     }
 }
-export const updateTaskThunk = (todoId: string, taskId: string, body: { title: string, status?: number }) => async (dispatch: Dispatch) => {
+export const updateTaskThunk = (todoId: string, taskId: string, body: { title: string, status?: number }): MountainThunk => async (dispatch) => {
     try {
         await tasksApi.updateTasks(todoId, taskId, body)
         dispatch(changeTaskAC(todoId, taskId, body))

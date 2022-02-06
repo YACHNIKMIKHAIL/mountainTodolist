@@ -36,7 +36,8 @@ export const todolistApi = {
     //         .then(res => res)
     // },
     async addTodolist(title: string) {
-        return await instance.post<RespType<{ item: MountainTodolistType }>, AxiosResponse<RespType<{ item: MountainTodolistType }>>, { title: string }>(`/todo-lists`, {title})
+        return await instance.post<RespType<{ item: MountainTodolistType }>,
+            AxiosResponse<RespType<{ item: MountainTodolistType }>>, { title: string }>(`/todo-lists`, {title})
     },
     // deleteTodolist(todoId: string) {
     //     return instance.delete<RespType>(`/todo-lists/${todoId}`)
@@ -50,7 +51,8 @@ export const todolistApi = {
     //         .then(res => res)
     // }
     async changeTodolist(todoId: string, title: string) {
-        return await instance.put<RespType<{ item: MountainTodolistType }>, AxiosResponse<RespType<{ item: MountainTodolistType }>>, { title: string }>(`/todo-lists/${todoId}`, {title})
+        return await instance.put<RespType<{ item: MountainTodolistType }>,
+            AxiosResponse<RespType<{ item: MountainTodolistType }>>, { title: string }>(`/todo-lists/${todoId}`, {title})
     }
 }
 

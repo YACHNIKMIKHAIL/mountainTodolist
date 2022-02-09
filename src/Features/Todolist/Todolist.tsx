@@ -2,13 +2,13 @@ import React, {ChangeEvent, useCallback, useState} from 'react';
 import {Delete} from "@material-ui/icons";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import EditSpan from "./EditSpan";
-import {AddItemForm} from "./AddItemForm";
-import {addTaskThunk, deleteTaskThunk, setTaskThunk, updateTaskThunk} from "./State/actionsTasks";
-import {chandeTodolistFilterAC, changeTodolistsThunk, deleteTodolistsThunk} from "./State/actionsTodolists";
-import {rootReducerType} from "./State/store";
-import {MountainTaskType, MountainTodolistType} from "./State/api";
+import EditSpan from "../../Components/EditSpan";
+import {AddItemForm} from "../../Components/AddItemForm";
+import {addTaskThunk, deleteTaskThunk, setTaskThunk, updateTaskThunk} from "../actionsTasks";
+import {chandeTodolistFilterAC, changeTodolistsThunk, deleteTodolistsThunk} from "../actionsTodolists";
+import {rootReducerType} from "../../App/store";
 import CollectionsIcon from '@mui/icons-material/Collections';
+import {MountainTaskType, MountainTodolistType} from "../../Api/mountainApi";
 
 export type TasksStateType = { [key: string]: Array<MountainTaskType> }
 export type TodolistsType = MountainTodolistType & {
@@ -92,6 +92,7 @@ const Todolist = React.memo(({todolist}: PropsType) => {
                         const changeTaskTitle = (title: string) => {
                             dispatch(updateTaskThunk(todolist.id, m.id, {title}))
                         }
+
                         return (<div key={m.id} style={m.status !== 0
                             ? {
                                 opacity: '0.5',

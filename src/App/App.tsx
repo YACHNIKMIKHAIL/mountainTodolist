@@ -1,14 +1,15 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import Todolist, {TodolistsType} from './Components/Todolist';
+import {TodolistsType} from '../Features/Todolist/Todolist';
 import {AppBar, Box, Button, Toolbar, Typography} from "@material-ui/core";
 import AirportShuttleSharpIcon from '@mui/icons-material/AirportShuttleSharp';
 import {Container, Grid, IconButton} from "@mui/material";
-import img1 from './Components/Image/wallpaperflare.com_wallpaper.jpg'
+import img1 from '../Image/wallpaperflare.com_wallpaper.jpg'
 import {useDispatch, useSelector} from "react-redux";
-import {rootReducerType} from "./Components/State/store";
-import {AddItemForm} from "./Components/AddItemForm";
-import {addTodolistsThunk, getTodolistsThunk} from "./Components/State/actionsTodolists";
+import {rootReducerType} from "./store";
+import {AddItemForm} from "../Components/AddItemForm";
+import {addTodolistsThunk, getTodolistsThunk} from "../Features/actionsTodolists";
+import TodolistList from "../Features/TodolistList";
 
 const App = React.memo(() => {
         const dispatch = useDispatch()
@@ -61,7 +62,7 @@ const App = React.memo(() => {
                                     border: '3px whitesmoke solid'
                                 }}
                                 >
-                                    <Todolist todolist={m}
+                                    <TodolistList todolist={m}
                                               key={i}/>
                                 </div>
                             </Grid>

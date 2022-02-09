@@ -1,5 +1,5 @@
-import {MountainTaskType, tasksApi} from "./api";
-import {MountainThunk} from "./store";
+import {MountainTaskType, TaskPriorities, tasksApi, TaskStatuses} from "../Api/mountainApi";
+import {MountainThunk, rootReducerType} from "../App/store";
 
 export enum Actions_Tasks_Types {
     REMOVE_TASK = 'REMOVE_TASK',
@@ -19,8 +19,8 @@ export const addTaskAC = (todoId: string, item: MountainTaskType) => ({
 } as const)
 
 export type changeTaskACType = ReturnType<typeof changeTaskAC>
-export const changeTaskAC = (todoId: string, taskId: string, body: { title: string, status?: number }) => ({
-    type: Actions_Tasks_Types.CHANGE_TASK, todoId, taskId, body
+export const changeTaskAC = (todoId: string, taskId: string, model:UpdateTaskModelType) => ({
+    type: Actions_Tasks_Types.CHANGE_TASK, todoId, taskId, model
 } as const)
 
 export type setTaskACType = ReturnType<typeof setTaskAC>
@@ -46,6 +46,7 @@ export const addTaskThunk = (todoId: string, title: string): MountainThunk => as
     }
 }
 export const deleteTaskThunk = (todoId: string, taskId: string): MountainThunk => async (dispatch) => {
+
     try {
         await tasksApi.deleteTasks(todoId, taskId)
         dispatch(removeTaskAC(todoId, taskId))
@@ -53,10 +54,34 @@ export const deleteTaskThunk = (todoId: string, taskId: string): MountainThunk =
         alert(e)
     }
 }
-export const updateTaskThunk = (todoId: string, taskId: string, body: { title: string, status?: number }): MountainThunk => async (dispatch) => {
+
+export type UpdateTaskModelType = {
+    title?: string
+    description?: string
+    status?: TaskStatuses
+    priority?: TaskPriorities
+    startDate?: string
+    deadline?: string
+}
+export const updateTaskThunk = (todoId: string, taskId: string, domainModel:UpdateTaskModelType): MountainThunk => async (dispatch,getState:()=>rootReducerType) => {
+    const state=getState()
+    const task =state.tasks[todoId].filter(f=>f.id===taskId)[0]
+    if(!task)  return
+
+    const apiModel: UpdateTaskModelType = {
+        deadline: task.deadline,
+        description: task.description,
+        priority: task.priority,
+        startDate: task.startDate,
+        title: task.title,
+        status: task.status,
+        ...domainModel
+    }
+
+
     try {
-        await tasksApi.updateTasks(todoId, taskId, body)
-        dispatch(changeTaskAC(todoId, taskId, body))
+        await tasksApi.updateTasks(todoId, taskId, apiModel)
+        dispatch(changeTaskAC(todoId, taskId, apiModel))
     } catch (e) {
         alert(e)
     }

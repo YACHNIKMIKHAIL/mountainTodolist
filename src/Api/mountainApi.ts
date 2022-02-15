@@ -1,7 +1,6 @@
 import axios, {AxiosResponse} from "axios";
 import {TodolistsType} from "../Features/Todolist/Todolist";
 import {UpdateTaskModelType} from "../Features/actionsTasks";
-import {mountainStatusTypes} from "../App/MountainAppReducer";
 
 const instance = axios.create({
     withCredentials: true,
@@ -32,13 +31,17 @@ export const tasksApi = {
         return await instance.get<MountainApiTaskType>(`/todo-lists/${todoId}/tasks`)
     },
     async addTasks(todoId: string, title: string) {
-        return await instance.post<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks`, {title})
+        return await instance.post<RespType<{
+            item: MountainTaskType
+        }>>(`/todo-lists/${todoId}/tasks`, {title})
     },
     async deleteTasks(todoId: string, taskId: string) {
         return await instance.delete<DeleteTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`)
     },
     async updateTasks(todoId: string, taskId: string, model: UpdateTaskModelType) {
-        return await instance.put<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`, model)
+        return await instance.put<RespType<{
+            item: MountainTaskType
+        }>>(`/todo-lists/${todoId}/tasks/${taskId}`, model)
     }
 }
 

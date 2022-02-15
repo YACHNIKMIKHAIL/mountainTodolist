@@ -2,6 +2,7 @@ import {FilterType, TodolistsType} from "./Todolist/Todolist";
 import {MountainThunk} from "../App/store";
 import {MountainTodolistType, todolistApi} from "../Api/mountainApi";
 import {mountainStatusTypes, setMountainStatus} from "../App/MountainAppReducer";
+import {mountainNetworkHandler, mountainServerErrorHandler} from "../MountainUtils/MountainErrorUtils";
 
 export enum Actions_Todolists_Types {
     REMOVE_TODOLIST = 'REMOVE-TODOLIST',
@@ -9,7 +10,7 @@ export enum Actions_Todolists_Types {
     CHANGE_TODOLIST_FILTER = 'CHANGE-TODOLIST-FILTER',
     CHANGE_TODOLIST_TITLE = 'CHANGE-TODOLIST-TITLE',
     SET_TODOLISTS = 'SET_TODOLISTS',
-    LOAD_TODOLIST='LOAD_TODOLIST'
+    LOAD_TODOLIST = 'LOAD_TODOLIST'
 }
 
 export type removeTodolistACType = ReturnType<typeof removeTodolistAC>
@@ -53,7 +54,7 @@ export const setTodolistsAC = (data: Array<TodolistsType>) => {
     } as const
 }
 export type loadTodolistsACType = ReturnType<typeof loadTodolistsAC>
-export const loadTodolistsAC = (todolistId:string,status:mountainStatusTypes) => {
+export const loadTodolistsAC = (todolistId: string, status: mountainStatusTypes) => {
     return {
         type: Actions_Todolists_Types.LOAD_TODOLIST,
         payload: {todolistId, status}
@@ -67,7 +68,7 @@ export const getTodolistsThunk = (): MountainThunk => async (dispatch) => {
         dispatch(setTodolistsAC(res.data))
         dispatch(setMountainStatus('succesed'))
     } catch (e) {
-        alert(e)
+        mountainNetworkHandler(e, dispatch)
     }
 }
 
@@ -75,35 +76,44 @@ export const addTodolistsThunk = (title: string): MountainThunk => async (dispat
     dispatch(setMountainStatus('loading'))
     try {
         let res = await todolistApi.addTodolist(title)
-        dispatch(addTodolistAC(res.data.data.item))
-        dispatch(setMountainStatus('succesed'))
+        if (res.data.resultCode === 0) {
+            dispatch(addTodolistAC(res.data.data.item))
+            dispatch(setMountainStatus('succesed'))
+        } else {
+            mountainServerErrorHandler(res.data, dispatch)
+        }
     } catch (e) {
-        alert(e)
+        mountainNetworkHandler(e, dispatch)
     }
 }
 
 export const deleteTodolistsThunk = (todoId: string): MountainThunk => async (dispatch) => {
     dispatch(setMountainStatus('loading'))
-    dispatch(loadTodolistsAC(todoId,'loading'))
+    dispatch(loadTodolistsAC(todoId, 'loading'))
 
     try {
         await todolistApi.deleteTodolist(todoId)
         dispatch(removeTodolistAC(todoId))
         dispatch(setMountainStatus('succesed'))
     } catch (e) {
-        alert(e)
+        mountainNetworkHandler(e, dispatch)
     }
 }
 
 export const changeTodolistsThunk = (todoId: string, title: string): MountainThunk => async (dispatch) => {
     dispatch(setMountainStatus('loading'))
-    dispatch(loadTodolistsAC(todoId,'loading'))
+    dispatch(loadTodolistsAC(todoId, 'loading'))
     try {
-        await todolistApi.changeTodolist(todoId, title)
-        dispatch(changeTodolistTitleAC(todoId, title))
-        dispatch(setMountainStatus('succesed'))
-        dispatch(loadTodolistsAC(todoId,'succesed'))
+        let mountainRes = await todolistApi.changeTodolist(todoId, title)
+        if (mountainRes.data.resultCode === 0) {
+            dispatch(changeTodolistTitleAC(todoId, title))
+            dispatch(setMountainStatus('succesed'))
+            dispatch(loadTodolistsAC(todoId, 'succesed'))
+        } else {
+            mountainServerErrorHandler(mountainRes.data, dispatch)
+            dispatch(loadTodolistsAC(todoId, 'failed'))
+        }
     } catch (e) {
-        alert(e)
+        mountainNetworkHandler(e, dispatch)
     }
 }

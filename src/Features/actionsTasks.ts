@@ -1,6 +1,8 @@
 import {MountainTaskType, TaskPriorities, tasksApi, TaskStatuses} from "../Api/mountainApi";
 import {MountainThunk, rootReducerType} from "../App/store";
 import {mountainStatusTypes, setMountainStatus} from "../App/MountainAppReducer";
+import {mountainNetworkHandler, mountainServerErrorHandler} from "../MountainUtils/MountainErrorUtils";
+import {loadTodolistsAC} from "./actionsTodolists";
 
 export enum Actions_Tasks_Types {
     REMOVE_TASK = 'REMOVE_TASK',
@@ -43,17 +45,22 @@ export const setTaskThunk = (todoId: string): MountainThunk => async (dispatch) 
         dispatch(setTaskAC(todoId, res.data.items))
         dispatch(setMountainStatus('succesed'))
     } catch (e) {
-        alert(e)
+        mountainNetworkHandler(e, dispatch)
     }
 }
 export const addTaskThunk = (todoId: string, title: string): MountainThunk => async (dispatch) => {
     dispatch(setMountainStatus('loading'))
     try {
         let res = await tasksApi.addTasks(todoId, title)
-        dispatch(addTaskAC(todoId, res.data.data.item))
-        dispatch(setMountainStatus('succesed'))
+        if (res.data.resultCode === 0) {
+            dispatch(addTaskAC(todoId, res.data.data.item))
+            dispatch(setMountainStatus('succesed'))
+        } else {
+            mountainServerErrorHandler(res.data, dispatch)
+            dispatch(loadTodolistsAC(todoId, 'failed'))
+        }
     } catch (e) {
-        alert(e)
+        mountainNetworkHandler(e, dispatch)
     }
 }
 export const deleteTaskThunk = (todoId: string, taskId: string): MountainThunk => async (dispatch) => {
@@ -94,11 +101,16 @@ export const updateTaskThunk = (todoId: string, taskId: string, domainModel: Upd
     dispatch(setMountainStatus('loading'))
     dispatch(loadTaskAC(todoId, taskId, 'loading'))
     try {
-        await tasksApi.updateTasks(todoId, taskId, apiModel)
-        dispatch(changeTaskAC(todoId, taskId, apiModel))
-        dispatch(setMountainStatus('succesed'))
-        dispatch(loadTaskAC(todoId, taskId, 'succesed'))
+        let mountain = await tasksApi.updateTasks(todoId, taskId, apiModel)
+        if (mountain.data.resultCode === 0) {
+            dispatch(changeTaskAC(todoId, taskId, apiModel))
+            dispatch(setMountainStatus('succesed'))
+            dispatch(loadTaskAC(todoId, taskId, 'succesed'))
+        } else {
+            mountainServerErrorHandler(mountain.data, dispatch)
+            dispatch(loadTodolistsAC(todoId, 'failed'))
+        }
     } catch (e) {
-        alert(e)
+        mountainNetworkHandler(e, dispatch)
     }
 }

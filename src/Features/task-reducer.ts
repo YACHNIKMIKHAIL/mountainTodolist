@@ -1,6 +1,13 @@
 import {TasksStateType} from "./Todolist/Todolist";
 import {Actions_Todolists_Types, addTodolistACType, removeTodolistACType, setTodolistsACType} from "./actionsTodolists";
-import {Actions_Tasks_Types, addTaskACType, changeTaskACType, removeTaskACType, setTaskACType} from "./actionsTasks";
+import {
+    Actions_Tasks_Types,
+    addTaskACType,
+    changeTaskACType,
+    loadTaskACType,
+    removeTaskACType,
+    setTaskACType
+} from "./actionsTasks";
 
 const initialTasks: TasksStateType = {}
 
@@ -12,13 +19,13 @@ export const tasksReducer = (state = initialTasks, action: TasksActionType): Tas
         case Actions_Tasks_Types.ADD_TASK: {
             return {
                 ...state,
-                [action.todoId]: [action.item, ...state[action.todoId]]
+                [action.todoId]: [{...action.item, taskStatus: 'idle'}, ...state[action.todoId]]
             }
         }
         case Actions_Tasks_Types.CHANGE_TASK: {
             return {
                 ...state,
-                [action.todoId]: state[action.todoId].map(m => m.id === action.taskId ? {...m,...action.model} : m)
+                [action.todoId]: state[action.todoId].map(m => m.id === action.taskId ? {...m, ...action.model} : m)
             }
         }
         case Actions_Todolists_Types.ADD_TODOLIST: {
@@ -40,7 +47,16 @@ export const tasksReducer = (state = initialTasks, action: TasksActionType): Tas
             return copyState
         }
         case Actions_Tasks_Types.SET_TASKS: {
-            return {...state, [action.todoId]: [...action.items]}
+            return {...state, [action.todoId]: action.items.map(m => ({...m, taskStatus: 'idle'}))}
+        }
+        case Actions_Tasks_Types.LOAD_TASK: {
+            return {
+                ...state,
+                [action.todoId]: state[action.todoId].map(m => m.id === action.taskId ? {
+                    ...m,
+                    taskStatus: action.status
+                } : m)
+            }
         }
         default:
             return state
@@ -54,3 +70,4 @@ export type TasksActionType =
     | removeTodolistACType
     | setTodolistsACType
     | setTaskACType
+    | loadTaskACType

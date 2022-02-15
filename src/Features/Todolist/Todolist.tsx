@@ -10,8 +10,9 @@ import {rootReducerType} from "../../App/store";
 import CollectionsIcon from '@mui/icons-material/Collections';
 import {MountainTaskType, MountainTodolistType} from "../../Api/mountainApi";
 import {mountainStatusTypes} from "../../App/MountainAppReducer";
+import MountainTask from "./Task/MountainTask";
 
-export type TasksStateType = { [key: string]: Array<MountainTaskType> }
+export type TasksStateType = { [key: string]: Array<MountainTaskType & { taskStatus: mountainStatusTypes }> }
 export type TodolistsType = MountainTodolistType & {
     filter: FilterType, todolistStatus: mountainStatusTypes
 }
@@ -78,46 +79,48 @@ const Todolist = React.memo(({todolist}: PropsType) => {
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'space-between'}}>
                 {showTasks
                     ? <>{tasksForTodo.map((m) => {
-                        const removeTask = () => {
-                            dispatch(deleteTaskThunk(todolist.id, m.id))
-                        }
-                        const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                            dispatch(updateTaskThunk(todolist.id, m.id, e.currentTarget.checked ? {
-                                status: 2,
-                                title: m.title
-                            } : {
-                                status: 0,
-                                title: m.title
-                            }))
-                        }
-
-                        const changeTaskTitle = (title: string) => {
-                            dispatch(updateTaskThunk(todolist.id, m.id, {title}))
-                        }
-
-                        return (<div key={m.id} style={m.status !== 0
-                            ? {
-                                opacity: '0.5',
-                                color: 'white',
-                                display: "flex",
-                                justifyContent: 'space-between',
-                                alignItems: 'center'
-                            }
-                            : {
-                                opacity: '1',
-                                color: 'black',
-                                display: "flex",
-                                justifyContent: 'space-between',
-                                alignItems: 'center'
-                            }}>
-                            <Checkbox checked={m.status !== 0}
-                                      onChange={changeTaskStatus} color="secondary"/>
-                            <EditSpan title={m.title} callback={changeTaskTitle}/>
-                            <IconButton aria-label="delete" size="small" onClick={removeTask}>
-                                <Delete fontSize="small"/>
-                            </IconButton>
-                        </div>)
-                    })}</>
+                        return <MountainTask status={m.status} taskId={m.id} todolistId={m.todoListId} title={m.title}/>
+                        // const removeTask = () => {
+                        //     dispatch(deleteTaskThunk(todolist.id, m.id))
+                        // }
+                        // const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
+                        //     dispatch(updateTaskThunk(todolist.id, m.id, e.currentTarget.checked ? {
+                        //         status: 2,
+                        //         title: m.title
+                        //     } : {
+                        //         status: 0,
+                        //         title: m.title
+                        //     }))
+                        // }
+                        //
+                        // const changeTaskTitle = (title: string) => {
+                        //     dispatch(updateTaskThunk(todolist.id, m.id, {title}))
+                        // }
+                        //
+                        // return (<div key={m.id} style={m.status !== 0
+                        //     ? {
+                        //         opacity: '0.5',
+                        //         color: 'white',
+                        //         display: "flex",
+                        //         justifyContent: 'space-between',
+                        //         alignItems: 'center'
+                        //     }
+                        //     : {
+                        //         opacity: '1',
+                        //         color: 'black',
+                        //         display: "flex",
+                        //         justifyContent: 'space-between',
+                        //         alignItems: 'center'
+                        //     }}>
+                        //     <Checkbox checked={m.status !== 0}
+                        //               onChange={changeTaskStatus} color="secondary" disabled={true}/>
+                        //     <EditSpan title={m.title} callback={changeTaskTitle} disabled={true}/>
+                        //     <IconButton aria-label="delete" size="small" onClick={removeTask} disabled={true}>
+                        //         <Delete fontSize="small"/>
+                        //     </IconButton>
+                        // </div>)
+                    })
+                    }</>
                     : <></>}
             </div>
             <div>

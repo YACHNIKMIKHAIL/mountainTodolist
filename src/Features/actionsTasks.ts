@@ -1,12 +1,13 @@
 import {MountainTaskType, TaskPriorities, tasksApi, TaskStatuses} from "../Api/mountainApi";
 import {MountainThunk, rootReducerType} from "../App/store";
-import {setMountainStatus} from "../App/MountainAppReducer";
+import {mountainStatusTypes, setMountainStatus} from "../App/MountainAppReducer";
 
 export enum Actions_Tasks_Types {
     REMOVE_TASK = 'REMOVE_TASK',
     ADD_TASK = 'ADD_TASK',
     CHANGE_TASK = 'CHANGE_TASK',
-    SET_TASKS = 'SET_TASKS'
+    SET_TASKS = 'SET_TASKS',
+    LOAD_TASK = 'LOAD_TASK'
 }
 
 export type removeTaskACType = ReturnType<typeof removeTaskAC>
@@ -20,13 +21,18 @@ export const addTaskAC = (todoId: string, item: MountainTaskType) => ({
 } as const)
 
 export type changeTaskACType = ReturnType<typeof changeTaskAC>
-export const changeTaskAC = (todoId: string, taskId: string, model:UpdateTaskModelType) => ({
+export const changeTaskAC = (todoId: string, taskId: string, model: UpdateTaskModelType) => ({
     type: Actions_Tasks_Types.CHANGE_TASK, todoId, taskId, model
 } as const)
 
 export type setTaskACType = ReturnType<typeof setTaskAC>
-export const setTaskAC = (todoId: string, items: Array<MountainTaskType>,) => ({
+export const setTaskAC = (todoId: string, items: Array<MountainTaskType>) => ({
     type: Actions_Tasks_Types.SET_TASKS, todoId, items
+} as const)
+
+export type loadTaskACType = ReturnType<typeof loadTaskAC>
+export const loadTaskAC = (todoId: string, taskId: string, status: mountainStatusTypes) => ({
+    type: Actions_Tasks_Types.LOAD_TASK, todoId, taskId, status
 } as const)
 
 
@@ -52,6 +58,7 @@ export const addTaskThunk = (todoId: string, title: string): MountainThunk => as
 }
 export const deleteTaskThunk = (todoId: string, taskId: string): MountainThunk => async (dispatch) => {
     dispatch(setMountainStatus('loading'))
+    dispatch(loadTaskAC(todoId, taskId, 'loading'))
     try {
         await tasksApi.deleteTasks(todoId, taskId)
         dispatch(removeTaskAC(todoId, taskId))
@@ -69,10 +76,10 @@ export type UpdateTaskModelType = {
     startDate?: string
     deadline?: string
 }
-export const updateTaskThunk = (todoId: string, taskId: string, domainModel:UpdateTaskModelType): MountainThunk => async (dispatch,getState:()=>rootReducerType) => {
-    const state=getState()
-    const task =state.tasks[todoId].filter(f=>f.id===taskId)[0]
-    if(!task)  return
+export const updateTaskThunk = (todoId: string, taskId: string, domainModel: UpdateTaskModelType): MountainThunk => async (dispatch, getState: () => rootReducerType) => {
+    const state = getState()
+    const task = state.tasks[todoId].filter(f => f.id === taskId)[0]
+    if (!task) return
 
     const apiModel: UpdateTaskModelType = {
         deadline: task.deadline,
@@ -85,10 +92,12 @@ export const updateTaskThunk = (todoId: string, taskId: string, domainModel:Upda
     }
 
     dispatch(setMountainStatus('loading'))
+    dispatch(loadTaskAC(todoId, taskId, 'loading'))
     try {
         await tasksApi.updateTasks(todoId, taskId, apiModel)
         dispatch(changeTaskAC(todoId, taskId, apiModel))
         dispatch(setMountainStatus('succesed'))
+        dispatch(loadTaskAC(todoId, taskId, 'succesed'))
     } catch (e) {
         alert(e)
     }

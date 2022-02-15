@@ -1,6 +1,7 @@
 import axios, {AxiosResponse} from "axios";
 import {TodolistsType} from "../Features/Todolist/Todolist";
 import {UpdateTaskModelType} from "../Features/actionsTasks";
+import {mountainStatusTypes} from "../App/MountainAppReducer";
 
 const instance = axios.create({
     withCredentials: true,
@@ -36,10 +37,11 @@ export const tasksApi = {
     async deleteTasks(todoId: string, taskId: string) {
         return await instance.delete<DeleteTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`)
     },
-    async updateTasks(todoId: string, taskId: string, model:UpdateTaskModelType) {
+    async updateTasks(todoId: string, taskId: string, model: UpdateTaskModelType) {
         return await instance.put<AddUpdateTaskType>(`/todo-lists/${todoId}/tasks/${taskId}`, model)
     }
 }
+
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,
@@ -54,6 +56,7 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
+
 export type MountainTodolistType = {
     id: string,
     title: string,

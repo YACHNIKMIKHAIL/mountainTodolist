@@ -11,6 +11,7 @@ import {AddItemForm} from "../Components/AddItemForm";
 import {addTodolistsThunk, getTodolistsThunk} from "../Features/actionsTodolists";
 import TodolistList from "../Features/TodolistList";
 import {mountainStatusTypes} from "./MountainAppReducer";
+import MountainError from "../Components/MountainError";
 
 const App = React.memo(() => {
         const dispatch = useDispatch()
@@ -72,6 +73,7 @@ const App = React.memo(() => {
                         })}
                     </Grid>
                 </Container>
+                <MountainError/>
             </div>
         );
     }

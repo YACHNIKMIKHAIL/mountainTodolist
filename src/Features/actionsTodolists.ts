@@ -1,14 +1,15 @@
 import {FilterType, TodolistsType} from "./Todolist/Todolist";
 import {MountainThunk} from "../App/store";
 import {MountainTodolistType, todolistApi} from "../Api/mountainApi";
-import {setMountainStatus} from "../App/MountainAppReducer";
+import {mountainStatusTypes, setMountainStatus} from "../App/MountainAppReducer";
 
 export enum Actions_Todolists_Types {
     REMOVE_TODOLIST = 'REMOVE-TODOLIST',
     ADD_TODOLIST = 'ADD-TODOLIST',
     CHANGE_TODOLIST_FILTER = 'CHANGE-TODOLIST-FILTER',
     CHANGE_TODOLIST_TITLE = 'CHANGE-TODOLIST-TITLE',
-    SET_TODOLISTS = 'SET_TODOLISTS'
+    SET_TODOLISTS = 'SET_TODOLISTS',
+    LOAD_TODOLIST='LOAD_TODOLIST'
 }
 
 export type removeTodolistACType = ReturnType<typeof removeTodolistAC>
@@ -51,6 +52,13 @@ export const setTodolistsAC = (data: Array<TodolistsType>) => {
         payload: {data}
     } as const
 }
+export type loadTodolistsACType = ReturnType<typeof loadTodolistsAC>
+export const loadTodolistsAC = (todolistId:string,status:mountainStatusTypes) => {
+    return {
+        type: Actions_Todolists_Types.LOAD_TODOLIST,
+        payload: {todolistId, status}
+    } as const
+}
 
 export const getTodolistsThunk = (): MountainThunk => async (dispatch) => {
     dispatch(setMountainStatus('loading'))
@@ -76,6 +84,8 @@ export const addTodolistsThunk = (title: string): MountainThunk => async (dispat
 
 export const deleteTodolistsThunk = (todoId: string): MountainThunk => async (dispatch) => {
     dispatch(setMountainStatus('loading'))
+    dispatch(loadTodolistsAC(todoId,'loading'))
+
     try {
         await todolistApi.deleteTodolist(todoId)
         dispatch(removeTodolistAC(todoId))
@@ -87,10 +97,12 @@ export const deleteTodolistsThunk = (todoId: string): MountainThunk => async (di
 
 export const changeTodolistsThunk = (todoId: string, title: string): MountainThunk => async (dispatch) => {
     dispatch(setMountainStatus('loading'))
+    dispatch(loadTodolistsAC(todoId,'loading'))
     try {
         await todolistApi.changeTodolist(todoId, title)
         dispatch(changeTodolistTitleAC(todoId, title))
         dispatch(setMountainStatus('succesed'))
+        dispatch(loadTodolistsAC(todoId,'succesed'))
     } catch (e) {
         alert(e)
     }

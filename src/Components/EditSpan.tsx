@@ -1,13 +1,18 @@
 import React, {ChangeEvent, useCallback, useState} from 'react';
 import {TextField} from "@material-ui/core";
+import {useSelector} from "react-redux";
+import {rootReducerType} from "../App/store";
+import {mountainStatusTypes} from "../App/MountainAppReducer";
 
 type EditSpanPropsType = {
     title: string
     callback: (title: string) => void
+    disabled?:boolean
 }
-const EditSpan = React.memo(({title, callback}: EditSpanPropsType) => {
+const EditSpan = React.memo(({title, callback,disabled}: EditSpanPropsType) => {
         const [edit, setEdit] = useState<boolean>(false)
         const [stateTitle, setStateTitle] = useState<string>('')
+
 
         const activate = useCallback(() => {
             setEdit(true)
@@ -23,7 +28,7 @@ const EditSpan = React.memo(({title, callback}: EditSpanPropsType) => {
 
         return edit
             ? <TextField id="standard-basic" label={stateTitle} variant="standard"
-                         onChange={onChangeHandler} autoFocus onBlur={desactivate}/>
+                         onChange={onChangeHandler} autoFocus onBlur={desactivate} disabled={disabled}/>
             : <span onDoubleClick={activate}>{title}</span>
 
     }

@@ -9,10 +9,11 @@ import {chandeTodolistFilterAC, changeTodolistsThunk, deleteTodolistsThunk} from
 import {rootReducerType} from "../../App/store";
 import CollectionsIcon from '@mui/icons-material/Collections';
 import {MountainTaskType, MountainTodolistType} from "../../Api/mountainApi";
+import {mountainStatusTypes} from "../../App/MountainAppReducer";
 
 export type TasksStateType = { [key: string]: Array<MountainTaskType> }
 export type TodolistsType = MountainTodolistType & {
-    filter: FilterType
+    filter: FilterType, todolistStatus: mountainStatusTypes
 }
 export type FilterType = 'all' | 'complited' | 'active'
 
@@ -24,6 +25,7 @@ const Todolist = React.memo(({todolist}: PropsType) => {
         const tasks = useSelector<rootReducerType, Array<MountainTaskType>>(state => state.tasks[todolist.id])
         const actualFilter = todolist.filter
         const dispatch = useDispatch()
+        const todolistStatus = useSelector<rootReducerType, mountainStatusTypes>(state => state.todolists.filter(f => f.id === todolist.id)[0].todolistStatus)
 
         const [showTasks, setShowTasks] = useState<boolean>(false)
         const getTasks = useCallback((todolistId: string, show: boolean) => {
@@ -63,11 +65,11 @@ const Todolist = React.memo(({todolist}: PropsType) => {
                 color: 'rgb(161,6,159)',
                 height: '2vh',
             }}>
-                <IconButton onClick={() => getTasks(todolist.id, !showTasks)}>
+                <IconButton onClick={() => getTasks(todolist.id, !showTasks)} disabled={todolistStatus === 'loading'}>
                     <CollectionsIcon/>
                 </IconButton>
-                <EditSpan title={todolist.title} callback={changeTodolistTitle}/>
-                <IconButton aria-label="delete" onClick={removeTodolist}>
+                <EditSpan title={todolist.title} callback={changeTodolistTitle} disabled={todolistStatus === 'loading'}/>
+                <IconButton aria-label="delete" onClick={removeTodolist} disabled={todolistStatus === 'loading'}>
                     <Delete/>
                 </IconButton>
             </h3>

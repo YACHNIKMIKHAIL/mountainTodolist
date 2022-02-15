@@ -1,5 +1,6 @@
 import {MountainTaskType, TaskPriorities, tasksApi, TaskStatuses} from "../Api/mountainApi";
 import {MountainThunk, rootReducerType} from "../App/store";
+import {setMountainStatus} from "../App/MountainAppReducer";
 
 export enum Actions_Tasks_Types {
     REMOVE_TASK = 'REMOVE_TASK',
@@ -30,26 +31,31 @@ export const setTaskAC = (todoId: string, items: Array<MountainTaskType>,) => ({
 
 
 export const setTaskThunk = (todoId: string): MountainThunk => async (dispatch) => {
+    dispatch(setMountainStatus('loading'))
     try {
         let res = await tasksApi.getTasks(todoId)
         dispatch(setTaskAC(todoId, res.data.items))
+        dispatch(setMountainStatus('succesed'))
     } catch (e) {
         alert(e)
     }
 }
 export const addTaskThunk = (todoId: string, title: string): MountainThunk => async (dispatch) => {
+    dispatch(setMountainStatus('loading'))
     try {
         let res = await tasksApi.addTasks(todoId, title)
         dispatch(addTaskAC(todoId, res.data.data.item))
+        dispatch(setMountainStatus('succesed'))
     } catch (e) {
         alert(e)
     }
 }
 export const deleteTaskThunk = (todoId: string, taskId: string): MountainThunk => async (dispatch) => {
-
+    dispatch(setMountainStatus('loading'))
     try {
         await tasksApi.deleteTasks(todoId, taskId)
         dispatch(removeTaskAC(todoId, taskId))
+        dispatch(setMountainStatus('succesed'))
     } catch (e) {
         alert(e)
     }
@@ -78,10 +84,11 @@ export const updateTaskThunk = (todoId: string, taskId: string, domainModel:Upda
         ...domainModel
     }
 
-
+    dispatch(setMountainStatus('loading'))
     try {
         await tasksApi.updateTasks(todoId, taskId, apiModel)
         dispatch(changeTaskAC(todoId, taskId, apiModel))
+        dispatch(setMountainStatus('succesed'))
     } catch (e) {
         alert(e)
     }

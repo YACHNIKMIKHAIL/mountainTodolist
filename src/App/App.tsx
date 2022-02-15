@@ -3,17 +3,19 @@ import './App.css';
 import {TodolistsType} from '../Features/Todolist/Todolist';
 import {AppBar, Box, Button, Toolbar, Typography} from "@material-ui/core";
 import AirportShuttleSharpIcon from '@mui/icons-material/AirportShuttleSharp';
-import {Container, Grid, IconButton} from "@mui/material";
+import {Container, Grid, IconButton, LinearProgress} from "@mui/material";
 import img1 from '../Image/wallpaperflare.com_wallpaper.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./store";
 import {AddItemForm} from "../Components/AddItemForm";
 import {addTodolistsThunk, getTodolistsThunk} from "../Features/actionsTodolists";
 import TodolistList from "../Features/TodolistList";
+import {mountainStatusTypes} from "./MountainAppReducer";
 
 const App = React.memo(() => {
         const dispatch = useDispatch()
         const todolists = useSelector<rootReducerType, Array<TodolistsType>>(state => state.todolists)
+        const appStatus = useSelector<rootReducerType, mountainStatusTypes>(state => state.app.mountainStatus)
 
         const addTodolist = useCallback((title: string) => {
             dispatch(addTodolistsThunk(title))
@@ -45,6 +47,7 @@ const App = React.memo(() => {
                             <Button color="inherit">Login</Button>
                         </Toolbar>
                     </AppBar>
+                    {appStatus === 'loading' && <LinearProgress color="inherit" style={{color: '#E26BE9'}}/>}
                 </Box>
 
                 <Container fixed>
@@ -63,7 +66,7 @@ const App = React.memo(() => {
                                 }}
                                 >
                                     <TodolistList todolist={m}
-                                              key={i}/>
+                                                  key={i}/>
                                 </div>
                             </Grid>
                         })}

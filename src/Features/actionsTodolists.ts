@@ -1,6 +1,7 @@
 import {FilterType, TodolistsType} from "./Todolist/Todolist";
 import {MountainThunk} from "../App/store";
 import {MountainTodolistType, todolistApi} from "../Api/mountainApi";
+import {setMountainStatus} from "../App/MountainAppReducer";
 
 export enum Actions_Todolists_Types {
     REMOVE_TODOLIST = 'REMOVE-TODOLIST',
@@ -52,36 +53,44 @@ export const setTodolistsAC = (data: Array<TodolistsType>) => {
 }
 
 export const getTodolistsThunk = (): MountainThunk => async (dispatch) => {
+    dispatch(setMountainStatus('loading'))
     try {
         let res = await todolistApi.getTodolists()
         dispatch(setTodolistsAC(res.data))
+        dispatch(setMountainStatus('succesed'))
     } catch (e) {
         alert(e)
     }
 }
 
 export const addTodolistsThunk = (title: string): MountainThunk => async (dispatch) => {
+    dispatch(setMountainStatus('loading'))
     try {
         let res = await todolistApi.addTodolist(title)
         dispatch(addTodolistAC(res.data.data.item))
+        dispatch(setMountainStatus('succesed'))
     } catch (e) {
         alert(e)
     }
 }
 
 export const deleteTodolistsThunk = (todoId: string): MountainThunk => async (dispatch) => {
+    dispatch(setMountainStatus('loading'))
     try {
         await todolistApi.deleteTodolist(todoId)
         dispatch(removeTodolistAC(todoId))
+        dispatch(setMountainStatus('succesed'))
     } catch (e) {
         alert(e)
     }
 }
 
 export const changeTodolistsThunk = (todoId: string, title: string): MountainThunk => async (dispatch) => {
+    dispatch(setMountainStatus('loading'))
     try {
         await todolistApi.changeTodolist(todoId, title)
         dispatch(changeTodolistTitleAC(todoId, title))
+        dispatch(setMountainStatus('succesed'))
     } catch (e) {
         alert(e)
     }

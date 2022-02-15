@@ -63,7 +63,7 @@ export type MountainTodolistType = {
     addedDate: string,
     order: number
 }
-type RespType<T = {}> = {
+export type RespType<T = {}> = {
     data: T,
     messages: string[],
     fieldsErrors: string[],

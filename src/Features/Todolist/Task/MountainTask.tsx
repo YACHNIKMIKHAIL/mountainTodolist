@@ -7,6 +7,7 @@ import {deleteTaskThunk, updateTaskThunk} from "../../actionsTasks";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "../../../App/store";
 import {mountainStatusTypes} from "../../../App/MountainAppReducer";
+import {CircularProgress, LinearProgress} from "@mui/material";
 
 type MountainTaskType = {
     status: TaskStatuses
@@ -51,7 +52,13 @@ const MountainTask = ({status, taskId, title, todolistId}: MountainTaskType) => 
             }}>
             <Checkbox checked={status !== TaskStatuses.New}
                       onChange={changeTaskStatus} color="secondary" disabled={taskStatus === 'loading'}/>
-            <EditSpan title={title} callback={changeTaskTitle} disabled={taskStatus === 'loading'}/>
+            {taskStatus === 'loading'
+                ? <>
+                    <CircularProgress color="secondary" style={{color: '#E26BE9'}} size={25}/>
+                    <CircularProgress color="secondary" style={{color: '#8034CF'}} size={25}/>
+                    <CircularProgress color="secondary" style={{color: '#04147F'}} size={25}/>
+                </>
+                : <EditSpan title={title} callback={changeTaskTitle} />}
             <IconButton aria-label="delete" size="small" onClick={removeTask} disabled={taskStatus === 'loading'}>
                 <Delete fontSize="small"/>
             </IconButton>

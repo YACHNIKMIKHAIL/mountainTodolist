@@ -29,10 +29,12 @@ const Todolist = React.memo(({todolist}: PropsType) => {
         const todolistStatus = useSelector<rootReducerType, mountainStatusTypes>(state => state.todolists.filter(f => f.id === todolist.id)[0].todolistStatus)
 
         const [showTasks, setShowTasks] = useState<boolean>(false)
+
         const getTasks = useCallback((todolistId: string, show: boolean) => {
             dispatch(setTaskThunk(todolistId))
             setShowTasks(show)
         }, [dispatch])
+
         const changeFilter = useCallback((filter: FilterType) => {
             dispatch(chandeTodolistFilterAC(todolist.id, filter))
             getTasks(todolist.id, true)
@@ -80,45 +82,6 @@ const Todolist = React.memo(({todolist}: PropsType) => {
                 {showTasks
                     ? <>{tasksForTodo.map((m) => {
                         return <MountainTask status={m.status} taskId={m.id} todolistId={m.todoListId} title={m.title}/>
-                        // const removeTask = () => {
-                        //     dispatch(deleteTaskThunk(todolist.id, m.id))
-                        // }
-                        // const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                        //     dispatch(updateTaskThunk(todolist.id, m.id, e.currentTarget.checked ? {
-                        //         status: 2,
-                        //         title: m.title
-                        //     } : {
-                        //         status: 0,
-                        //         title: m.title
-                        //     }))
-                        // }
-                        //
-                        // const changeTaskTitle = (title: string) => {
-                        //     dispatch(updateTaskThunk(todolist.id, m.id, {title}))
-                        // }
-                        //
-                        // return (<div key={m.id} style={m.status !== 0
-                        //     ? {
-                        //         opacity: '0.5',
-                        //         color: 'white',
-                        //         display: "flex",
-                        //         justifyContent: 'space-between',
-                        //         alignItems: 'center'
-                        //     }
-                        //     : {
-                        //         opacity: '1',
-                        //         color: 'black',
-                        //         display: "flex",
-                        //         justifyContent: 'space-between',
-                        //         alignItems: 'center'
-                        //     }}>
-                        //     <Checkbox checked={m.status !== 0}
-                        //               onChange={changeTaskStatus} color="secondary" disabled={true}/>
-                        //     <EditSpan title={m.title} callback={changeTaskTitle} disabled={true}/>
-                        //     <IconButton aria-label="delete" size="small" onClick={removeTask} disabled={true}>
-                        //         <Delete fontSize="small"/>
-                        //     </IconButton>
-                        // </div>)
                     })
                     }</>
                     : <></>}

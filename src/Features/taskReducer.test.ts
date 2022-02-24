@@ -1,8 +1,8 @@
-import {TasksStateType} from "./Todolist";
+import {TasksStateType} from "./Todolist/Todolist";
 import {v1} from "uuid";
-import {tasksReducer} from "../task-reducer";
-import {addTaskAC, changeTaskAC, loadTaskAC, removeTaskAC} from "../actionsTasks";
-import {TaskPriorities} from "../../Api/mountainApi";
+import {tasksReducer} from "./task-reducer";
+import {addTaskAC, changeTaskAC, loadTaskAC, removeTaskAC} from "./actionsTasks";
+import {TaskPriorities} from "../Api/mountainApi";
 
 let startState = {} as TasksStateType;
 let todolistID1: string

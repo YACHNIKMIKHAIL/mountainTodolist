@@ -60,7 +60,7 @@ const Todolist = React.memo(({todolist}: PropsType) => {
         }
 
 
-        return <div key={todolist.id}>
+        return <div>
             <h3 style={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -80,8 +80,8 @@ const Todolist = React.memo(({todolist}: PropsType) => {
 
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'space-between'}}>
                 {showTasks
-                    ? <>{tasksForTodo.map((m) => {
-                        return <MountainTask status={m.status} taskId={m.id} todolistId={m.todoListId} title={m.title}/>
+                    ? <>{tasksForTodo.map((m,i) => {
+                        return <MountainTask key={i} status={m.status} taskId={m.id} todolistId={m.todoListId} title={m.title}/>
                     })
                     }</>
                     : <></>}

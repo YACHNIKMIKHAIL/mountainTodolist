@@ -66,9 +66,10 @@ export const getTodolistsThunk = (): MountainThunk => async (dispatch) => {
     try {
         let res = await todolistApi.getTodolists()
         dispatch(setTodolistsAC(res.data))
-        dispatch(setMountainStatus('succesed'))
     } catch (e) {
         mountainNetworkHandler(e, dispatch)
+    } finally {
+        dispatch(setMountainStatus('succesed'))
     }
 }
 
@@ -78,12 +79,13 @@ export const addTodolistsThunk = (title: string): MountainThunk => async (dispat
         let res = await todolistApi.addTodolist(title)
         if (res.data.resultCode === 0) {
             dispatch(addTodolistAC(res.data.data.item))
-            dispatch(setMountainStatus('succesed'))
         } else {
             mountainServerErrorHandler(res.data, dispatch)
         }
     } catch (e) {
         mountainNetworkHandler(e, dispatch)
+    } finally {
+        dispatch(setMountainStatus('succesed'))
     }
 }
 
@@ -94,9 +96,10 @@ export const deleteTodolistsThunk = (todoId: string): MountainThunk => async (di
     try {
         await todolistApi.deleteTodolist(todoId)
         dispatch(removeTodolistAC(todoId))
-        dispatch(setMountainStatus('succesed'))
     } catch (e) {
         mountainNetworkHandler(e, dispatch)
+    } finally {
+        dispatch(setMountainStatus('succesed'))
     }
 }
 
@@ -107,13 +110,14 @@ export const changeTodolistsThunk = (todoId: string, title: string): MountainThu
         let mountainRes = await todolistApi.changeTodolist(todoId, title)
         if (mountainRes.data.resultCode === 0) {
             dispatch(changeTodolistTitleAC(todoId, title))
-            dispatch(setMountainStatus('succesed'))
-            dispatch(loadTodolistsAC(todoId, 'succesed'))
         } else {
             mountainServerErrorHandler(mountainRes.data, dispatch)
             dispatch(loadTodolistsAC(todoId, 'failed'))
         }
     } catch (e) {
         mountainNetworkHandler(e, dispatch)
+    } finally {
+        dispatch(setMountainStatus('succesed'))
+        dispatch(loadTodolistsAC(todoId, 'succesed'))
     }
 }

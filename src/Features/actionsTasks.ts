@@ -43,9 +43,10 @@ export const setTaskThunk = (todoId: string): MountainThunk => async (dispatch) 
     try {
         let res = await tasksApi.getTasks(todoId)
         dispatch(setTaskAC(todoId, res.data.items))
-        dispatch(setMountainStatus('succesed'))
     } catch (e) {
         mountainNetworkHandler(e, dispatch)
+    } finally {
+        dispatch(setMountainStatus('succesed'))
     }
 }
 export const addTaskThunk = (todoId: string, title: string): MountainThunk => async (dispatch) => {
@@ -54,13 +55,14 @@ export const addTaskThunk = (todoId: string, title: string): MountainThunk => as
         let res = await tasksApi.addTasks(todoId, title)
         if (res.data.resultCode === 0) {
             dispatch(addTaskAC(todoId, res.data.data.item))
-            dispatch(setMountainStatus('succesed'))
         } else {
             mountainServerErrorHandler(res.data, dispatch)
             dispatch(loadTodolistsAC(todoId, 'failed'))
         }
     } catch (e) {
         mountainNetworkHandler(e, dispatch)
+    } finally {
+        dispatch(setMountainStatus('succesed'))
     }
 }
 export const deleteTaskThunk = (todoId: string, taskId: string): MountainThunk => async (dispatch) => {
@@ -69,9 +71,10 @@ export const deleteTaskThunk = (todoId: string, taskId: string): MountainThunk =
     try {
         await tasksApi.deleteTasks(todoId, taskId)
         dispatch(removeTaskAC(todoId, taskId))
-        dispatch(setMountainStatus('succesed'))
     } catch (e) {
         alert(e)
+    } finally {
+        dispatch(setMountainStatus('succesed'))
     }
 }
 
@@ -104,13 +107,14 @@ export const updateTaskThunk = (todoId: string, taskId: string, domainModel: Upd
         let mountain = await tasksApi.updateTasks(todoId, taskId, apiModel)
         if (mountain.data.resultCode === 0) {
             dispatch(changeTaskAC(todoId, taskId, apiModel))
-            dispatch(setMountainStatus('succesed'))
-            dispatch(loadTaskAC(todoId, taskId, 'succesed'))
         } else {
             mountainServerErrorHandler(mountain.data, dispatch)
             dispatch(loadTodolistsAC(todoId, 'failed'))
         }
     } catch (e) {
         mountainNetworkHandler(e, dispatch)
+    } finally {
+        dispatch(setMountainStatus('succesed'))
+        dispatch(loadTaskAC(todoId, taskId, 'succesed'))
     }
 }

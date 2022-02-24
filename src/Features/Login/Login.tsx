@@ -31,13 +31,14 @@ export const Login = () => {
             }
             if (!values.password) {
                 errors.password = 'Required';
-            } else if (values.password.length < 2) {
+            } else if (values.password.length < 3) {
                 errors.password = 'Invalid password';
             }
             return errors;
         },
         onSubmit: value => {
             alert(JSON.stringify(value))
+            formik.resetForm()
         }
     })
 
@@ -57,20 +58,16 @@ export const Login = () => {
                     </FormLabel>
                     <FormGroup>
                         <TextField label="Email" margin="normal"
-                                   name={'email'}
-                                   onChange={formik.handleChange}
-                                   value={formik.values.email}/>
-                        {formik.errors.email ? <div style={{color: 'hotpink'}}>{formik.errors.email}</div> : null}
+                                   {...formik.getFieldProps('email')}/>
+                        {formik.touched.email && formik.errors.email ?
+                            <div style={{color: 'hotpink'}}>{formik.errors.email}</div> : null}
                         <TextField type="password" label="Password"
                                    margin="normal"
-                                   name={'password'}
-                                   onChange={formik.handleChange}
-                                   value={formik.values.password}/>
-                        {formik.errors.password ? <div style={{color: 'hotpink'}}>{formik.errors.password}</div> : null}
+                                   {...formik.getFieldProps('password')}/>
+                        {formik.touched.password && formik.errors.password ?
+                            <div style={{color: 'hotpink'}}>{formik.errors.password}</div> : null}
                         <FormControlLabel label={'Remember me'} control={<Checkbox/>}
-                                          name={'rememberMe'}
-                                          onChange={formik.handleChange}
-                                          value={formik.values.rememberMe}/>
+                                          {...formik.getFieldProps('rememberMe')}/>
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             mountainLogin
                         </Button>

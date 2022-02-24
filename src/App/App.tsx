@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {TodolistsType} from '../Features/Todolist/Todolist';
 import {AppBar, Box, Button, Toolbar, Typography} from "@material-ui/core";
 import AirportShuttleSharpIcon from '@mui/icons-material/AirportShuttleSharp';
 import {Container, Grid, IconButton, LinearProgress} from "@mui/material";
@@ -9,13 +8,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./store";
 import {AddItemForm} from "../Components/AddItemForm";
 import {addTodolistsThunk, getTodolistsThunk} from "../Features/actionsTodolists";
-import TodolistList from "../Features/TodolistList";
 import {mountainStatusTypes} from "./MountainAppReducer";
 import MountainError from "../Components/MountainError";
+import {Login} from '../Features/Login/Login';
+import Todolists from "../Features/Todolist/todolists";
+import {Navigate, Route, Routes} from 'react-router-dom';
+
 
 const App = React.memo(() => {
         const dispatch = useDispatch()
-        const todolists = useSelector<rootReducerType, Array<TodolistsType>>(state => state.todolists)
         const appStatus = useSelector<rootReducerType, mountainStatusTypes>(state => state.app.mountainStatus)
 
         const addTodolist = useCallback((title: string) => {
@@ -27,7 +28,7 @@ const App = React.memo(() => {
             dispatch(getTodolistsThunk())
         }, [dispatch])
         return (
-            <div style={{background: `url(${img1})no-repeat center/cover`, height: '100vh'}}>
+            <div style={{background: `url(${img1})no-repeat center/cover`, height: '100vh', overflow: 'auto'}}>
 
                 <Box sx={{flexGrow: 1}}>
                     <AppBar position="static"
@@ -50,28 +51,17 @@ const App = React.memo(() => {
                     </AppBar>
                     {appStatus === 'loading' && <LinearProgress color="inherit" style={{color: '#E26BE9'}}/>}
                 </Box>
-
+                <Login/>
                 <Container fixed>
                     <Grid container style={{padding: '10px'}}>
                         <AddItemForm callback={addTodolist}/>
                     </Grid>
-                    <Grid container spacing={1} style={{height: '78vh', overflow: 'auto'}}>
-                        {todolists.map((m, i) => {
-
-                            return <Grid item key={m.id}>
-                                <div style={{
-                                    padding: '10px',
-                                    borderRadius: '10px',
-                                    backgroundColor: 'rgba(139,228,250,0.8)',
-                                    border: '3px whitesmoke solid'
-                                }}
-                                >
-                                    <TodolistList todolist={m}
-                                                  key={i}/>
-                                </div>
-                            </Grid>
-                        })}
-                    </Grid>
+                    <Routes>
+                            <Route path='/mountainTodolist' element={<Todolists/>}/>
+                            <Route path='login' element={<Login/>}/>
+                            <Route path="/404" element={<h1>404: PAGE NOT FOUND</h1>}/>
+                            <Route path="*" element={<Navigate to='/404'/>}/>
+                    </Routes>
                 </Container>
                 <MountainError/>
             </div>

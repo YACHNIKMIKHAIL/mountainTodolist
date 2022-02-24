@@ -27,9 +27,10 @@ export const mountainLoginTC = (data: any): MountainThunk => async dispatch => {
         let mountain = await mountainAuthAPI.login(email, password, rememberMe)
         if (mountain.data.resultCode === 0) {
             dispatch(setIsLoggetInOnMountainAC(true))
+        }else {
+            mountainServerErrorHandler(mountain.data, dispatch)
+            dispatch(setMountainStatus('failed'))
         }
-        mountainServerErrorHandler(mountain.data, dispatch)
-        dispatch(setMountainStatus('failed'))
     } catch (e) {
         mountainNetworkHandler(e, dispatch)
     } finally {

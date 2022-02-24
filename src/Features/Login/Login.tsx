@@ -9,7 +9,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import {mountainLoginTC} from "./mountainAuthReducer";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {rootReducerType} from "../../App/store";
+import {Navigate} from 'react-router-dom';
 
 
 type FormikErrorType = {
@@ -19,7 +21,9 @@ type FormikErrorType = {
 }
 
 export const Login = () => {
-    const dispatch = useDispatch ()
+    const dispatch = useDispatch()
+    const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -41,11 +45,14 @@ export const Login = () => {
             return errors;
         },
         onSubmit: value => {
-            alert(JSON.stringify(value))
             formik.resetForm()
             dispatch(mountainLoginTC(value))
         }
     })
+
+    if (isLoggedIn) {
+        return <Navigate to='/mountainTodolist'/>
+    }
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>

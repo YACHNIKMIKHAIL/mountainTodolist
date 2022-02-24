@@ -3,12 +3,13 @@ import {TodolistsActionType, todolistsReducer} from "../Features/todolists-reduc
 import {TasksActionType, tasksReducer} from "../Features/task-reducer";
 import thunk, {ThunkAction} from "redux-thunk";
 import {mountainAppReducer, mountainAppReducerActionsType} from "./MountainAppReducer";
-import {authActionTypes} from "../Features/Login/mountainAuthReducer";
+import {authActionTypes, mountainAuthReducer} from "../Features/Login/mountainAuthReducer";
 
 const rootReducer = combineReducers({
     todolists: todolistsReducer,
     tasks: tasksReducer,
-    app: mountainAppReducer
+    app: mountainAppReducer,
+    auth:mountainAuthReducer
 })
 
 export type rootReducerType = ReturnType<typeof rootReducer>

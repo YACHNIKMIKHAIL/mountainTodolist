@@ -46,7 +46,7 @@ const App = React.memo(() => {
                     </AppBar>
                     {appStatus === 'loading' && <LinearProgress color="inherit" style={{color: '#E26BE9'}}/>}
                 </Box>
-                <Login/>
+                {/*<Login/>*/}
                     <Routes>
                             <Route path='/mountainTodolist' element={<MainMountain/>}/>
                             <Route path='login' element={<Login/>}/>

@@ -6,15 +6,19 @@ import {TodolistsType} from "./Todolist";
 import {AddItemForm} from "../../Components/AddItemForm";
 import {Container, Grid} from "@mui/material";
 import {addTodolistsThunk} from "../actionsTodolists";
+import { Navigate } from 'react-router-dom';
 
 const MainMountain = () => {
     const dispatch = useDispatch()
     const todolists = useSelector<rootReducerType, Array<TodolistsType>>(state => state.todolists)
-
+    const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistsThunk(title))
     }, [dispatch])
 
+    if (!isLoggedIn) {
+        return <Navigate to='/login'/>
+    }
     return (
         <Container fixed>
             <Grid container style={{padding: '10px'}}>

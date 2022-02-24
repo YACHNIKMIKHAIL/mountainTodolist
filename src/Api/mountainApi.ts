@@ -45,6 +45,17 @@ export const tasksApi = {
     }
 }
 
+export const mountainAuthAPI = {
+    async login(email: string, password: string, rememberMe: boolean, captcha?: string) {
+        return await instance.post<RespType<{ userId: number }>>(`/auth/login`, {
+            email,
+            password,
+            rememberMe: rememberMe,
+            captcha
+        })
+    }
+}
+
 export enum TaskStatuses {
     New = 0,
     InProgress = 1,

@@ -8,6 +8,9 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
+import {mountainLoginTC} from "./mountainAuthReducer";
+import {useDispatch} from "react-redux";
+
 
 type FormikErrorType = {
     email?: string
@@ -16,6 +19,7 @@ type FormikErrorType = {
 }
 
 export const Login = () => {
+    const dispatch = useDispatch ()
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -39,6 +43,7 @@ export const Login = () => {
         onSubmit: value => {
             alert(JSON.stringify(value))
             formik.resetForm()
+            dispatch(mountainLoginTC(value))
         }
     })
 

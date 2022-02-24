@@ -9,12 +9,32 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 
+type FormikErrorType = {
+    email?: string
+    password?: string
+    rememberMe?: boolean
+}
+
 export const Login = () => {
     const formik = useFormik({
         initialValues: {
             email: '',
             password: '',
             rememberMe: false
+        },
+        validate: (values) => {
+            const errors: FormikErrorType = {};
+            if (!values.email) {
+                errors.email = 'Required';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address';
+            }
+            if (!values.password) {
+                errors.password = 'Required';
+            } else if (values.password.length < 2) {
+                errors.password = 'Invalid password';
+            }
+            return errors;
         },
         onSubmit: value => {
             alert(JSON.stringify(value))
@@ -36,13 +56,23 @@ export const Login = () => {
                         <p>Password: free</p>
                     </FormLabel>
                     <FormGroup>
-                        <TextField label="Email" margin="normal"/>
+                        <TextField label="Email" margin="normal"
+                                   name={'email'}
+                                   onChange={formik.handleChange}
+                                   value={formik.values.email}/>
+                        {formik.errors.email ? <div style={{color: 'hotpink'}}>{formik.errors.email}</div> : null}
                         <TextField type="password" label="Password"
                                    margin="normal"
-                        />
-                        <FormControlLabel label={'Remember me'} control={<Checkbox/>}/>
+                                   name={'password'}
+                                   onChange={formik.handleChange}
+                                   value={formik.values.password}/>
+                        {formik.errors.password ? <div style={{color: 'hotpink'}}>{formik.errors.password}</div> : null}
+                        <FormControlLabel label={'Remember me'} control={<Checkbox/>}
+                                          name={'rememberMe'}
+                                          onChange={formik.handleChange}
+                                          value={formik.values.rememberMe}/>
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
-                            Login
+                            mountainLogin
                         </Button>
                     </FormGroup>
                 </FormControl>

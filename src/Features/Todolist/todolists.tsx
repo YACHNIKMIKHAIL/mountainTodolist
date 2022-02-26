@@ -7,6 +7,7 @@ import {AddItemForm} from "../../Components/AddItemForm";
 import {Container, Grid} from "@mui/material";
 import {addTodolistsThunk, getTodolistsThunk} from "../actionsTodolists";
 import {Navigate, useNavigate} from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 
 const MainMountain = () => {
     const dispatch = useDispatch()
@@ -30,12 +31,12 @@ const MainMountain = () => {
     }
 
 
-
     return (
         <Container fixed>
             <Grid container style={{padding: '10px'}}>
                 <AddItemForm callback={addTodolist}/>
             </Grid>
+
             <Grid container spacing={1} style={{height: '78vh', overflow: 'auto'}}>
                 {todolists.map((m, i) => {
 

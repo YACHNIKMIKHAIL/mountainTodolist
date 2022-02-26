@@ -50,8 +50,11 @@ export const mountainAuthAPI = {
     async login(data: LoginMountainType) {
         return await instance.post<RespType<{ userId: number }>>(`/auth/login`, data)
     },
-    async me(){
+    async me() {
         return await instance.get<RespType<MeResponseType>>(`/auth/me`)
+    },
+    async logout() {
+        return await instance.delete<RespType>(`/auth/login`)
     }
 }
 
@@ -69,7 +72,8 @@ export enum TaskPriorities {
     Urgently = 3,
     Later = 4
 }
-export type MeResponseType={
+
+export type MeResponseType = {
     id: number,
     login: string,
     email: string

@@ -15,7 +15,8 @@ export const mountainAuthReducer = (state = initialAuthState, action: authAction
             return state
     }
 }
-export type authActionTypes = ReturnType<typeof setIsLoggetInOnMountainAC>
+export type authActionTypes =
+    ReturnType<typeof setIsLoggetInOnMountainAC>
 export const setIsLoggetInOnMountainAC = (value: boolean) => {
     return {type: 'LOGIN/SET_IS_LOGGED_IN', value} as const
 }
@@ -31,7 +32,23 @@ export const mountainLoginTC = (data: LoginMountainType): MountainThunk => async
         let mountain = await mountainAuthAPI.login(data)
         if (mountain.data.resultCode === 0) {
             dispatch(setIsLoggetInOnMountainAC(true))
-        }else {
+        } else {
+            mountainServerErrorHandler(mountain.data, dispatch)
+            dispatch(setMountainStatus('failed'))
+        }
+    } catch (e) {
+        mountainNetworkHandler(e, dispatch)
+    } finally {
+        dispatch(setMountainStatus('succesed'))
+    }
+}
+export const mountainLogoutTC = (): MountainThunk => async dispatch => {
+    dispatch(setMountainStatus('loading'))
+    try {
+        let mountain = await mountainAuthAPI.logout()
+        if (mountain.data.resultCode === 0) {
+            dispatch(setIsLoggetInOnMountainAC(false))
+        } else {
             mountainServerErrorHandler(mountain.data, dispatch)
             dispatch(setMountainStatus('failed'))
         }

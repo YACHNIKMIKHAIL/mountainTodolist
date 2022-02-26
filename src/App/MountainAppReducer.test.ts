@@ -4,7 +4,8 @@ let startState: MountainAppInitStateType
 beforeEach(() => {
     startState = {
         mountainStatus: 'idle',
-        mountainError: null
+        mountainError: null,
+        isInitialized:false
     }
 })
 test('correct status message should be set', () => {

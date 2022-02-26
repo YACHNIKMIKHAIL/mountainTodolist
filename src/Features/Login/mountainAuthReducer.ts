@@ -19,12 +19,16 @@ export type authActionTypes = ReturnType<typeof setIsLoggetInOnMountainAC>
 export const setIsLoggetInOnMountainAC = (value: boolean) => {
     return {type: 'LOGIN/SET_IS_LOGGED_IN', value} as const
 }
-
-export const mountainLoginTC = (data: any): MountainThunk => async dispatch => {
-    const {email, password, rememberMe} = data
+export type LoginMountainType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+    captcha?: string
+}
+export const mountainLoginTC = (data: LoginMountainType): MountainThunk => async dispatch => {
     dispatch(setMountainStatus('loading'))
     try {
-        let mountain = await mountainAuthAPI.login(email, password, rememberMe)
+        let mountain = await mountainAuthAPI.login(data)
         if (mountain.data.resultCode === 0) {
             dispatch(setIsLoggetInOnMountainAC(true))
         }else {

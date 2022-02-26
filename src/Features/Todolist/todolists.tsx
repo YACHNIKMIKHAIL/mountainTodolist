@@ -1,24 +1,36 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import TodolistList from "../TodolistList";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "../../App/store";
 import {TodolistsType} from "./Todolist";
 import {AddItemForm} from "../../Components/AddItemForm";
 import {Container, Grid} from "@mui/material";
-import {addTodolistsThunk} from "../actionsTodolists";
-import { Navigate } from 'react-router-dom';
+import {addTodolistsThunk, getTodolistsThunk} from "../actionsTodolists";
+import {Navigate, useNavigate} from 'react-router-dom';
 
 const MainMountain = () => {
     const dispatch = useDispatch()
     const todolists = useSelector<rootReducerType, Array<TodolistsType>>(state => state.todolists)
-    const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistsThunk(title))
     }, [dispatch])
+    const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            return
+        }
+        dispatch(getTodolistsThunk())
+    }, [])
 
     if (!isLoggedIn) {
         return <Navigate to='/login'/>
+        //  navigate('/login')
     }
+
+
+
     return (
         <Container fixed>
             <Grid container style={{padding: '10px'}}>

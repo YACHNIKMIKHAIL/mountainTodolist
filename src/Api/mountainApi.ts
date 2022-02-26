@@ -1,6 +1,7 @@
 import axios, {AxiosResponse} from "axios";
 import {TodolistsType} from "../Features/Todolist/Todolist";
 import {UpdateTaskModelType} from "../Features/actionsTasks";
+import {LoginMountainType} from "../Features/Login/mountainAuthReducer";
 
 const instance = axios.create({
     withCredentials: true,
@@ -46,13 +47,11 @@ export const tasksApi = {
 }
 
 export const mountainAuthAPI = {
-    async login(email: string, password: string, rememberMe: boolean, captcha?: string) {
-        return await instance.post<RespType<{ userId: number }>>(`/auth/login`, {
-            email,
-            password,
-            rememberMe: rememberMe,
-            captcha
-        })
+    async login(data: LoginMountainType) {
+        return await instance.post<RespType<{ userId: number }>>(`/auth/login`, data)
+    },
+    async me(){
+        return await instance.get<RespType<MeResponseType>>(`/auth/me`)
     }
 }
 
@@ -69,6 +68,11 @@ export enum TaskPriorities {
     Hi = 2,
     Urgently = 3,
     Later = 4
+}
+export type MeResponseType={
+    id: number,
+    login: string,
+    email: string
 }
 
 export type MountainTodolistType = {

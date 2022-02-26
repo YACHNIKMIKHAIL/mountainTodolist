@@ -9,6 +9,22 @@ import {rootReducerType} from "../../../App/store";
 import {mountainStatusTypes} from "../../../App/MountainAppReducer";
 import {CircularProgress} from "@mui/material";
 
+const mountainTaskStyle = {
+    done: {
+        opacity: '0.5',
+        color: 'white',
+        display: "flex",
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    active: {
+        opacity: '1',
+        color: 'black',
+        display: "flex",
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    }
+}
 type MountainTaskType = {
     status: TaskStatuses
     taskId: string
@@ -36,20 +52,8 @@ const MountainTask = ({status, taskId, title, todolistId}: MountainTaskType) => 
     }, [dispatch, taskId, todolistId])
     return (
         <div key={taskId} style={status !== TaskStatuses.New
-            ? {
-                opacity: '0.5',
-                color: 'white',
-                display: "flex",
-                justifyContent: 'space-between',
-                alignItems: 'center'
-            }
-            : {
-                opacity: '1',
-                color: 'black',
-                display: "flex",
-                justifyContent: 'space-between',
-                alignItems: 'center'
-            }}>
+            ? mountainTaskStyle.done
+            : mountainTaskStyle.active}>
             <Checkbox checked={status !== TaskStatuses.New}
                       onChange={changeTaskStatus} color="secondary" disabled={taskStatus === 'loading'}/>
             {taskStatus === 'loading'

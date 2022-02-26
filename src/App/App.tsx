@@ -19,6 +19,19 @@ import MainMountain from "../Features/Todolist/todolists";
 import {Navigate, Route, Routes} from 'react-router-dom';
 import {mountainLogoutTC} from "../Features/Login/mountainAuthReducer";
 
+const appStyles = {
+    initialize: {
+        background: `url(${img1})no-repeat center/cover`,
+        height: '100vh',
+        overflow: 'auto',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    mainDiv: {background: `url(${img1})no-repeat center/cover`, height: '100vh', overflow: 'auto'},
+    appBar: {backgroundColor: 'rgba(130,33,149,0.1)'},
+    toolBar: {display: 'flex', justifyContent: 'space-between'}
+}
 
 const App = React.memo(() => {
         const appStatus = useSelector<rootReducerType, mountainStatusTypes>(state => state.app.mountainStatus)
@@ -34,24 +47,17 @@ const App = React.memo(() => {
         }, [dispatch])
 
         if (!isInitaializedInM) {
-            return <div style={{
-                background: `url(${img1})no-repeat center/cover`,
-                height: '100vh',
-                overflow: 'auto',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
+            return <div style={appStyles.initialize}>
                 <CircularProgress color="inherit" size={180} style={{color: 'white'}}/>
             </div>
         }
         return (
-            <div style={{background: `url(${img1})no-repeat center/cover`, height: '100vh', overflow: 'auto'}}>
+            <div style={appStyles.mainDiv}>
 
                 <Box sx={{flexGrow: 1}}>
                     <AppBar position="static"
-                            style={{backgroundColor: 'rgba(130,33,149,0.1)'}}>
-                        <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
+                            style={appStyles.appBar}>
+                        <Toolbar style={appStyles.toolBar}>
                             <IconButton
                                 size="medium"
                                 edge="start"

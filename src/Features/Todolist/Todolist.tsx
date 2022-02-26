@@ -1,10 +1,10 @@
-import React, {ChangeEvent, useCallback, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Delete} from "@material-ui/icons";
-import {Button, Checkbox, IconButton} from "@material-ui/core";
+import {Button, IconButton} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import EditSpan from "../../Components/EditSpan";
 import {AddItemForm} from "../../Components/AddItemForm";
-import {addTaskThunk, deleteTaskThunk, setTaskThunk, updateTaskThunk} from "../actionsTasks";
+import {addTaskThunk, setTaskThunk} from "../actionsTasks";
 import {chandeTodolistFilterAC, changeTodolistsThunk, deleteTodolistsThunk} from "../actionsTodolists";
 import {rootReducerType} from "../../App/store";
 import CollectionsIcon from '@mui/icons-material/Collections';
@@ -22,11 +22,27 @@ type PropsType = {
     todolist: TodolistsType
 }
 
+
 const Todolist = React.memo(({todolist}: PropsType) => {
         const tasks = useSelector<rootReducerType, Array<MountainTaskType>>(state => state.tasks[todolist.id])
         const actualFilter = todolist.filter
         const dispatch = useDispatch()
         const todolistStatus = useSelector<rootReducerType, mountainStatusTypes>(state => state.todolists.filter(f => f.id === todolist.id)[0].todolistStatus)
+
+        const todolistStyle = {
+            h3: {
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                color: 'rgb(161,6,159)',
+                height: '2vh',
+            },
+            divStyle: {display: 'flex', flexDirection: 'column', alignItems: 'space-between'},
+            button: {
+                backgroundColor: actualFilter === 'active' ? 'rgba(109,4,234,0.37)' : '',
+                color: actualFilter === 'active' ? 'white' : 'rgba(109,4,234,0.93)'
+            }
+        }
 
         const [showTasks, setShowTasks] = useState<boolean>(false)
 
@@ -61,13 +77,7 @@ const Todolist = React.memo(({todolist}: PropsType) => {
 
 
         return <div>
-            <h3 style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                color: 'rgb(161,6,159)',
-                height: '2vh',
-            }}>
+            <h3 style={todolistStyle.h3}>
                 <IconButton onClick={() => getTasks(todolist.id, !showTasks)} disabled={todolistStatus === 'loading'}>
                     <CollectionsIcon/>
                 </IconButton>
@@ -80,8 +90,9 @@ const Todolist = React.memo(({todolist}: PropsType) => {
 
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'space-between'}}>
                 {showTasks
-                    ? <>{tasksForTodo.map((m,i) => {
-                        return <MountainTask key={i} status={m.status} taskId={m.id} todolistId={m.todoListId} title={m.title}/>
+                    ? <>{tasksForTodo.map((m, i) => {
+                        return <MountainTask key={i} status={m.status} taskId={m.id} todolistId={m.todoListId}
+                                             title={m.title}/>
                     })
                     }</>
                     : <></>}
@@ -90,20 +101,14 @@ const Todolist = React.memo(({todolist}: PropsType) => {
                 <Button
                     variant={actualFilter === 'all' ? 'contained' : 'outlined'}
                     size={actualFilter === 'all' ? 'medium' : 'small'}
-                    style={{
-                        backgroundColor: actualFilter === 'all' ? 'rgba(109,4,234,0.37)' : '',
-                        color: actualFilter === 'all' ? 'white' : 'rgba(109,4,234,0.93)'
-                    }}
+                    style={todolistStyle.button}
                     onClick={() => changeFilter('all')}>
                     All
                 </Button>
                 <Button
                     variant={actualFilter === 'active' ? 'contained' : 'outlined'}
                     size={actualFilter === 'active' ? 'medium' : 'small'}
-                    style={{
-                        backgroundColor: actualFilter === 'active' ? 'rgba(109,4,234,0.37)' : '',
-                        color: actualFilter === 'active' ? 'white' : 'rgba(109,4,234,0.93)'
-                    }}
+                    style={todolistStyle.button}
                     onClick={() => changeFilter('active')}>
                     Active
                 </Button>
@@ -111,10 +116,7 @@ const Todolist = React.memo(({todolist}: PropsType) => {
                 <Button
                     variant={actualFilter === 'complited' ? 'contained' : 'outlined'}
                     size={actualFilter === 'complited' ? 'medium' : 'small'}
-                    style={{
-                        backgroundColor: actualFilter === 'complited' ? 'rgba(109,4,234,0.37)' : '',
-                        color: actualFilter === 'complited' ? 'white' : 'rgba(109,4,234,0.93)'
-                    }}
+                    style={todolistStyle.button}
                     onClick={() => changeFilter('complited')}>
                     Completed
                 </Button>

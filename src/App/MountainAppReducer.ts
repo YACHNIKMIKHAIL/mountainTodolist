@@ -1,7 +1,13 @@
 import {MountainThunk} from "./store";
 import {mountainAuthAPI} from "../Api/mountainApi";
 import {mountainNetworkHandler, mountainServerErrorHandler} from "../MountainUtils/MountainErrorUtils";
-import {LoginMountainType, setIsLoggetInOnMountainAC} from "../Features/Login/mountainAuthReducer";
+import {setIsLoggetInOnMountainAC} from "../Features/Login/mountainAuthReducer";
+
+export enum MountainActions {
+    SET_MOUNTAIN_STATUS = 'SET_MOUNTAIN_STATUS',
+    SET_MOUNTAIN_ERROR = 'SET_MOUNTAIN_ERROR',
+    INITIALIZE_MOUNTAIN = 'INITIALIZE_MOUNTAIN'
+}
 
 export type MountainAppInitStateType = {
     mountainStatus: mountainStatusTypes
@@ -45,7 +51,7 @@ export const initalizeMeTC = (): MountainThunk => async dispatch => {
         let mountain = await mountainAuthAPI.me()
         if (mountain.data.resultCode === 0) {
             dispatch(setIsLoggetInOnMountainAC(true))
-        }else {
+        } else {
             mountainServerErrorHandler(mountain.data, dispatch)
             dispatch(setMountainStatus('failed'))
         }
@@ -57,8 +63,3 @@ export const initalizeMeTC = (): MountainThunk => async dispatch => {
     }
 }
 
-export enum MountainActions {
-    SET_MOUNTAIN_STATUS = 'SET_MOUNTAIN_STATUS',
-    SET_MOUNTAIN_ERROR = 'SET_MOUNTAIN_ERROR',
-    INITIALIZE_MOUNTAIN = 'INITIALIZE_MOUNTAIN'
-}

@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {Checkbox, IconButton} from "@material-ui/core";
 import EditSpan from "../../../Components/EditSpan";
 import {Delete} from "@material-ui/icons";
@@ -7,7 +7,7 @@ import {deleteTaskThunk, updateTaskThunk} from "../../actionsTasks";
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "../../../App/store";
 import {mountainStatusTypes} from "../../../App/MountainAppReducer";
-import {CircularProgress, LinearProgress} from "@mui/material";
+import {CircularProgress} from "@mui/material";
 
 type MountainTaskType = {
     status: TaskStatuses
@@ -21,7 +21,7 @@ const MountainTask = ({status, taskId, title, todolistId}: MountainTaskType) => 
     const removeTask = () => {
         dispatch(deleteTaskThunk(todolistId, taskId))
     }
-    const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
+    const changeTaskStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         dispatch(updateTaskThunk(todolistId, taskId, e.currentTarget.checked ? {
             status: TaskStatuses.Completed,
             title: title
@@ -29,11 +29,11 @@ const MountainTask = ({status, taskId, title, todolistId}: MountainTaskType) => 
             status: TaskStatuses.New,
             title: title
         }))
-    }
+    }, [dispatch, taskId, title, todolistId])
 
-    const changeTaskTitle = (title: string) => {
+    const changeTaskTitle = useCallback((title: string) => {
         dispatch(updateTaskThunk(todolistId, taskId, {title}))
-    }
+    }, [dispatch, taskId, todolistId])
     return (
         <div key={taskId} style={status !== TaskStatuses.New
             ? {
@@ -58,7 +58,7 @@ const MountainTask = ({status, taskId, title, todolistId}: MountainTaskType) => 
                     <CircularProgress color="secondary" style={{color: '#8034CF'}} size={25}/>
                     <CircularProgress color="secondary" style={{color: '#04147F'}} size={25}/>
                 </>
-                : <EditSpan title={title} callback={changeTaskTitle} />}
+                : <EditSpan title={title} callback={changeTaskTitle}/>}
             <IconButton aria-label="delete" size="small" onClick={removeTask} disabled={taskStatus === 'loading'}>
                 <Delete fontSize="small"/>
             </IconButton>

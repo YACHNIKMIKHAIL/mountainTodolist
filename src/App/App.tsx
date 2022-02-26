@@ -1,12 +1,17 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {AppBar, Box, Button, Toolbar, Typography} from "@material-ui/core";
+import AppBar from "@material-ui/core/AppBar";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 import AirportShuttleSharpIcon from '@mui/icons-material/AirportShuttleSharp';
-import {CircularProgress, IconButton, LinearProgress} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import IconButton from "@mui/material/IconButton";
+import LinearProgress from "@mui/material/LinearProgress";
 import img1 from '../Image/wallpaperflare.com_wallpaper.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./store";
-import {getTodolistsThunk} from "../Features/actionsTodolists";
 import {initalizeMeTC, mountainStatusTypes} from "./MountainAppReducer";
 import MountainError from "../Components/MountainError";
 import {Login} from '../Features/Login/Login';
@@ -20,13 +25,13 @@ const App = React.memo(() => {
         const dispatch = useDispatch()
         const isInitaializedInM = useSelector<rootReducerType, boolean>(state => state.app.isInitialized)
         const isLoggedInM = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
-        const logoutHandler = () => {
+        const logoutHandler = useCallback(() => {
             dispatch(mountainLogoutTC())
-        }
+        }, [dispatch])
 
         useEffect(() => {
             dispatch(initalizeMeTC())
-        }, [])
+        }, [dispatch])
 
         if (!isInitaializedInM) {
             return <div style={{

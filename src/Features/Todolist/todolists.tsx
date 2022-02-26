@@ -4,10 +4,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "../../App/store";
 import {TodolistsType} from "./Todolist";
 import {AddItemForm} from "../../Components/AddItemForm";
-import {Container, Grid} from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container";
 import {addTodolistsThunk, getTodolistsThunk} from "../actionsTodolists";
-import {Navigate, useNavigate} from 'react-router-dom';
-import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
+import {Navigate} from 'react-router-dom';
 
 const MainMountain = () => {
     const dispatch = useDispatch()
@@ -16,18 +16,16 @@ const MainMountain = () => {
         dispatch(addTodolistsThunk(title))
     }, [dispatch])
     const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
-    const navigate = useNavigate()
 
     useEffect(() => {
         if (!isLoggedIn) {
             return
         }
         dispatch(getTodolistsThunk())
-    }, [])
+    }, [dispatch, isLoggedIn])
 
     if (!isLoggedIn) {
         return <Navigate to='/login'/>
-        //  navigate('/login')
     }
 
 
